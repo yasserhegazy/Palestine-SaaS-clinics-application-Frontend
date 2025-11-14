@@ -289,6 +289,14 @@ export default function LoginPage() {
 
           {/* Footer */}
           <div className="bg-gray-50 px-8 py-4 text-center border-t">
+            <p className="text-sm text-gray-600 mb-2">
+              {language === 'en' 
+                ? "Don't have an account? " 
+                : 'ليس لديك حساب؟ '}
+              <a href="/join-us" className="text-teal-600 hover:text-teal-700 font-medium">
+                {language === 'en' ? 'Register your clinic' : 'سجل عيادتك'}
+              </a>
+            </p>
             <p className="text-xs text-gray-600">
               {language === 'en' 
                 ? '© 2025 Palestine Clinics SaaS. All rights reserved.' 
