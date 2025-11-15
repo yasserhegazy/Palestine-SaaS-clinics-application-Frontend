@@ -1,11 +1,16 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function PatientDashboard() {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { language } = useLanguage();
+  const t = translations[language];
   const router = useRouter();
 
   useEffect(() => {
@@ -27,16 +32,17 @@ export default function PatientDashboard() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Patient Portal</h1>
-            <p className="text-sm text-gray-600">Your Health Records</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t.patientPortal}</h1>
+            <p className="text-sm text-gray-600">{t.yourHealthRecords}</p>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <div className="text-right">
               <p className="text-sm font-medium text-gray-900">{user.name}</p>
               <p className="text-xs text-gray-500">{user.role}</p>
             </div>
             <button onClick={logout} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
-              Logout
+              {t.logout}
             </button>
           </div>
         </div>
@@ -50,15 +56,15 @@ export default function PatientDashboard() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Upcoming Appointments</p>
+            <p className="text-sm text-gray-600 mb-1">{t.upcomingAppointments}</p>
             <p className="text-3xl font-bold text-gray-900">2</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Medical Records</p>
+            <p className="text-sm text-gray-600 mb-1">{t.medicalRecords}</p>
             <p className="text-3xl font-bold text-gray-900">18</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">Prescriptions</p>
+            <p className="text-sm text-gray-600 mb-1">{t.prescriptions}</p>
             <p className="text-3xl font-bold text-gray-900">5</p>
           </div>
         </div>
@@ -66,22 +72,22 @@ export default function PatientDashboard() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="bg-white rounded-lg shadow">
             <div className="px-6 py-4 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">Next Appointment</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t.nextAppointment}</h3>
             </div>
             <div className="p-6">
-              <p className="text-gray-600">No upcoming appointments</p>
+              <p className="text-gray-600">{t.noUpcomingAppointments}</p>
               <button className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors text-sm font-medium">
-                Book Appointment
+                {t.bookAppointment}
               </button>
             </div>
           </div>
 
           <div className="bg-white rounded-lg shadow">
             <div className="px-6 py-4 border-b">
-              <h3 className="text-lg font-semibold text-gray-900">Recent Visits</h3>
+              <h3 className="text-lg font-semibold text-gray-900">{t.recentVisits}</h3>
             </div>
             <div className="p-6">
-              <p className="text-gray-600">Your visit history will appear here</p>
+              <p className="text-gray-600">{t.visitHistoryWillAppear}</p>
             </div>
           </div>
         </div>

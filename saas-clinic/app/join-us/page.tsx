@@ -5,6 +5,9 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useRouter } from 'next/navigation';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 import apiClient from '@/lib/api';
 import Cookies from 'js-cookie';
 
@@ -35,7 +38,8 @@ const registrationSchema = z.object({
 type RegistrationFormData = z.infer<typeof registrationSchema>;
 
 export default function JoinUsPage() {
-  const [language, setLanguage] = useState<'en' | 'ar'>('en');
+  const { language } = useLanguage();
+  const t = translations[language];
   const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [logoFile, setLogoFile] = useState<File | null>(null);
@@ -148,68 +152,11 @@ export default function JoinUsPage() {
     }
   };
 
-  const translations = {
-    en: {
-      title: 'Join Palestine Clinics SaaS',
-      subtitle: 'Register your clinic and start managing healthcare efficiently',
-      clinicInfo: 'Clinic Information',
-      clinicName: 'Clinic Name',
-      speciality: 'Speciality (Optional)',
-      address: 'Address',
-      clinicPhone: 'Clinic Phone',
-      clinicEmail: 'Clinic Email',
-      subscriptionPlan: 'Subscription Plan',
-      logo: 'Clinic Logo (Optional)',
-      managerInfo: 'Manager Information',
-      managerName: 'Manager Name',
-      managerEmail: 'Manager Email',
-      managerPhone: 'Manager Phone',
-      password: 'Password',
-      confirmPassword: 'Confirm Password',
-      register: 'Register Clinic',
-      alreadyHaveAccount: 'Already have an account?',
-      login: 'Login here',
-      phonePlaceholder: '+970-XXX-XXXXXX',
-      selectPlan: 'Select a plan',
-      basic: 'Basic',
-      standard: 'Standard',
-      premium: 'Premium',
-    },
-    ar: {
-      title: 'انضم إلى منصة عيادات فلسطين',
-      subtitle: 'سجل عيادتك وابدأ في إدارة الرعاية الصحية بكفاءة',
-      clinicInfo: 'معلومات العيادة',
-      clinicName: 'اسم العيادة',
-      speciality: 'التخصص (اختياري)',
-      address: 'العنوان',
-      clinicPhone: 'هاتف العيادة',
-      clinicEmail: 'بريد العيادة الإلكتروني',
-      subscriptionPlan: 'خطة الاشتراك',
-      logo: 'شعار العيادة (اختياري)',
-      managerInfo: 'معلومات المدير',
-      managerName: 'اسم المدير',
-      managerEmail: 'البريد الإلكتروني للمدير',
-      managerPhone: 'هاتف المدير',
-      password: 'كلمة المرور',
-      confirmPassword: 'تأكيد كلمة المرور',
-      register: 'تسجيل العيادة',
-      alreadyHaveAccount: 'لديك حساب بالفعل؟',
-      login: 'تسجيل الدخول هنا',
-      phonePlaceholder: '+970-XXX-XXXXXX',
-      selectPlan: 'اختر خطة',
-      basic: 'أساسية',
-      standard: 'قياسية',
-      premium: 'مميزة',
-    },
-  };
-
-  const t = translations[language];
   const isRTL = language === 'ar';
 
   return (
     <div 
       className="min-h-screen flex items-center justify-center bg-linear-to-br from-teal-50 via-white to-cyan-50 p-4 py-12"
-      dir={isRTL ? 'rtl' : 'ltr'}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
@@ -217,12 +164,7 @@ export default function JoinUsPage() {
       <div className="w-full max-w-4xl relative">
         {/* Language Toggle */}
         <div className="absolute top-0 right-0 mb-4">
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className="px-4 py-2 bg-white shadow-md rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            {language === 'en' ? 'العربية' : 'English'}
-          </button>
+          <LanguageSwitcher />
         </div>
 
         {/* Registration Card */}
@@ -240,8 +182,8 @@ export default function JoinUsPage() {
               </div>
             </div>
             
-            <h1 className="text-2xl font-bold mb-2">{t.title}</h1>
-            <p className="text-teal-100 text-sm">{t.subtitle}</p>
+            <h1 className="text-2xl font-bold mb-2">{t.joinTitle}</h1>
+            <p className="text-teal-100 text-sm">{t.joinSubtitle}</p>
           </div>
 
           {/* Form Section */}
@@ -325,7 +267,7 @@ export default function JoinUsPage() {
                       className={`block w-full px-4 py-3 border ${
                         errors.clinic?.phone ? 'border-red-300' : 'border-gray-300'
                       } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
-                      placeholder={t.phonePlaceholder}
+                      placeholder="+970-XXX-XXXXXX"
                     />
                     {errors.clinic?.phone && (
                       <p className="mt-1 text-sm text-red-600">{errors.clinic.phone.message}</p>
@@ -452,7 +394,7 @@ export default function JoinUsPage() {
                       className={`block w-full px-4 py-3 border ${
                         errors.manager?.phone ? 'border-red-300' : 'border-gray-300'
                       } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
-                      placeholder={t.phonePlaceholder}
+                      placeholder="+970-XXX-XXXXXX"
                     />
                     {errors.manager?.phone && (
                       <p className="mt-1 text-sm text-red-600">{errors.manager.phone.message}</p>
@@ -511,7 +453,7 @@ export default function JoinUsPage() {
                       <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                       <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    {language === 'en' ? 'Registering...' : 'جارٍ التسجيل...'}
+                    {t.registering}
                   </>
                 ) : (
                   <>
@@ -530,7 +472,7 @@ export default function JoinUsPage() {
             <p className="text-sm text-gray-600">
               {t.alreadyHaveAccount}{' '}
               <a href="/login" className="text-teal-600 hover:text-teal-700 font-medium">
-                {t.login}
+                {t.loginHere}
               </a>
             </p>
           </div>

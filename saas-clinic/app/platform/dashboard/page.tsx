@@ -1,11 +1,16 @@
 'use client';
 
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { translations } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 export default function PlatformDashboard() {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { language } = useLanguage();
+  const t = translations[language];
   const router = useRouter();
 
   useEffect(() => {
@@ -28,19 +33,20 @@ export default function PlatformDashboard() {
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Platform Dashboard</h1>
-            <p className="text-sm text-gray-600">Palestine Clinics SaaS</p>
+            <h1 className="text-2xl font-bold text-gray-900">{t.platformDashboard}</h1>
+            <p className="text-sm text-gray-600">{t.title}</p>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <div className="text-right">
               <p className="text-sm font-medium text-gray-900">{user.name}</p>
-              <p className="text-xs text-gray-500">{user.role} - Platform Admin</p>
+              <p className="text-xs text-gray-500">{user.role} - {t.admin}</p>
             </div>
             <button
               onClick={logout}
               className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
             >
-              Logout
+              {t.logout}
             </button>
           </div>
         </div>
@@ -59,7 +65,7 @@ export default function PlatformDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Total Clinics</p>
+                <p className="text-sm text-gray-600 mb-1">{t.totalClinics}</p>
                 <p className="text-3xl font-bold text-gray-900">24</p>
               </div>
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -73,7 +79,7 @@ export default function PlatformDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Active Users</p>
+                <p className="text-sm text-gray-600 mb-1">{t.activeUsers}</p>
                 <p className="text-3xl font-bold text-gray-900">342</p>
               </div>
               <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
@@ -87,7 +93,7 @@ export default function PlatformDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Total Patients</p>
+                <p className="text-sm text-gray-600 mb-1">{t.totalPatients}</p>
                 <p className="text-3xl font-bold text-gray-900">1,248</p>
               </div>
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -101,7 +107,7 @@ export default function PlatformDashboard() {
           <div className="bg-white rounded-lg shadow p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600 mb-1">Monthly Revenue</p>
+                <p className="text-sm text-gray-600 mb-1">{t.monthlyRevenue}</p>
                 <p className="text-3xl font-bold text-gray-900">₪45K</p>
               </div>
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
@@ -116,7 +122,7 @@ export default function PlatformDashboard() {
         {/* Quick Actions */}
         <div className="bg-white rounded-lg shadow mb-8">
           <div className="px-6 py-4 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">Quick Actions</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{t.quickActions}</h3>
           </div>
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -127,8 +133,8 @@ export default function PlatformDashboard() {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <p className="font-medium text-gray-900">Add New Clinic</p>
-                  <p className="text-sm text-gray-600">Register a new clinic</p>
+                  <p className="font-medium text-gray-900">{t.addNewClinic}</p>
+                  <p className="text-sm text-gray-600">{t.registerNewClinic}</p>
                 </div>
               </button>
 
@@ -139,8 +145,8 @@ export default function PlatformDashboard() {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <p className="font-medium text-gray-900">View Reports</p>
-                  <p className="text-sm text-gray-600">Platform analytics</p>
+                  <p className="font-medium text-gray-900">{t.viewReports}</p>
+                  <p className="text-sm text-gray-600">{t.platformAnalytics}</p>
                 </div>
               </button>
 
@@ -152,8 +158,8 @@ export default function PlatformDashboard() {
                   </svg>
                 </div>
                 <div className="text-left">
-                  <p className="font-medium text-gray-900">Settings</p>
-                  <p className="text-sm text-gray-600">Platform configuration</p>
+                  <p className="font-medium text-gray-900">{t.settings}</p>
+                  <p className="text-sm text-gray-600">{t.platformConfiguration}</p>
                 </div>
               </button>
             </div>
@@ -163,17 +169,17 @@ export default function PlatformDashboard() {
         {/* Recent Clinics Table */}
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">Recent Clinics</h3>
+            <h3 className="text-lg font-semibold text-gray-900">{t.recentClinics}</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Clinic Name</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Users</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t.clinicName}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t.location}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t.status}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t.users}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t.actions}</th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
@@ -184,12 +190,12 @@ export default function PlatformDashboard() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Gaza, Palestine</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Active
+                      {t.active}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">45</td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                    <a href="#" className="text-emerald-600 hover:text-emerald-900">View</a>
+                    <a href="#" className="text-emerald-600 hover:text-emerald-900">{t.view}</a>
                   </td>
                 </tr>
                 <tr>
@@ -199,7 +205,7 @@ export default function PlatformDashboard() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Ramallah, Palestine</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
-                      Active
+                      {t.active}
                     </span>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">32</td>
