@@ -5,7 +5,10 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/context/AuthContext';
+import { useLanguage } from '@/context/LanguageContext';
 import { useRouter } from 'next/navigation';
+import { translations } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 // Validation schema
 const loginSchema = z.object({
@@ -18,36 +21,35 @@ type LoginFormData = z.infer<typeof loginSchema>;
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
-  const [language, setLanguage] = useState<'en' | 'ar'>('en');
   const [error, setError] = useState<string>('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { login, user } = useAuth();
+  const { language, isRTL } = useLanguage();
   const router = useRouter();
 
   // Redirect if already logged in
   useEffect(() => {
     if (user) {
       // Redirect based on role
-      if (user.is_platform_admin) {
-        router.push('/platform/dashboard');
-      } else {
-        switch (user.role) {
-          case 'manager':
-            router.push('/clinic/dashboard');
-            break;
-          case 'doctor':
-            router.push('/doctor/dashboard');
-            break;
-          case 'secretary':
-            router.push('/reception/dashboard');
-            break;
-          case 'patient':
-            router.push('/patient/dashboard');
-            break;
-          default:
-            router.push('/clinic/dashboard');
-        }
+      switch (user.role) {
+        case 'Admin':
+          router.push('/platform/dashboard');
+          break;
+        case 'Manager':
+          router.push('/clinic/dashboard');
+          break;
+        case 'Doctor':
+          router.push('/doctor/dashboard');
+          break;
+        case 'Secretary':
+          router.push('/reception/dashboard');
+          break;
+        case 'Patient':
+          router.push('/patient/dashboard');
+          break;
+        default:
+          router.push('/clinic/dashboard');
       }
     }
   }, [user, router]);
@@ -95,51 +97,17 @@ export default function LoginPage() {
     }
   };
 
-  const translations = {
-    en: {
-      title: 'Palestine Clinics SaaS',
-      subtitle: 'Healthcare Management System',
-      email: 'Email Address',
-      password: 'Password',
-      rememberMe: 'Remember me',
-      login: 'Login',
-      forgotPassword: 'Forgot Password?',
-      welcome: 'Welcome Back',
-      signInPrompt: 'Sign in to access your dashboard',
-    },
-    ar: {
-      title: 'منصة عيادات فلسطين',
-      subtitle: 'نظام إدارة الرعاية الصحية',
-      email: 'البريد الإلكتروني',
-      password: 'كلمة المرور',
-      rememberMe: 'تذكرني',
-      login: 'تسجيل الدخول',
-      forgotPassword: 'نسيت كلمة المرور؟',
-      welcome: 'مرحباً بعودتك',
-      signInPrompt: 'سجل الدخول للوصول إلى لوحة التحكم',
-    },
-  };
-
   const t = translations[language];
-  const isRTL = language === 'ar';
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center bg-linear-to-br from-teal-50 via-white to-cyan-50 p-4"
-      dir={isRTL ? 'rtl' : 'ltr'}
-    >
+    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-teal-50 via-white to-cyan-50 p-4">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-5"></div>
       
       <div className="w-full max-w-md relative">
         {/* Language Toggle */}
         <div className="absolute top-0 right-0 mb-4">
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-            className="px-4 py-2 bg-white shadow-md rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-          >
-            {language === 'en' ? 'العربية' : 'English'}
-          </button>
+          <LanguageSwitcher />
         </div>
 
         {/* Login Card */}
@@ -290,17 +258,13 @@ export default function LoginPage() {
           {/* Footer */}
           <div className="bg-gray-50 px-8 py-4 text-center border-t">
             <p className="text-sm text-gray-600 mb-2">
-              {language === 'en' 
-                ? "Don't have an account? " 
-                : 'ليس لديك حساب؟ '}
+              {t.dontHaveAccount}{' '}
               <a href="/join-us" className="text-teal-600 hover:text-teal-700 font-medium">
-                {language === 'en' ? 'Register your clinic' : 'سجل عيادتك'}
+                {t.registerClinic}
               </a>
             </p>
             <p className="text-xs text-gray-600">
-              {language === 'en' 
-                ? '© 2025 Palestine Clinics SaaS. All rights reserved.' 
-                : '© 2025 منصة عيادات فلسطين. جميع الحقوق محفوظة.'}
+              {t.copyright}
             </p>
           </div>
         </div>
@@ -308,12 +272,12 @@ export default function LoginPage() {
         {/* Info Box */}
         <div className="mt-6 bg-white/80 backdrop-blur-sm rounded-lg p-4 shadow-md">
           <h3 className="font-semibold text-gray-800 mb-2 text-sm">
-            {language === 'en' ? '🔐 Demo Credentials:' : '🔐 بيانات التجربة:'}
+            {t.demoCredentials}
           </h3>
           <div className="text-xs text-gray-600 space-y-1">
-            <p><strong>{language === 'en' ? 'Admin:' : 'المدير:'}</strong> admin@platform.com</p>
-            <p><strong>{language === 'en' ? 'Manager:' : 'مدير العيادة:'}</strong> manager@clinic.ps</p>
-            <p><strong>{language === 'en' ? 'Doctor:' : 'الطبيب:'}</strong> doctor@clinic.ps</p>
+            <p><strong>{t.admin}</strong> admin@platform.com</p>
+            <p><strong>{t.manager}</strong> manager@clinic.ps</p>
+            <p><strong>{t.doctorLabel}</strong> doctor@clinic.ps</p>
           </div>
         </div>
       </div>
