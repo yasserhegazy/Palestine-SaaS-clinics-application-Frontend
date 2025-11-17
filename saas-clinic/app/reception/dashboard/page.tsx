@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { useAuth } from '@/context/AuthContext';
-import { useLanguage } from '@/context/LanguageContext';
-import { translations } from '@/lib/translations';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
-import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useAuth } from "@/context/AuthContext";
+import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function ReceptionDashboard() {
   const { user, logout, clinic, isAuthenticated, isLoading } = useAuth();
@@ -15,7 +15,7 @@ export default function ReceptionDashboard() {
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
-      router.push('/login');
+      router.push("/login");
     }
   }, [isAuthenticated, isLoading, router]);
 
@@ -27,12 +27,124 @@ export default function ReceptionDashboard() {
     );
   }
 
+  const today = new Date().toLocaleDateString(
+    language === "ar" ? "ar-EG" : "en-US",
+    {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    }
+  );
+
+  // fake data  ..
+  const stats = [
+    {
+      label: t.checkinsToday || "حالات الاستقبال اليوم",
+      value: 24,
+      sub: language === "ar" ? "منذ بداية اليوم" : "Since the start of the day",
+    },
+    {
+      label: t.scheduledAppointments || "المواعيد المجدولة اليوم",
+      value: 32,
+      sub:
+        language === "ar"
+          ? "بين الساعة 8:00 و 20:00"
+          : "Between 08:00 and 20:00",
+    },
+    {
+      label: t.waitingPatients || "المرضى في غرفة الانتظار",
+      value: 5,
+      sub:
+        language === "ar"
+          ? "بمعدل انتظار 12 دقيقة"
+          : "Average waiting time 12 min",
+    },
+    {
+      label: t.appointmentRequests || "طلبات مواعيد معلّقة",
+      value: 7,
+      sub:
+        language === "ar"
+          ? "بانتظار مراجعة السكرتير"
+          : "Pending receptionist review",
+    },
+  ];
+
+  const upcomingAppointments = [
+    {
+      time: "09:30",
+      patient: language === "ar" ? "أحمد علي" : "Ahmad Ali",
+      doctor: language === "ar" ? "د. محمد سالم" : "Dr. Mohammed Salem",
+      type: language === "ar" ? "عيادة قلب" : "Cardiology clinic",
+      status: "confirmed",
+    },
+    {
+      time: "10:00",
+      patient: language === "ar" ? "سارة خليل" : "Sara Khalil",
+      doctor: language === "ar" ? "د. ليلى خالد" : "Dr. Layla Khaled",
+      type: language === "ar" ? "متابعة تحليل" : "Lab follow-up",
+      status: "waiting",
+    },
+    {
+      time: "10:15",
+      patient: language === "ar" ? "يوسف عمر" : "Yousef Omar",
+      doctor: language === "ar" ? "د. حازم ربيع" : "Dr. Hazem Rabee",
+      type: language === "ar" ? "استشارة أولية" : "First consultation",
+      status: "checked-in",
+    },
+  ];
+
+  const waitingList = [
+    {
+      patient: language === "ar" ? "محمد إبراهيم" : "Mohammed Ibrahim",
+      ticket: "A12",
+      waitingMinutes: 7,
+    },
+    {
+      patient: language === "ar" ? "أسيل حسن" : "Aseel Hasan",
+      ticket: "A13",
+      waitingMinutes: 3,
+    },
+    {
+      patient: language === "ar" ? "نادر خليل" : "Nader Khalil",
+      ticket: "B01",
+      waitingMinutes: 15,
+    },
+  ];
+
+  const getStatusBadge = (status: string) => {
+    switch (status) {
+      case "confirmed":
+        return (
+          <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700">
+            {t.statusConfirmed || "مؤكد"}
+          </span>
+        );
+      case "waiting":
+        return (
+          <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-medium text-amber-700">
+            {t.statusWaiting || "بانتظار الحضور"}
+          </span>
+        );
+      case "checked-in":
+        return (
+          <span className="inline-flex items-center rounded-full bg-sky-50 px-2.5 py-0.5 text-xs font-medium text-sky-700">
+            {t.statusCheckedIn || "تم الاستقبال"}
+          </span>
+        );
+      default:
+        return null;
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <header className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t.receptionDashboard}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">
+              {t.receptionDashboard}
+            </h1>
             <p className="text-sm text-gray-600">{clinic?.name}</p>
           </div>
           <div className="flex items-center gap-4">
@@ -41,47 +153,273 @@ export default function ReceptionDashboard() {
               <p className="text-sm font-medium text-gray-900">{user.name}</p>
               <p className="text-xs text-gray-500">{user.role}</p>
             </div>
-            <button onClick={logout} className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium">
+            <button
+              onClick={logout}
+              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
+            >
               {t.logout}
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-linear-to-r from-teal-600 to-cyan-600 rounded-lg p-6 text-white mb-8">
-          <h2 className="text-2xl font-bold mb-2">Welcome, {user.name}!</h2>
-          <p className="text-teal-100">Manage appointments and patient check-ins</p>
-        </div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* Hero */}
+        <section className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 rounded-2xl p-6 sm:p-7 text-white shadow-md relative overflow-hidden">
+          <div className="absolute inset-y-0 left-0 w-40 opacity-20 bg-[radial-gradient(circle_at_top,_#ffffff_0,_transparent_60%)]" />
+          <div className="relative flex flex-col md:flex-row justify-between gap-4">
+            <div>
+              <p className="text-xs text-teal-100 mb-1">{today}</p>
+              <h2 className="text-2xl font-bold mb-1">
+                {t.welcomeReception ||
+                  (language === "ar"
+                    ? `أهلاً ${user.name.split(" ")[0]} 👋`
+                    : `Welcome, ${user.name.split(" ")[0]} 👋`)}
+              </h2>
+              <p className="text-sm text-teal-100 max-w-xl">
+                {t.receptionSubTitle ||
+                  (language === "ar"
+                    ? "من هنا يمكنك إدارة تسجيل المرضى، مراجعة طلبات المواعيد، تأكيد المواعيد الموافق عليها، ومتابعة التقرير المالي اليومي للعيادة."
+                    : "From here you can manage patient registration, review appointment requests, confirm approved appointments and follow the daily financial report.")}
+              </p>
+            </div>
+            <div className="self-start md:self-center bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm">
+              <p className="text-xs text-teal-100 mb-1">
+                {t.quickSummaryTitle || "ملخص سريع"}
+              </p>
+              <p className="font-semibold">
+                {waitingList.length}{" "}
+                {t.quickSummaryPatientsWaiting ||
+                  (language === "ar"
+                    ? "مرضى بانتظار الاستقبال الآن"
+                    : "patients waiting at reception now")}
+              </p>
+              <p className="text-[11px] text-teal-100 mt-1">
+                {t.quickSummaryReminder ||
+                  (language === "ar"
+                    ? "تذكير: تأكدي من مراجعة طلبات المواعيد الجديدة وتأكيد المعتمَد منها"
+                    : "Reminder: review new appointment requests and confirm approved ones.")}
+              </p>
+            </div>
+          </div>
+        </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">{t.checkinsToday}</p>
-            <p className="text-3xl font-bold text-gray-900">24</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">{t.scheduledAppointments}</p>
-            <p className="text-3xl font-bold text-gray-900">32</p>
-          </div>
-          <div className="bg-white rounded-lg shadow p-6">
-            <p className="text-sm text-gray-600 mb-1">{t.waitingPatients}</p>
-            <p className="text-3xl font-bold text-gray-900">5</p>
-          </div>
-        </div>
+        {/* Stats */}
+        <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((item) => (
+            <div
+              key={item.label}
+              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col justify-between"
+            >
+              <p className="text-xs text-gray-500 mb-1">{item.label}</p>
+              <p className="text-2xl font-bold text-gray-900">{item.value}</p>
+              <p className="mt-1 text-[11px] text-gray-500">{item.sub}</p>
+            </div>
+          ))}
+        </section>
 
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b">
-            <h3 className="text-lg font-semibold text-gray-900">{t.quickActions}</h3>
+        {/* Appointments + waiting room */}
+        <section className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Today's appointments */}
+          <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="px-4 sm:px-5 py-3 border-b flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">
+                  {t.todaysAppointmentsTitle || "مواعيد اليوم"}
+                </h3>
+                <p className="text-[11px] text-gray-500">
+                  {t.todaysAppointmentsSubtitle ||
+                    (language === "ar"
+                      ? "أقرب المواعيد خلال الساعات القادمة"
+                      : "Nearest appointments in the next hours")}
+                </p>
+              </div>
+              <button
+                onClick={() => router.push("/reception/appointments/manage")}
+                className="text-xs text-teal-700 hover:text-teal-800 hover:underline"
+              >
+                {t.manageAllAppointments || "إدارة جميع المواعيد"}
+              </button>
+            </div>
+
+            <div className="divide-y">
+              {upcomingAppointments.map((app, idx) => (
+                <div
+                  key={idx}
+                  className="px-4 sm:px-5 py-3 flex items-center justify-between gap-3 hover:bg-gray-50 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="text-xs font-semibold text-gray-700 bg-gray-50 border border-gray-100 rounded-lg px-3 py-1">
+                      {app.time}
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">
+                        {app.patient}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {language === "ar"
+                          ? `مع ${app.doctor} • ${app.type}`
+                          : `with ${app.doctor} • ${app.type}`}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    {getStatusBadge(app.status)}
+                    <button className="text-[11px] text-teal-700 hover:underline">
+                      {t.appointmentDetailsEdit || "تفاصيل / تعديل"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="p-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <button className="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-teal-500 hover:bg-teal-50 transition-all">
-              <p className="font-medium text-gray-900">{t.newAppointment}</p>
+
+          {/* Waiting room */}
+          <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+            <div className="px-4 sm:px-5 py-3 border-b flex items-center justify-between">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900">
+                  {t.waitingRoomTitle || "غرفة الانتظار الآن"}
+                </h3>
+                <p className="text-[11px] text-gray-500">
+                  {t.waitingRoomSubtitle || "ترتيب المرضى حسب رقم الدور"}
+                </p>
+              </div>
+              <span className="inline-flex items-center rounded-full bg-gray-50 px-2.5 py-0.5 text-[11px] text-gray-600 border border-gray-100">
+                {waitingList.length} {language === "ar" ? "مرضى" : "patients"}
+              </span>
+            </div>
+
+            <div className="divide-y">
+              {waitingList.map((w, idx) => (
+                <div
+                  key={idx}
+                  className="px-4 sm:px-5 py-3 flex items-center justify-between gap-3 hover:bg-gray-50 transition"
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">
+                      {w.patient}
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {language === "ar"
+                        ? `وقت انتظار: ${w.waitingMinutes} دقيقة`
+                        : `Waiting time: ${w.waitingMinutes} min`}
+                    </p>
+                  </div>
+                  <div className="flex flex-col items-end gap-1">
+                    <span className="inline-flex items-center rounded-xl bg-gray-900 text-white text-xs font-semibold px-3 py-1">
+                      {w.ticket}
+                    </span>
+                    <button className="text-[11px] text-teal-700 hover:underline">
+                      {t.waitingRoomCheckin || "استقبال / تسجيل دخول"}
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Quick actions */}
+        <section className="bg-white rounded-2xl border border-gray-100 shadow-sm">
+          <div className="px-4 sm:px-5 py-3 border-b flex items-center justify-between">
+            <div>
+              <h3 className="text-lg font-semibold text-gray-900">
+                {t.quickActionsReception ||
+                  t.quickActions ||
+                  "الإجراءات السريعة للسكرتير"}
+              </h3>
+            </div>
+          </div>
+
+          <div className="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* New patient */}
+            <button
+              onClick={() => router.push("/reception/patients/new")}
+              className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 bg-gray-50/80 hover:bg-teal-50 hover:border-teal-200 transition px-4 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-teal-700">
+                {t.qaNewPatientLabel || "مريض جديد"}
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                {t.qaNewPatientTitle || "تسجيل مريض جديد وإنشاء حساب تلقائي"}
+              </span>
+              <span className="text-[11px] text-gray-500">
+                {t.qaNewPatientDesc ||
+                  "إدخال الاسم، رقم الهوية، رقم الهاتف – مع إرسال كلمة المرور عبر SMS"}
+              </span>
             </button>
-            <button className="flex items-center p-4 border-2 border-gray-200 rounded-lg hover:border-cyan-500 hover:bg-cyan-50 transition-all">
-              <p className="font-medium text-gray-900">{t.patientCheckin}</p>
+
+            {/* Search patient */}
+            <button
+              onClick={() => router.push("/reception/patients/search")}
+              className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 bg-gray-50/80 hover:bg-cyan-50 hover:border-cyan-200 transition px-4 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-cyan-700">
+                {t.qaSearchPatientLabel || "البحث عن مريض"}
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                {t.qaSearchPatientTitle || "الوصول لملف مريض سابق"}
+              </span>
+              <span className="text-[11px] text-gray-500">
+                {t.qaSearchPatientDesc ||
+                  "البحث باستخدام رقم الهوية أو رقم الهاتف لفتح الملف الطبي"}
+              </span>
+            </button>
+
+            {/* Appointment requests */}
+            <button
+              onClick={() => router.push("/reception/appointments/requests")}
+              className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 bg-gray-50/80 hover:bg-emerald-50 hover:border-emerald-200 transition px-4 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-emerald-700">
+                {t.qaRequestsLabel || "طلبات المواعيد"}
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                {t.qaRequestsTitle ||
+                  "مراجعة الطلبات القادمة من البوابة الإلكترونية"}
+              </span>
+              <span className="text-[11px] text-gray-500">
+                {t.qaRequestsDesc ||
+                  "تدقيق التفاصيل وإرسال الطلب للطبيب المناسب للموافقة"}
+              </span>
+            </button>
+
+            {/* Confirm appointments */}
+            <button
+              onClick={() => router.push("/reception/appointments/manage")}
+              className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 bg-gray-50/80 hover:bg-indigo-50 hover:border-indigo-200 transition px-4 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-indigo-700">
+                {t.qaConfirmLabel || "تأكيد المواعيد"}
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                {t.qaConfirmTitle || "اعتماد الموعد بعد موافقة الطبيب"}
+              </span>
+              <span className="text-[11px] text-gray-500">
+                {t.qaConfirmDesc ||
+                  "تحويل حالة الموعد إلى 'فعال' مع إرسال رسالة تأكيد للمريض"}
+              </span>
+            </button>
+
+            {/* Daily financial report */}
+            <button
+              onClick={() => router.push("/reception/reports/daily")}
+              className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 bg-gray-50/80 hover:bg-amber-50 hover:border-amber-200 transition px-4 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-amber-700">
+                {t.qaDailyReportLabel || "التقرير المالي اليومي"}
+              </span>
+              <span className="text-sm font-medium text-gray-900">
+                {t.qaDailyReportTitle || "إحصاء المبالغ المالية الداخلة اليوم"}
+              </span>
+              <span className="text-[11px] text-gray-500">
+                {t.qaDailyReportDesc ||
+                  "إجمالي المبالغ المستلمة، عدد الفواتير المدفوعة وغير المدفوعة، وإجمالي النقدي والإلكتروني"}
+              </span>
             </button>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );

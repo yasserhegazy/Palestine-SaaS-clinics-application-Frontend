@@ -8,7 +8,7 @@ export default function LanguageSwitcher({ className = "" }: { className?: strin
   return (
     <button
       onClick={() => setLanguage(language === 'en' ? 'ar' : 'en')}
-      className={`px-4 py-2 bg-white shadow-md rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors ${className}`}
+      className={`px-4 py-2 bg-white shadow-md rounded-lg text-sm font-medium mr-2 text-gray-700 hover:bg-gray-50 transition-colors ${className}`}
     >
       {language === 'en' ? 'العربية' : 'English'}
     </button>
