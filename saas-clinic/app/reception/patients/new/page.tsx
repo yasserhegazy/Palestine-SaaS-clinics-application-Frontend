@@ -16,12 +16,19 @@ export default function NewPatientPage() {
     name: "",
     nationalId: "",
     phone: "",
+    dateOfBirth: "",
+    gender: "Male",
+    address: "",
+    bloodType: "",
+    allergies: "",
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
@@ -38,16 +45,35 @@ export default function NewPatientPage() {
         body: JSON.stringify(form),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        throw new Error("Failed to create patient");
+        // Display validation errors if available
+        if (data.errors) {
+          const errorMessages = Object.values(data.errors).flat().join(', ');
+          setError(errorMessages as string);
+        } else {
+          setError(data.message || "Failed to create patient");
+        }
+        return;
       }
 
       setMessage(
         t.newPatientSuccess ||
           "تم إنشاء حساب المريض وإرسال كلمة المرور عبر SMS."
       );
-      setForm({ name: "", nationalId: "", phone: "" });
+      setForm({
+        name: "",
+        nationalId: "",
+        phone: "",
+        dateOfBirth: "",
+        gender: "Male",
+        address: "",
+        bloodType: "",
+        allergies: "",
+      });
     } catch (err) {
+      console.error('Error:', err);
       setError(
         t.newPatientServerError || "حدث خطأ أثناء إنشاء المريض. حاول مرة أخرى."
       );
@@ -142,13 +168,97 @@ export default function NewPatientPage() {
                   value={form.phone}
                   onChange={handleChange}
                   required
-                  placeholder={t.phonePlaceholder || "مثال: 059XXXXXXXX"}
+                  pattern="05[0-9]{8}"
+                  placeholder={t.phonePlaceholder || "مثال: 0599123456"}
                   className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
                 />
                 <p className="mt-1 text-[11px] text-slate-500 text-right">
                   {t.phoneHint ||
                     "سيتم إرسال كلمة المرور الأولى لهذا الرقم عبر رسالة SMS."}
                 </p>
+              </div>
+
+              {/* حقل تاريخ الميلاد */}
+              <div>
+                <label className="block text-sm font-medium text-slate-800 mb-1 text-right">
+                  {t.dateOfBirthLabel || "تاريخ الميلاد"}{" "}
+                  <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  name="dateOfBirth"
+                  value={form.dateOfBirth}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
+                />
+              </div>
+
+              {/* حقل الجنس */}
+              <div>
+                <label className="block text-sm font-medium text-slate-800 mb-1 text-right">
+                  {t.genderLabel || "الجنس"}{" "}
+                  <span className="text-red-500">*</span>
+                </label>
+                <select
+                  name="gender"
+                  value={form.gender}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
+                >
+                  <option value="Male">{t.male || "ذكر"}</option>
+                  <option value="Female">{t.female || "أنثى"}</option>
+                  <option value="Other">{t.other || "آخر"}</option>
+                </select>
+              </div>
+
+              {/* حقل العنوان */}
+              <div>
+                <label className="block text-sm font-medium text-slate-800 mb-1 text-right">
+                  {t.addressLabel || "العنوان"}{" "}
+                  <span className="text-red-500">*</span>
+                </label>
+                <input
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  required
+                  placeholder={t.addressPlaceholder || "مثال: غزة، حي الرمال"}
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
+                />
+              </div>
+
+              {/* حقل فصيلة الدم (اختياري) */}
+              <div>
+                <label className="block text-sm font-medium text-slate-800 mb-1 text-right">
+                  {t.bloodTypeLabel || "فصيلة الدم"} ({t.optional || "اختياري"})
+                </label>
+                <input
+                  name="bloodType"
+                  value={form.bloodType}
+                  onChange={handleChange}
+                  placeholder={t.bloodTypePlaceholder || "مثال: O+, A-, B+"}
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
+                />
+              </div>
+
+              {/* حقل الحساسية (اختياري) */}
+              <div>
+                <label className="block text-sm font-medium text-slate-800 mb-1 text-right">
+                  {t.allergiesLabel || "الحساسية"} ({t.optional || "اختياري"})
+                </label>
+                <textarea
+                  name="allergies"
+                  value={form.allergies}
+                  onChange={handleChange}
+                  rows={3}
+                  placeholder={
+                    t.allergiesPlaceholder ||
+                    "أدخل أي حساسية أو ملاحظات طبية مهمة"
+                  }
+                  className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
+                />
               </div>
 
               {/* رسائل النجاح / الخطأ */}
@@ -168,7 +278,16 @@ export default function NewPatientPage() {
                 <button
                   type="button"
                   onClick={() =>
-                    setForm({ name: "", nationalId: "", phone: "" })
+                    setForm({
+                      name: "",
+                      nationalId: "",
+                      phone: "",
+                      dateOfBirth: "",
+                      gender: "Male",
+                      address: "",
+                      bloodType: "",
+                      allergies: "",
+                    })
                   }
                   className="px-3 py-2 text-sm rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50"
                 >

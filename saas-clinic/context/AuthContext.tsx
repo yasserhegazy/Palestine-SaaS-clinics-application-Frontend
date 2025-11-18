@@ -49,10 +49,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     loadAuthData();
   }, []);
 
-  const login = async (email: string, password: string): Promise<void> => {
+  const login = async (emailOrPhone: string, password: string): Promise<void> => {
     try {
       const response = await apiClient.post<LoginResponse>(API_ENDPOINTS.LOGIN, {
-        email,
+        login: emailOrPhone,
         password,
       });
 

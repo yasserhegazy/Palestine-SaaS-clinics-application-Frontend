@@ -17,7 +17,7 @@ const registrationSchema = z.object({
     name: z.string().min(1, 'Clinic name is required').max(100),
     speciality: z.string().max(100).optional(),
     address: z.string().min(1, 'Address is required').max(255),
-    phone: z.string().min(1, 'Phone is required').max(20),
+    phone: z.string().regex(/^05[0-9]{8}$/, 'Phone must be in format: 05XXXXXXXX'),
     email: z.string().email('Invalid email address').max(100),
     subscription_plan: z.enum(['Basic', 'Standard', 'Premium'], {
       errorMap: () => ({ message: 'Please select a subscription plan' }),
@@ -26,7 +26,7 @@ const registrationSchema = z.object({
   manager: z.object({
     name: z.string().min(1, 'Manager name is required').max(100),
     email: z.string().email('Invalid email address').max(100),
-    phone: z.string().min(1, 'Phone is required').max(20),
+    phone: z.string().regex(/^05[0-9]{8}$/, 'Phone must be in format: 05XXXXXXXX'),
     password: z.string().min(8, 'Password must be at least 8 characters'),
     password_confirmation: z.string().min(8, 'Password confirmation is required'),
   }),
@@ -264,10 +264,10 @@ export default function JoinUsPage() {
                       id="clinic.phone"
                       type="text"
                       {...register('clinic.phone')}
-                      className={`block w-full px-4 py-3 border ${
-                        errors.clinic?.phone ? 'border-red-300' : 'border-gray-300'
-                      } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
-                      placeholder="+970-XXX-XXXXXX"
+                    className={`block w-full px-4 py-3 border ${
+                      errors.clinic?.phone ? 'border-red-300' : 'border-gray-300'
+                    } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
+                      placeholder="0599123456"
                     />
                     {errors.clinic?.phone && (
                       <p className="mt-1 text-sm text-red-600">{errors.clinic.phone.message}</p>
@@ -391,10 +391,10 @@ export default function JoinUsPage() {
                       id="manager.phone"
                       type="text"
                       {...register('manager.phone')}
-                      className={`block w-full px-4 py-3 border ${
-                        errors.manager?.phone ? 'border-red-300' : 'border-gray-300'
-                      } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
-                      placeholder="+970-XXX-XXXXXX"
+                    className={`block w-full px-4 py-3 border ${
+                      errors.manager?.phone ? 'border-red-300' : 'border-gray-300'
+                    } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
+                      placeholder="0599123456"
                     />
                     {errors.manager?.phone && (
                       <p className="mt-1 text-sm text-red-600">{errors.manager.phone.message}</p>

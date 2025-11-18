@@ -5,6 +5,7 @@ export const translations = {
     title: "Palestine Clinics SaaS",
     subtitle: "Healthcare Management System",
     email: "Email Address",
+    emailOrPhone: "Email or Phone Number",
     password: "Password",
     rememberMe: "Remember me",
     login: "Login",
@@ -193,7 +194,7 @@ export const translations = {
     nationalIdPlaceholder: "e.g. 123456789",
     nationalIdHint: "Used to make sure the patient is not registered twice.",
     phoneLabel: "Phone number",
-    phonePlaceholder: "e.g. 059XXXXXXXX",
+    phonePlaceholder: "e.g. 0599123456",
     phoneHint: "The first password will be sent to this phone number via SMS.",
 
     clearForm: "Clear form",
@@ -215,12 +216,27 @@ export const translations = {
     newPatientSuccess: "Patient account created and password sent via SMS.",
     newPatientServerError:
       "An error occurred while creating the patient. Please try again.",
+
+    // Additional patient form fields
+    dateOfBirthLabel: "Date of Birth",
+    genderLabel: "Gender",
+    male: "Male",
+    female: "Female",
+    other: "Other",
+    addressLabel: "Address",
+    addressPlaceholder: "e.g., Gaza, Al-Rimal",
+    bloodTypeLabel: "Blood Type",
+    bloodTypePlaceholder: "e.g., O+, A-, B+",
+    optional: "Optional",
+    allergiesLabel: "Allergies",
+    allergiesPlaceholder: "Enter any allergies or important medical notes",
   },
   ar: {
     // Login page
     title: "منصة عيادات فلسطين",
     subtitle: "نظام إدارة الرعاية الصحية",
     email: "البريد الإلكتروني",
+    emailOrPhone: "البريد الإلكتروني أو رقم الهاتف",
     password: "كلمة المرور",
     rememberMe: "تذكرني",
     login: "تسجيل الدخول",
@@ -405,7 +421,7 @@ export const translations = {
     nationalIdPlaceholder: "مثال: 123456789",
     nationalIdHint: "يُستخدم للتأكد من عدم تكرار تسجيل نفس المريض.",
     phoneLabel: "رقم الهاتف",
-    phonePlaceholder: "مثال: 059XXXXXXXX",
+    phonePlaceholder: "مثال: 0599123456",
     phoneHint: "سيتم إرسال كلمة المرور الأولى لهذا الرقم عبر رسالة SMS.",
 
     clearForm: "مسح الحقول",
@@ -423,6 +439,20 @@ export const translations = {
 
     newPatientSuccess: "تم إنشاء حساب المريض وإرسال كلمة المرور عبر SMS.",
     newPatientServerError: "حدث خطأ أثناء إنشاء المريض. حاول مرة أخرى.",
+
+    // حقول إضافية لنموذج المريض
+    dateOfBirthLabel: "تاريخ الميلاد",
+    genderLabel: "الجنس",
+    male: "ذكر",
+    female: "أنثى",
+    other: "آخر",
+    addressLabel: "العنوان",
+    addressPlaceholder: "مثال: غزة، حي الرمال",
+    bloodTypeLabel: "فصيلة الدم",
+    bloodTypePlaceholder: "مثال: O+, A-, B+",
+    optional: "اختياري",
+    allergiesLabel: "الحساسية",
+    allergiesPlaceholder: "أدخل أي حساسية أو ملاحظات طبية مهمة",
   },
 };
 

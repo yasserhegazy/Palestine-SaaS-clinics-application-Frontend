@@ -10,9 +10,9 @@ import { useRouter } from 'next/navigation';
 import { translations } from '@/lib/translations';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
-// Validation schema
+// Validation schema - accepts email or phone
 const loginSchema = z.object({
-  email: z.string().email('Invalid email address'),
+  login: z.string().min(3, 'Email or phone number is required'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
 });
 
@@ -67,7 +67,7 @@ export default function LoginPage() {
     setError('');
 
     try {
-      await login(data.email, data.password);
+      await login(data.login, data.password);
       // Navigation is handled in AuthContext based on role
     } catch (err: unknown) {
       console.error('Login error:', err);
@@ -145,10 +145,10 @@ export default function LoginPage() {
             )}
 
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-              {/* Email Field */}
+              {/* Email or Phone Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                  {t.email}
+                <label htmlFor="login" className="block text-sm font-medium text-gray-700 mb-2">
+                  {t.emailOrPhone || (language === 'en' ? 'Email or Phone' : 'البريد الإلكتروني أو رقم الهاتف')}
                 </label>
                 <div className="relative">
                   <div className={`absolute inset-y-0 ${isRTL ? 'right-0 pr-3' : 'left-0 pl-3'} flex items-center pointer-events-none`}>
@@ -157,17 +157,17 @@ export default function LoginPage() {
                     </svg>
                   </div>
                   <input
-                    id="email"
-                    type="email"
-                    {...register('email')}
+                    id="login"
+                    type="text"
+                    {...register('login')}
                     className={`block w-full ${isRTL ? 'pr-10 text-right' : 'pl-10'} py-3 border ${
-                      errors.email ? 'border-red-300' : 'border-gray-300'
+                      errors.login ? 'border-red-300' : 'border-gray-300'
                     } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
-                    placeholder={language === 'en' ? 'admin@platform.com' : 'admin@platform.com'}
+                    placeholder={language === 'en' ? 'admin@platform.com or 0599123456' : 'admin@platform.com أو 0599123456'}
                   />
                 </div>
-                {errors.email && (
-                  <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
+                {errors.login && (
+                  <p className="mt-1 text-sm text-red-600">{errors.login.message}</p>
                 )}
               </div>
 

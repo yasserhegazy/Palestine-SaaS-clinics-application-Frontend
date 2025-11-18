@@ -15,7 +15,7 @@ import LanguageSwitcher from '@/components/LanguageSwitcher';
 const baseStaffSchema = z.object({
   name: z.string().min(1, 'Name is required').max(100),
   email: z.string().email('Invalid email address').max(100),
-  phone: z.string().regex(/^\+970[0-9]{3}[0-9]{6}$/, 'Phone must be in format: +970XXXXXXXXX'),
+  phone: z.string().regex(/^05[0-9]{8}$/, 'Phone must be in format: 05XXXXXXXX'),
 });
 
 // Doctor-specific schema
@@ -219,7 +219,7 @@ export default function AddStaffPage() {
                     className={`block w-full px-4 py-3 border ${
                       errors.phone ? 'border-red-300' : 'border-gray-300'
                     } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
-                    placeholder="+970-123-456789"
+                    placeholder="0599123456"
                   />
                   {errors.phone && (
                     <p className="mt-1 text-sm text-red-600">{errors.phone.message}</p>
