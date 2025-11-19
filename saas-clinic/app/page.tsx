@@ -3,30 +3,38 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
+import LandingPage from './LandingPage/page';
 
 export default function Home() {
   const router = useRouter();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, role, isPlatformAdmin } = useAuth();
 
   useEffect(() => {
-    if (!isLoading) {
-      if (isAuthenticated) {
-        // User is already logged in, redirect based on role (handled by AuthContext)
-        // This is a fallback, normally login redirects automatically
-        router.push('/login');
-      } else {
-        router.push('/login');
+    if (!isLoading && isAuthenticated) {
+      if (isPlatformAdmin) {
+        router.push('/platform/dashboard');
+        return;
+      }
+
+      switch (role) {
+        case 'Manager':
+          router.push('/clinic/dashboard');
+          break;
+        case 'Doctor':
+          router.push('/doctor/dashboard');
+          break;
+        case 'Secretary':
+          router.push('/reception/dashboard');
+          break;
+        case 'Patient':
+          router.push('/patient/dashboard');
+          break;
+        default:
+          router.push('/login');
       }
     }
-  }, [isAuthenticated, isLoading, router]);
+  }, [isAuthenticated, isLoading, isPlatformAdmin, role, router]);
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-linear-to-br from-emerald-50 via-white to-red-50">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-emerald-600 mx-auto mb-4"></div>
-        <p className="text-gray-600">Loading Palestine Clinics SaaS...</p>
-      </div>
-    </div>
-  );
+  return <LandingPage />;
 }
 

@@ -19,6 +19,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   // Detect client-side and load saved language
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- safe to set client flag once after hydration
     setIsClient(true);
     const savedLanguage = localStorage.getItem('preferred_language') as Language;
     if (savedLanguage && (savedLanguage === 'en' || savedLanguage === 'ar')) {

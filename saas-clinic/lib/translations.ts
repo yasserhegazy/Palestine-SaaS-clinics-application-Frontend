@@ -1,6 +1,78 @@
 // Shared translations for the application
 export const translations = {
   en: {
+    // Landing page
+    yourClinic: "Your Clinic",
+    whyUs: "Why Us",
+    features: "Features",
+    easyFast: "Easy & Fast",
+    pricing: "Pricing",
+    freeTrial: "Free Trial",
+    welcomeTo: "Welcome to",
+    palestineClinics: "Palestine Clinics",
+    heroSubtitle:
+      "Simplify your clinic management: appointments, patient tracking, and workflow optimization all in one place.",
+    whyU: "Why Us",
+    whyUsSubtitle:
+      "We help clinics streamline operations and improve patient care with innovative tools.",
+    fastBooking: "Fast Booking",
+    fastBookingDesc: "Manage appointments quickly and efficiently without any hassle.",
+    patientTracking: "Patient Tracking",
+    patientTrackingDesc:
+      "Keep track of patient history, records, and appointments effortlessly.",
+    workflow: "Optimized Workflow",
+    workflowDesc: "Streamline your clinic's workflow for better productivity.",
+    support: "24/7 Support",
+    supportDesc: "We provide around-the-clock support for your clinic operations.",
+    feature: "Features",
+    featuresSubtitle: "Explore the main functionalities of our system",
+    patientInfo: "Patient Information",
+    patientInfoDesc: "Access detailed information about each patient.",
+    medicalRecords: "Medical Records",
+    medicalRecordsDesc: "View and manage patient medical history.",
+    prescriptions: "Prescriptions",
+    prescriptionsDesc: "Check prescribed medications and instructions.",
+    images: "Medical Images",
+    imagesDesc: "Browse X-rays, scans, and other patient images.",
+    labTests: "Lab Tests",
+    labTestsDesc: "Review laboratory test results and analysis.",
+    reports: "Reports",
+    reportsDesc: "Generate and download patient reports.",
+    staff: "Staff",
+    staffDesc: "Manage hospital or clinic staff details.",
+    billing: "Billing",
+    billingDesc: "Handle invoices, payments, and financial records.",
+    appointments: "Appointments",
+    appointmentsDesc: "Schedule and track patient appointments.",
+    easy_Fast: "Easy & Fast",
+    easyFastSubtitle: "Follow these 4 simple steps to register your clinic quickly.",
+    step1Title: "Create an Account",
+    step1Desc: "Sign up with your email and set up your clinic profile.",
+    step2Title: "Add Clinic Details",
+    step2Desc: "Fill out your clinic's information, services, and operating hours.",
+    step3Title: "Verify & Approve",
+    step3Desc: "Verify your clinic details and get approved to start using the system.",
+    step4Title: "Start Serving Patients",
+    step4Desc: "Your clinic is live! Manage bookings and patients easily.",
+    pricingTitle: "Pricing Plans",
+    pricingSubtitle: "Choose the plan that fits your clinic and start right away.",
+    basicPlan: "Basic Plan",
+    basicDesc: "Perfect for small clinics needing essential tools.",
+    proPlan: "Pro Plan",
+    proDesc: "The best choice for most clinics - advanced features and great flexibility.",
+    enterprisePlan: "Enterprise Plan",
+    enterpriseDesc: "For medical networks and organizations requiring custom solutions.",
+    mostPopular: "Most Popular",
+    choosePlan: "Choose Plan",
+    feature1: "Easy-to-use Dashboard",
+    feature2: "Patient & Appointment Management",
+    feature3: "Detailed Daily Reports",
+    feature4: "SMS Notifications to Patients",
+    featureBig1: "24/7 Priority Support",
+    featureBig2: "Multi-branch Management",
+    featureBig3: "Advanced User Permissions",
+    rightsReserved: "All rights reserved.",
+
     // Login page
     title: "Palestine Clinics SaaS",
     subtitle: "Healthcare Management System",
@@ -232,227 +304,217 @@ export const translations = {
     allergiesPlaceholder: "Enter any allergies or important medical notes",
   },
   ar: {
-    // Login page
-    title: "منصة عيادات فلسطين",
-    subtitle: "نظام إدارة الرعاية الصحية",
-    email: "البريد الإلكتروني",
-    emailOrPhone: "البريد الإلكتروني أو رقم الهاتف",
-    password: "كلمة المرور",
-    rememberMe: "تذكرني",
-    login: "تسجيل الدخول",
-    forgotPassword: "نسيت كلمة المرور؟",
-    welcome: "مرحباً بعودتك",
-    signInPrompt: "سجل الدخول للوصول إلى لوحة التحكم",
-    dontHaveAccount: "ليس لديك حساب؟",
-    registerClinic: "سجل عيادتك",
+    // Header
+    yourClinic: "عيادتك",
+    whyUs: "لماذا نحن",
+    features: "الميزات",
+    easyFast: "سهل وسريع",
+    pricing: "التسعير",
+    freeTrial: "جرّب مجانًا",
 
-    // Dashboard common
-    logout: "تسجيل الخروج",
-    back: "رجوع",
-    cancel: "إلغاء",
-    save: "حفظ",
-    add: "إضافة",
-    edit: "تعديل",
-    delete: "حذف",
+    // Hero Section
+    welcomeTo: "مرحبًا بك في",
+    palestineClinics: "منصّة فلسطين للعيادات",
+    heroSubtitle:
+      "بسّط إدارة عيادتك: المواعيد، متابعة المرضى، وتحسين سير العمل في مكان واحد.",
 
-    // Platform Dashboard
-    platformDashboard: "لوحة تحكم المنصة",
-    totalClinics: "إجمالي العيادات",
-    activeUsers: "المستخدمون النشطون",
-    totalPatients: "إجمالي المرضى",
-    monthlyRevenue: "الإيرادات الشهرية",
-    addNewClinic: "إضافة عيادة جديدة",
-    registerNewClinic: "تسجيل عيادة جديدة",
-    viewReports: "عرض التقارير",
-    platformAnalytics: "تحليلات المنصة",
-    settings: "الإعدادات",
-    platformConfiguration: "تكوين المنصة",
-    recentClinics: "العيادات الحديثة",
-    clinicName: "اسم العيادة",
-    location: "الموقع",
-    status: "الحالة",
-    users: "المستخدمون",
-    actions: "الإجراءات",
-    active: "نشط",
-    view: "عرض",
+    // Why Us
+    whyU: "لماذا نحن",
+    whyUsSubtitle: "نساعد العيادات على تحسين العمليات وتقديم رعاية أفضل عبر أدوات حديثة.",
+    fastBooking: "حجز سريع",
+    fastBookingDesc: "أدر المواعيد بسرعة وكفاءة دون عناء.",
+    patientTracking: "متابعة المرضى",
+    patientTrackingDesc: "تابع سجلات المرضى ومواعيدهم بكل سهولة.",
+    workflow: "سير عمل محسّن",
+    workflowDesc: "نظّم خطوات العمل في عيادتك للحصول على إنتاجية أعلى.",
+    support: "دعم 24/7",
+    supportDesc: "ندعم عيادتك على مدار الساعة وطوال أيام الأسبوع.",
 
-    // Clinic Dashboard
-    clinicManagement: "إدارة العيادة",
-    todaysAppointments: "مواعيد اليوم",
-    activeDoctors: "الأطباء النشطون",
-    thisMonth: "هذا الشهر",
-    addStaff: "إضافة موظفين",
-    doctorsSecretaries: "أطباء وسكرتاريات",
-    manageSchedule: "إدارة الجداول",
-    doctorAvailability: "توفر الأطباء",
-    reports: "التقارير",
-    clinicAnalytics: "تحليلات العيادة",
-
-    // Reception Dashboard
-    receptionDashboard: "لوحة تحكم الاستقبال",
-    checkinsToday: "تسجيل الحضور اليوم",
-    scheduledAppointments: "المواعيد المجدولة",
-    waitingPatients: "المرضى في الانتظار",
-    quickActions: "إجراءات سريعة",
-    newAppointment: "موعد جديد",
-    patientCheckin: "تسجيل حضور المريض",
-
-    // Patient Dashboard
-    patientPortal: "بوابة المريض",
-    yourHealthRecords: "سجلاتك الصحية",
-    upcomingAppointments: "المواعيد القادمة",
+    // Features Section
+    feature: "الميزات",
+    featuresSubtitle: "استكشف أهم إمكانات منصتنا",
+    patientInfo: "بيانات المرضى",
+    patientInfoDesc: "اطّلع على تفاصيل كل مريض.",
     medicalRecords: "السجلات الطبية",
+    medicalRecordsDesc: "اعرض ودوّن التاريخ الطبي للمريض.",
     prescriptions: "الوصفات الطبية",
-    nextAppointment: "الموعد القادم",
-    noUpcomingAppointments: "لا توجد مواعيد قادمة",
-    bookAppointment: "حجز موعد",
-    recentVisits: "الزيارات الحديثة",
-    visitHistoryWillAppear: "سيظهر تاريخ زياراتك هنا",
+    prescriptionsDesc: "راجِع التعليمات والأدوية الموصوفة.",
+    images: "الصور الطبية",
+    imagesDesc: "تصفّح صور الأشعّة والفحوصات المختلفة.",
+    labTests: "الفحوصات المخبرية",
+    labTestsDesc: "اطّلع على نتائج المختبر وتحليلاتها.",
+    reports: "التقارير",
+    reportsDesc: "أنشئ وصدّر تقارير المرضى.",
+    staff: "الطاقم",
+    staffDesc: "أدِر بيانات موظفي العيادة.",
+    billing: "الفوترة",
+    billingDesc: "تتبّع الفواتير والمدفوعات والسجلات المالية.",
+    appointments: "المواعيد",
+    appointmentsDesc: "رتّب المواعيد وتابعها بسهولة.",
 
+    // Easy And Fast
+    easy_Fast: "سهل وسريع",
+    easyFastSubtitle: "اتّبع هذه الخطوات الأربع لتسجيل عيادتك بسرعة.",
+    step1Title: "أنشئ حسابًا",
+    step1Desc: "سجّل بريدك الإلكتروني وعرّف معلومات عيادتك.",
+    step2Title: "أضف تفاصيل العيادة",
+    step2Desc: "حدّث خدمات العيادة وأوقات العمل.",
+    step3Title: "التحقّق والموافقة",
+    step3Desc: "تحقّق من بياناتك واحصل على الموافقة للبدء.",
+    step4Title: "ابدأ خدمة المرضى",
+    step4Desc: "أطلق العيادة عبر النظام وابدأ بإدارة المواعيد.",
+
+    // Pricing
+    pricingTitle: "خطط الأسعار",
+    pricingSubtitle: "اختر الخطة التي تناسب عيادتك وابدأ فورًا.",
+    basicPlan: "الخطة الأساسية",
+    basicDesc: "مثالية للعيادات الصغيرة التي تحتاج إلى الأدوات الضرورية.",
+    proPlan: "الخطة الاحترافية",
+    proDesc: "الخيار الأفضل لمعظم العيادات بميزات متقدمة ومرونة عالية.",
+    enterprisePlan: "خطة المؤسسات",
+    enterpriseDesc: "للشبكات الطبية والمنظمات التي تحتاج حلولًا مخصّصة.",
+    mostPopular: "الأكثر شيوعًا",
+    choosePlan: "اختر الخطة",
+    feature1: "لوحة تحكم سهلة الاستخدام",
+    feature2: "إدارة المرضى والمواعيد",
+    feature3: "تقارير يومية تفصيلية",
+    feature4: "تنبيهات SMS للمرضى",
+    featureBig1: "دعم أولوية على مدار الساعة",
+    featureBig2: "إدارة متعدّدة الفروع",
+    featureBig3: "صلاحيات متقدمة للمستخدمين",
+
+    // Footer
+    rightsReserved: "جميع الحقوق محفوظة.",
+    // Login page
+    title: 'منصة عيادات فلسطين',
+    subtitle: 'نظام إدارة الرعاية الصحية',
+    email: 'البريد الإلكتروني',
+    password: 'كلمة المرور',
+    rememberMe: 'تذكرني',
+    login: 'تسجيل الدخول',
+    forgotPassword: 'نسيت كلمة المرور؟',
+    welcome: 'مرحباً بعودتك',
+    signInPrompt: 'سجل الدخول للوصول إلى لوحة التحكم',
+    dontHaveAccount: 'ليس لديك حساب؟',
+    registerClinic: 'سجل عيادتك',
+
+    //Footer 
+     rightsReserved: "جميع الحقوق محفوظة.",
+    
+    // Dashboard common
+    logout: 'تسجيل الخروج',
+    back: 'رجوع',
+    cancel: 'إلغاء',
+    save: 'حفظ',
+    add: 'إضافة',
+    edit: 'تعديل',
+    delete: 'حذف',
+    
+    // Platform Dashboard
+    platformDashboard: 'لوحة تحكم المنصة',
+    totalClinics: 'إجمالي العيادات',
+    activeUsers: 'المستخدمون النشطون',
+    totalPatients: 'إجمالي المرضى',
+    monthlyRevenue: 'الإيرادات الشهرية',
+    addNewClinic: 'إضافة عيادة جديدة',
+    registerNewClinic: 'تسجيل عيادة جديدة',
+    viewReports: 'عرض التقارير',
+    platformAnalytics: 'تحليلات المنصة',
+    settings: 'الإعدادات',
+    platformConfiguration: 'تكوين المنصة',
+    recentClinics: 'العيادات الحديثة',
+    clinicName: 'اسم العيادة',
+    location: 'الموقع',
+    status: 'الحالة',
+    users: 'المستخدمون',
+    actions: 'الإجراءات',
+    active: 'نشط',
+    view: 'عرض',
+    
+    // Clinic Dashboard
+    clinicManagement: 'إدارة العيادة',
+    todaysAppointments: 'مواعيد اليوم',
+    activeDoctors: 'الأطباء النشطون',
+    thisMonth: 'هذا الشهر',
+    addStaff: 'إضافة موظفين',
+    doctorsSecretaries: 'أطباء وسكرتاريات',
+    manageSchedule: 'إدارة الجداول',
+    doctorAvailability: 'توفر الأطباء',
+    reports: 'التقارير',
+    clinicAnalytics: 'تحليلات العيادة',
+    
+    // Reception Dashboard
+    receptionDashboard: 'لوحة تحكم الاستقبال',
+    checkinsToday: 'تسجيل الحضور اليوم',
+    scheduledAppointments: 'المواعيد المجدولة',
+    waitingPatients: 'المرضى في الانتظار',
+    quickActions: 'إجراءات سريعة',
+    newAppointment: 'موعد جديد',
+    patientCheckin: 'تسجيل حضور المريض',
+    
+    // Patient Dashboard
+    patientPortal: 'بوابة المريض',
+    yourHealthRecords: 'سجلاتك الصحية',
+    upcomingAppointments: 'المواعيد القادمة',
+    medicalRecords: 'السجلات الطبية',
+    prescriptions: 'الوصفات الطبية',
+    nextAppointment: 'الموعد القادم',
+    noUpcomingAppointments: 'لا توجد مواعيد قادمة',
+    bookAppointment: 'حجز موعد',
+    recentVisits: 'الزيارات الحديثة',
+    visitHistoryWillAppear: 'سيظهر تاريخ زياراتك هنا',
+    
     // Staff Management
-    addStaffMember: "إضافة موظف",
-    staffRegistrationForm: "نموذج تسجيل الموظفين",
-    addNewDoctorSecretary: "إضافة طبيب أو سكرتير جديد إلى عيادتك",
-    role: "الدور",
-    name: "الاسم",
-    phone: "الهاتف",
-    secretary: "سكرتير",
-    doctor: "طبيب",
-    doctorInformation: "معلومات الطبيب",
-    specialization: "التخصص",
-    clinicRoom: "غرفة العيادة",
-    availableDays: "الأيام المتاحة",
-    availableDaysExample: "مثال: الاثنين، الأربعاء، الجمعة أو الأحد-الخميس",
-    adding: "جارٍ الإضافة...",
-
+    addStaffMember: 'إضافة موظف',
+    staffRegistrationForm: 'نموذج تسجيل الموظفين',
+    addNewDoctorSecretary: 'إضافة طبيب أو سكرتير جديد إلى عيادتك',
+    role: 'الدور',
+    name: 'الاسم',
+    phone: 'الهاتف',
+    secretary: 'سكرتير',
+    doctor: 'طبيب',
+    doctorInformation: 'معلومات الطبيب',
+    specialization: 'التخصص',
+    clinicRoom: 'غرفة العيادة',
+    availableDays: 'الأيام المتاحة',
+    availableDaysExample: 'مثال: الاثنين، الأربعاء، الجمعة أو الأحد-الخميس',
+    adding: 'جارٍ الإضافة...',
+    
     // Join Us page
-    joinTitle: "انضم إلى منصة عيادات فلسطين",
-    joinSubtitle: "سجل عيادتك وابدأ في إدارة الرعاية الصحية بكفاءة",
-    clinicInfo: "معلومات العيادة",
-    speciality: "التخصص (اختياري)",
-    address: "العنوان",
-    clinicPhone: "هاتف العيادة",
-    clinicEmail: "بريد العيادة الإلكتروني",
-    subscriptionPlan: "خطة الاشتراك",
-    logo: "شعار العيادة (اختياري)",
-    managerInfo: "معلومات المدير",
-    managerName: "اسم المدير",
-    managerEmail: "البريد الإلكتروني للمدير",
-    managerPhone: "هاتف المدير",
-    confirmPassword: "تأكيد كلمة المرور",
-    register: "تسجيل العيادة",
-    alreadyHaveAccount: "لديك حساب بالفعل؟",
-    loginHere: "تسجيل الدخول هنا",
-    selectPlan: "اختر خطة",
-    basic: "أساسية",
-    standard: "قياسية",
-    premium: "مميزة",
-    registering: "جارٍ التسجيل...",
-
+    joinTitle: 'انضم إلى منصة عيادات فلسطين',
+    joinSubtitle: 'سجل عيادتك وابدأ في إدارة الرعاية الصحية بكفاءة',
+    clinicInfo: 'معلومات العيادة',
+    speciality: 'التخصص (اختياري)',
+    address: 'العنوان',
+    clinicPhone: 'هاتف العيادة',
+    clinicEmail: 'بريد العيادة الإلكتروني',
+    subscriptionPlan: 'خطة الاشتراك',
+    logo: 'شعار العيادة (اختياري)',
+    managerInfo: 'معلومات المدير',
+    managerName: 'اسم المدير',
+    managerEmail: 'البريد الإلكتروني للمدير',
+    managerPhone: 'هاتف المدير',
+    confirmPassword: 'تأكيد كلمة المرور',
+    register: 'تسجيل العيادة',
+    alreadyHaveAccount: 'لديك حساب بالفعل؟',
+    loginHere: 'تسجيل الدخول هنا',
+    selectPlan: 'اختر خطة',
+    basic: 'أساسية',
+    standard: 'قياسية',
+    premium: 'مميزة',
+    registering: 'جارٍ التسجيل...',
+    
     // Demo credentials
-    demoCredentials: "🔐 بيانات التجربة:",
-    admin: "المدير:",
-    manager: "مدير العيادة:",
-    doctorLabel: "الطبيب:",
-
+    demoCredentials: '🔐 بيانات التجربة:',
+    admin: 'المدير:',
+    manager: 'مدير العيادة:',
+    doctorLabel: 'الطبيب:',
+    
     // Copyright
-    copyright: "© 2025 منصة عيادات فلسطين. جميع الحقوق محفوظة.",
-
+    copyright: '© 2025 منصة عيادات فلسطين. جميع الحقوق محفوظة.',
+    
     // Flash messages
-    staffMemberAddedSuccessfully: "تم إضافة الموظف بنجاح",
-
-    // لوحة تحكم الاستقبال
-    welcomeReception: "أهلاً بك في لوحة تحكم الاستقبال",
-    receptionSubTitle: "إدارة تسجيل المرضى، المواعيد والتقارير المالية اليومية",
-
-    statusConfirmed: "مؤكد",
-    statusWaiting: "بانتظار الحضور",
-    statusCheckedIn: "تم الاستقبال",
-
-    todaysAppointmentsTitle: "مواعيد اليوم",
-    todaysAppointmentsSubtitle: "أقرب المواعيد خلال الساعات القادمة",
-    manageAllAppointments: "إدارة جميع المواعيد",
-
-    waitingRoomTitle: "غرفة الانتظار الآن",
-    waitingRoomSubtitle: "ترتيب المرضى حسب رقم الدور",
-
-    quickSummaryTitle: "ملخص سريع",
-    quickSummaryPatientsWaiting: "مرضى بانتظار الاستقبال الآن",
-    quickSummaryReminder:
-      "تذكير: تأكدي من مراجعة طلبات المواعيد الجديدة وتأكيد المعتمَد منها",
-
-    quickActionsReception: "الإجراءات السريعة للسكرتير",
-
-    appointmentDetailsEdit: "تفاصيل / تعديل",
-    waitingRoomCheckin: "استقبال / تسجيل دخول",
-    appointmentRequests: "طلبات مواعيد معلّقة",
-    // كروت الإجراءات السريعة
-    qaNewPatientLabel: "مريض جديد",
-    qaNewPatientTitle: "تسجيل مريض جديد وإنشاء حساب تلقائي",
-    qaNewPatientDesc:
-      "إدخال الاسم، رقم الهوية، رقم الهاتف – مع إرسال كلمة المرور عبر SMS.",
-
-    qaSearchPatientLabel: "البحث عن مريض",
-    qaSearchPatientTitle: "الوصول لملف مريض سابق",
-    qaSearchPatientDesc:
-      "البحث باستخدام رقم الهوية أو رقم الهاتف لفتح الملف الطبي.",
-
-    qaRequestsLabel: "طلبات المواعيد",
-    qaRequestsTitle: "مراجعة الطلبات القادمة من البوابة الإلكترونية",
-    qaRequestsDesc: "تدقيق التفاصيل وإرسال الطلب للطبيب المناسب للموافقة.",
-
-    qaConfirmLabel: "تأكيد المواعيد",
-    qaConfirmTitle: "اعتماد الموعد بعد موافقة الطبيب",
-    qaConfirmDesc: "تحويل حالة الموعد إلى 'فعال' مع إرسال رسالة تأكيد للمريض.",
-
-    qaDailyReportLabel: "التقرير المالي اليومي",
-    qaDailyReportTitle: "إحصاء المبالغ المالية الداخلة اليوم",
-    qaDailyReportDesc:
-      "إجمالي المبالغ المستلمة، عدد الفواتير المدفوعة وغير المدفوعة، وإجمالي النقدي والإلكتروني.",
-    // صفحة المريض الجديد
-    patientsManagement: "إدارة المرضى",
-    newPatient: "تسجيل مريض جديد",
-    newPatientSubtitle:
-      "أدخل بيانات المريض الأساسية ليتم إنشاء حساب له وإرسال كلمة المرور تلقائياً.",
-
-    fullNameLabel: "الاسم الكامل",
-    fullNamePlaceholder: "اكتب الاسم الثلاثي أو الرباعي",
-    nationalIdLabel: "رقم الهوية",
-    nationalIdPlaceholder: "مثال: 123456789",
-    nationalIdHint: "يُستخدم للتأكد من عدم تكرار تسجيل نفس المريض.",
-    phoneLabel: "رقم الهاتف",
-    phonePlaceholder: "مثال: 0599123456",
-    phoneHint: "سيتم إرسال كلمة المرور الأولى لهذا الرقم عبر رسالة SMS.",
-
-    clearForm: "مسح الحقول",
-    saveAndSendPassword: "حفظ وإرسال كلمة المرور",
-    saving: "جاري الحفظ...",
-
-    newPatientTipsTitle: "إرشادات تسجيل مريض جديد",
-    newPatientTipsBody:
-      "تأكّد من مطابقة بيانات الهوية ورقم الهاتف مع الوثائق الرسمية الخاصة بالمريض، لأن هذه المعلومات ستُستخدم لاحقاً في تسجيل الدخول للبوابة الإلكترونية وفي التواصل معه.",
-    newPatientTip1: "تجنّب إدخال أسماء مختصرة قدر الإمكان.",
-    newPatientTip2: "تأكد من كتابة رقم الهاتف بشكل صحيح مع المقدمة.",
-    newPatientTip3: "أبلغ المريض بأن كلمة المرور أُرسلت على هاتفه.",
-    newPatientFooter:
-      "عند حفظ البيانات، يقوم النظام تلقائياً بإنشاء حساب للمريض وإرسال كلمة مرور مؤقتة يمكنه تغييرها لاحقاً من خلال البوابة الإلكترونية.",
-
-    newPatientSuccess: "تم إنشاء حساب المريض وإرسال كلمة المرور عبر SMS.",
-    newPatientServerError: "حدث خطأ أثناء إنشاء المريض. حاول مرة أخرى.",
-
-    // حقول إضافية لنموذج المريض
-    dateOfBirthLabel: "تاريخ الميلاد",
-    genderLabel: "الجنس",
-    male: "ذكر",
-    female: "أنثى",
-    other: "آخر",
-    addressLabel: "العنوان",
-    addressPlaceholder: "مثال: غزة، حي الرمال",
-    bloodTypeLabel: "فصيلة الدم",
-    bloodTypePlaceholder: "مثال: O+, A-, B+",
-    optional: "اختياري",
-    allergiesLabel: "الحساسية",
-    allergiesPlaceholder: "أدخل أي حساسية أو ملاحظات طبية مهمة",
+    staffMemberAddedSuccessfully: 'تم إضافة الموظف بنجاح',
   },
 };
 
