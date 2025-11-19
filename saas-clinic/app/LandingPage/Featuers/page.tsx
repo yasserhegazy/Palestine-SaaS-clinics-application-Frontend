@@ -20,14 +20,14 @@ export default function FeaturesSection() {
   const t = translations[language as keyof typeof translations];
 
   const features = [
-    { icon: <FiUser size={40} color="#0d9488"/>, title: t.patientInfo, desc: t.patientInfoDesc },
-    { icon: <FiClipboard size={40} color="#0d9488"/>, title: t.medicalRecords, desc: t.medicalRecordsDesc },
-    { icon: <FiFileText size={40} color="#0d9488"/>, title: t.prescriptions, desc: t.prescriptionsDesc },
-    { icon: <FiFile size={40} color="#0d9488"/>, title: t.images, desc: t.imagesDesc },
-    { icon: <FiActivity size={40} color="#0d9488"/>, title: t.reports, desc: t.reportsDesc },
-    { icon: <FiUser size={40} color="#0d9488"/>, title: t.staff, desc: t.staffDesc },
-    { icon: <FiDollarSign size={40} color="#0d9488"/>, title: t.billing, desc: t.billingDesc },
-    { icon: <FiCalendar size={40} color="#0d9488"/>, title: t.appointments, desc: t.appointmentsDesc },
+    { icon: <FiUser size={40} className="text-teal-600"/>, title: t.patientInfo, desc: t.patientInfoDesc },
+    { icon: <FiClipboard size={40} className="text-teal-600"/>, title: t.medicalRecords, desc: t.medicalRecordsDesc },
+    { icon: <FiFileText size={40} className="text-teal-600"/>, title: t.prescriptions, desc: t.prescriptionsDesc },
+    { icon: <FiFile size={40} className="text-teal-600"/>, title: t.images, desc: t.imagesDesc },
+    { icon: <FiActivity size={40} className="text-teal-600"/>, title: t.reports, desc: t.reportsDesc },
+    { icon: <FiUser size={40} className="text-teal-600"/>, title: t.staff, desc: t.staffDesc },
+    { icon: <FiDollarSign size={40} className="text-teal-600"/>, title: t.billing, desc: t.billingDesc },
+    { icon: <FiCalendar size={40} className="text-teal-600"/>, title: t.appointments, desc: t.appointmentsDesc },
   ];
 
   return (

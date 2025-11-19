@@ -9,9 +9,9 @@
     "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* ألوان المشروع الأساسية */
-  --color-primary: #1E88E5;      /* الأزرق الأساسي */
-  --color-primary-dark: #0D47A1; /* الأزرق الداكن */
-  --color-primary-light: #BBDEFB;/* الأزرق الفاتح */
+  --color-primary: #0d9488;      /* التيل الأساسي (teal-600) */
+  --color-primary-dark: #0f766e; /* التيل الداكن (teal-700) */
+  --color-primary-light: #5eead4;/* التيل الفاتح (teal-300) */
   --color-gray-light: #F5F5F5;   /* الرمادي الفاتح */
   --color-gray-dark: #424242;    /* الرمادي الغامق */
 
@@ -28,9 +28,9 @@
    ======================= */
 @media (prefers-color-scheme: dark) {
   :root {
-    --color-primary: #90CAF9;       /* أزرق فاتح للوضع الليلي */
-    --color-primary-dark: #42A5F5;
-    --color-primary-light: #E3F2FD;
+    --color-primary: #5eead4;       /* تيل فاتح للوضع الليلي (teal-300) */
+    --color-primary-dark: #2dd4bf;  /* تيل متوسط (teal-400) */
+    --color-primary-light: #99f6e4; /* تيل فاتح جداً (teal-200) */
     --color-bg: #0f172a;
     --color-fg: #f8fafc;
     --color-gray-light: #1e293b;

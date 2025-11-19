@@ -12,10 +12,10 @@ export default function WhyUsSection() {
   const t = translations[language as keyof typeof translations];
 
   const cards = [
-    { title: t.fastBooking, description: t.fastBookingDesc, icon: <FiClock size={50} color="#0d9488" /> },
-    { title: t.patientTracking, description: t.patientTrackingDesc, icon: <FiUserCheck size={50} color="#0d9488" /> },
-    { title: t.workflow, description: t.workflowDesc, icon: <FiTrendingUp size={50} color="#0d9488" /> },
-    { title: t.support, description: t.supportDesc, icon: <FiHeadphones size={50} color="#0d9488" /> },
+    { title: t.fastBooking, description: t.fastBookingDesc, icon: <FiClock size={50} className="text-teal-600" /> },
+    { title: t.patientTracking, description: t.patientTrackingDesc, icon: <FiUserCheck size={50} className="text-teal-600" /> },
+    { title: t.workflow, description: t.workflowDesc, icon: <FiTrendingUp size={50} className="text-teal-600" /> },
+    { title: t.support, description: t.supportDesc, icon: <FiHeadphones size={50} className="text-teal-600" /> },
   ];
 
   return (

@@ -1,12 +1,12 @@
 .landing-page {
-  --color-primary: #1e88e5;
-  --color-primary-dark: #0d47a1;
-  --color-primary-light: #bbdefb;
-  --color-primary-lighter: #e3f2fd;
-  --color-cyan: #1e88e5;
-  --color-cyan-dark: #0d47a1;
-  --color-cyan-light: #bbdefb;
-  --color-cyan-bg: #e3f2fd;
+  --color-primary: #0d9488;
+  --color-primary-dark: #0f766e;
+  --color-primary-light: #5eead4;
+  --color-primary-lighter: #ccfbf1;
+  --color-cyan: #06b6d4;
+  --color-cyan-dark: #0891b2;
+  --color-cyan-light: #67e8f9;
+  --color-cyan-bg: #cffafe;
   --color-bg-light: #f5f5f5;
   --color-bg-white: #ffffff;
   --color-gray-900: #111827;
