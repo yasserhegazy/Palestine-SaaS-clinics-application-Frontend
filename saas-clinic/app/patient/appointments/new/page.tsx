@@ -1,11 +1,21 @@
 "use client";
 
-import { useState  } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import apiClient from "@/lib/api";
+
+type Doctor = {
+  doctor_id: number;
+  user_id: number;
+  name: string;
+  specialization: string;
+  available_days: string[];
+  clinic_room: string;
+};
 
 export default function NewAppointmentPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -17,11 +27,42 @@ export default function NewAppointmentPage() {
     date: "",
     time: "",
     doctor: "",
-    clinic: "",
   });
+  const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [loading, setLoading] = useState(false);
+  const [loadingDoctors, setLoadingDoctors] = useState(true);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!isLoading && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, isLoading, router]);
+
+  // Fetch available doctors
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      if (!isAuthenticated || !user) return;
+
+      try {
+        setLoadingDoctors(true);
+        const response = await apiClient.get<{ doctors: Doctor[] }>("/patient/doctors");
+        setDoctors(response.data.doctors);
+      } catch (err) {
+        console.error("Error fetching doctors:", err);
+        setError(
+          language === "ar"
+            ? "فشل تحميل قائمة الأطباء. يرجى تحديث الصفحة."
+            : "Failed to load doctors list. Please refresh the page."
+        );
+      } finally {
+        setLoadingDoctors(false);
+      }
+    };
+
+    fetchDoctors();
+  }, [isAuthenticated, user, language]);
 
   if (isLoading || !user) {
     return (
@@ -42,21 +83,26 @@ export default function NewAppointmentPage() {
     setError(null);
     setMessage(null);
 
-    if (!form.date || !form.time || !form.doctor || !form.clinic) {
+    if (!form.date || !form.time || !form.doctor) {
       setError(
         language === "ar"
           ? "يرجى تعبئة جميع الحقول المطلوبة."
           : "Please fill all required fields."
       );
       return;
-
     }
 
-      
     try {
       setLoading(true);
-      // TODO: استبدل هذا بـ استدعاء حقيقي للباكند
-      await new Promise((res) => setTimeout(res, 1000));
+      
+      // Combine date and time to create appointment_date
+      const appointmentDate = `${form.date} ${form.time}:00`;
+
+      await apiClient.post("/patient/appointments", {
+        doctor_id: parseInt(form.doctor),
+        appointment_date: appointmentDate,
+        notes: "Requested via web portal",
+      });
 
       setMessage(
         language === "ar"
@@ -64,18 +110,25 @@ export default function NewAppointmentPage() {
           : "Your appointment request has been submitted. You will be notified by SMS upon approval."
       );
 
-      setForm({ date: "", time: "", doctor: "", clinic: "" });
-    } catch (err) {
+      setForm({ date: "", time: "", doctor: "" });
+      
+      // Redirect to appointments page after short delay
+      setTimeout(() => {
+        router.push("/patient/appointments");
+      }, 2000);
+
+    } catch (err: any) {
+      console.error("Error creating appointment:", err);
       setError(
-        language === "ar"
+        err.response?.data?.message ||
+        (language === "ar"
           ? "حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى."
-          : "An error occurred while submitting the request. Please try again."
+          : "An error occurred while submitting the request. Please try again.")
       );
     } finally {
       setLoading(false);
     }
-    };
-
+  };
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
@@ -123,6 +176,7 @@ export default function NewAppointmentPage() {
                 name="date"
                 value={form.date}
                 onChange={handleChange}
+                min={new Date().toISOString().split('T')[0]}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
               />
             </div>
@@ -153,17 +207,19 @@ export default function NewAppointmentPage() {
                 name="doctor"
                 value={form.doctor}
                 onChange={handleChange}
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
+                disabled={loadingDoctors}
+                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition disabled:opacity-50"
               >
                 <option value="">
-                  {language === "ar" ? "اختر الطبيب" : "Select a doctor"}
+                  {loadingDoctors 
+                    ? (language === "ar" ? "جاري تحميل الأطباء..." : "Loading doctors...") 
+                    : (language === "ar" ? "اختر الطبيب" : "Select a doctor")}
                 </option>
-                <option value="dr-mohammed">
-                  {language === "ar" ? "د. محمد سالم" : "Dr. Mohammed Salem"}
-                </option>
-                <option value="dr-layla">
-                  {language === "ar" ? "د. ليلى خالد" : "Dr. Layla Khaled"}
-                </option>
+                {doctors.map((doctor) => (
+                  <option key={doctor.doctor_id} value={doctor.doctor_id}>
+                    {doctor.name} - {doctor.specialization}
+                  </option>
+                ))}
               </select>
             </div>
 
@@ -183,7 +239,7 @@ export default function NewAppointmentPage() {
               <button
                 type="button"
                 onClick={() =>
-                  setForm({ date: "", time: "", doctor: "", clinic: "" })
+                  setForm({ date: "", time: "", doctor: "" })
                 }
                 className="px-3 py-2 text-sm rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50"
               >

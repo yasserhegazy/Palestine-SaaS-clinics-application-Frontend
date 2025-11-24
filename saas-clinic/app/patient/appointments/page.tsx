@@ -25,7 +25,7 @@ type BackendAppointment = {
   };
   clinic: {
     clinic_id: number;
-    clinic_name: string;
+    name: string;
   };
 };
 
@@ -88,7 +88,7 @@ export default function MyAppointmentsPage() {
               id: apt.appointment_id.toString(),
               date,
               time,
-              clinic: apt.clinic.clinic_name,
+              clinic: apt.clinic.name,
               doctor: apt.doctor.user.name,
               status,
               notes: apt.notes,
