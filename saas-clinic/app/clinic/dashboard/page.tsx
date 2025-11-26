@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { translations } from '@/lib/translations';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useRoleGuard } from '@/lib/roleGuard';
 
 export default function ClinicDashboard() {
   const { user, logout, clinic, isAuthenticated, isLoading } = useAuth();
@@ -15,6 +16,9 @@ export default function ClinicDashboard() {
   const successMessage = searchParams.get('success');
   const [flashMessage, setFlashMessage] = useState<string>(successMessage || '');
   const t = translations[language];
+  
+  // Protect route - only clinic managers can access
+  useRoleGuard(['Manager']);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {

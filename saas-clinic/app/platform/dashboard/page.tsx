@@ -6,12 +6,16 @@ import { translations } from '@/lib/translations';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useRoleGuard } from '@/lib/roleGuard';
 
 export default function PlatformDashboard() {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
   const { language } = useLanguage();
   const t = translations[language];
   const router = useRouter();
+  
+  // Protect route - only platform admins can access
+  useRoleGuard([], true); // Empty array for roles, true for requirePlatformAdmin
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {

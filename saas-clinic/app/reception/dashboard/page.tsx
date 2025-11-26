@@ -6,12 +6,16 @@ import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
+import { useRoleGuard } from "@/lib/roleGuard";
 
 export default function ReceptionDashboard() {
   const { user, logout, clinic, isAuthenticated, isLoading } = useAuth();
   const { language } = useLanguage();
   const t = translations[language];
   const router = useRouter();
+  
+  // Protect route - only secretaries can access
+  useRoleGuard(['Secretary']);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
