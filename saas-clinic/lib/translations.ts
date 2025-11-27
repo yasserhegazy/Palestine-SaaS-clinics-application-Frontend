@@ -174,6 +174,35 @@ export const translations = {
     availableDaysExample: "Example: Monday, Wednesday, Friday or Sun-Thu",
     adding: "Adding...",
 
+    // Management Staff
+    managementStaff: "Management Staff",
+    manageEmployees: "Manage clinic employees",
+    staff_addMember: "Add Staff Member",
+    staffManagementTitle: "Staff Management",
+    staffDetailsTitle: "Staff Details",
+    searchPlaceholder: "Search…",
+    filterAll: "All",
+    filterDoctor: "Doctor",
+    filterSecretary: "Secretary",
+    colStatus: "Status",
+    colActions: "Actions",
+    colName: "Name",
+    colEmail: "Email",
+    colPhone: "Phone",
+    btnView: "View",
+    btnEdit: "Edit",
+    btnDelete: "Delete",
+    btnBack: "Back",
+    noRecordsMessage: "No records found",
+    colRole: "Role",
+    colSpecialization: "Specialization",
+    colWorkingHours: "Working Hours",
+    editStaffTitle: "Edit Staff Member",
+    deleteStaffTitle: "Delete Staff Member",
+    deleteConfirmationMessage: "Are you sure you want to delete this staff member? This action cannot be undone.",
+    btnCancel: "Cancel",
+    btnSave: "Save Changes",
+
     // Join Us page
     joinTitle: "Join Palestine Clinics SaaS",
     joinSubtitle:
@@ -311,27 +340,15 @@ export const translations = {
     allergiesLabel: "Allergies",
     allergiesPlaceholder: "Enter any allergies or important medical notes",
 
-    // Search patient
-    searchPatient: "Search for a patient",
-    searchPatientSubtitle:
-      "Search using the national ID or phone number to access the patient file.",
-    searchPatientServerError:
-      "An error occurred while searching for the patient. Please try again.",
-    searchPatientLabel: "Enter national ID or phone number to search",
-    searchPatientHint:
-      "You can search by full national ID or the phone number registered in the system.",
-    search: "Search",
-    noPatientsFound: "No patients found matching your search.",
-
-    // Appointment requests
-    appointmentRequestsTitle: "Appointment requests",
+    // Appointment Requests
+    appointmentRequestsTitle: "Appointment Requests",
     appointmentRequestsSubtitle:
-      "Review requests coming from the online portal, verify details, and forward them to the appropriate doctor for approval or changes.",
+      "Review upcoming requests from the portal, check details, and assign to the appropriate doctor.",
     appointmentRequestsSearchPlaceholder:
-      "Search by name, national ID, phone, request number...",
-    appointmentRequestsCountLabel: "Requests count",
+      "Search by name, ID, phone, request number...",
+    appointmentRequestsCountLabel: "Number of requests",
     appointmentRequestsNoResults:
-      "No requests match the current search or filter.",
+      "No requests match the search or current filter.",
 
     appointmentStatusAll: "All",
     appointmentStatusNew: "New",
@@ -339,26 +356,29 @@ export const translations = {
     appointmentStatusRejected: "Rejected",
     appointmentStatusRescheduled: "Rescheduled",
 
-    appointmentDetailsTitle: "Appointment request details",
-    appointmentDetailsRequestNumber: "Request number",
-    appointmentDetailsPatientName: "Patient name",
+    appointmentDetailsTitle: "Appointment Request Details",
+    appointmentDetailsRequestNumber: "Request Number",
+    appointmentDetailsPatientName: "Patient Name",
     appointmentDetailsNationalId: "National ID",
-    appointmentDetailsPhone: "Phone number",
-    appointmentDetailsSource: "Source",
+    appointmentDetailsPhone: "Phone Number",
+    appointmentDetailsSource: "Request Source",
     appointmentDetailsSpecialty: "Specialty",
-    appointmentDetailsDoctor: "Requested doctor",
-    appointmentDetailsPreferredSlot: "Preferred appointment",
-    appointmentDetailsCurrentStatus: "Current status",
-    appointmentDetailsComplaint: "Case description / complaint",
-    appointmentDetailsDate: "Appointment date",
-    appointmentDetailsTime: "Appointment time",
+    appointmentDetailsDoctor: "Requested Doctor",
+    appointmentDetailsPreferredSlot: "Preferred Slot",
+    appointmentDetailsCurrentStatus: "Current Status",
+    appointmentDetailsComplaint: "Condition Description / Complaint",
+    appointmentDetailsDate: "Appointment Date",
+    appointmentDetailsTime: "Appointment Time",
     appointmentDetailsNoteLabel:
-      "Note (will appear in the appointment file / can be sent to the patient)",
+      "Note (appears in appointment file / can be sent to patient)",
 
     appointmentActionApprove: "Approve appointment",
     appointmentActionReschedule: "Reschedule",
     appointmentActionReject: "Reject request",
     appointmentActionClose: "Cancel / Close",
+    search: "Search",
+    noPatientsFound: "No patients found matching the search criteria.",
+    searchPatientServerError: "An error occurred while searching for the patient. Please try again.",
   },
   ar: {
     // Header
@@ -455,9 +475,6 @@ export const translations = {
     dontHaveAccount: 'ليس لديك حساب؟',
     registerClinic: 'سجل عيادتك',
 
-    //Footer 
-     rightsReserved: "جميع الحقوق محفوظة.",
-    
     // Dashboard common
     logout: 'تسجيل الخروج',
     back: 'رجوع',
@@ -474,7 +491,7 @@ export const translations = {
       'نبحث تلقائياً عن أول خمسة مرضى يطابقون البداية التي أدخلتها (هوية أو هاتف).',
     sessionExpired: 'انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.',
     notAuthorized: 'ليست لديك صلاحية للوصول إلى هذا القسم.',
-    
+
     // Platform Dashboard
     platformDashboard: 'لوحة تحكم المنصة',
     totalClinics: 'إجمالي العيادات',
@@ -495,7 +512,7 @@ export const translations = {
     actions: 'الإجراءات',
     active: 'نشط',
     view: 'عرض',
-    
+
     // Clinic Dashboard
     clinicManagement: 'إدارة العيادة',
     todaysAppointments: 'مواعيد اليوم',
@@ -507,7 +524,7 @@ export const translations = {
     doctorAvailability: 'توفر الأطباء',
     reports: 'التقارير',
     clinicAnalytics: 'تحليلات العيادة',
-    
+
     // Reception Dashboard
     receptionDashboard: 'لوحة تحكم الاستقبال',
     checkinsToday: 'تسجيل الحضور اليوم',
@@ -516,7 +533,7 @@ export const translations = {
     quickActions: 'إجراءات سريعة',
     newAppointment: 'موعد جديد',
     patientCheckin: 'تسجيل حضور المريض',
-    
+
     // Patient Dashboard
     patientPortal: 'بوابة المريض',
     yourHealthRecords: 'سجلاتك الصحية',
@@ -528,7 +545,7 @@ export const translations = {
     bookAppointment: 'حجز موعد',
     recentVisits: 'الزيارات الحديثة',
     visitHistoryWillAppear: 'سيظهر تاريخ زياراتك هنا',
-    
+
     // Staff Management
     addStaffMember: 'إضافة موظف',
     staffRegistrationForm: 'نموذج تسجيل الموظفين',
@@ -544,8 +561,35 @@ export const translations = {
     availableDays: 'الأيام المتاحة',
     availableDaysExample: 'مثال: الاثنين، الأربعاء، الجمعة أو الأحد-الخميس',
     adding: 'جارٍ الإضافة...',
-    
-    
+
+    managementStaff: "إدارة الموظفين",
+    manageEmployees: "إدارة موظفي العيادة",
+    staffManagementTitle: "إدارة الموظفين",
+    staffDetailsTitle: "تفاصيل الموظفين",
+    searchPlaceholder: "بحث…",
+    filterAll: "الكل",
+    filterDoctor: "دكتور",
+    filterSecretary: "سكرتير",
+    colStatus: "الحالة",
+    colActions: "الإجراءات",
+    colName: "الاسم",
+    colEmail: "البريد الإلكتروني",
+    colPhone: "الهاتف",
+    btnView: "عرض",
+    btnEdit: "تعديل",
+    btnDelete: "حذف",
+    btnBack: "رجوع",
+    noRecordsMessage: "لا توجد سجلات",
+    colRole: "الدور",
+    colSpecialization: "التخصص",
+    colWorkingHours: "ساعات العمل",
+    editStaffTitle: "تعديل بيانات الموظف",
+    deleteStaffTitle: "حذف الموظف",
+    deleteConfirmationMessage: "هل أنت متأكد أنك تريد حذف هذا الموظف؟ لا يمكن التراجع عن هذا الإجراء.",
+    btnCancel: "إلغاء",
+    btnSave: "حفظ التغييرات",
+
+
     joinTitle: "انضم إلى منصة عيادات فلسطين",
     joinSubtitle: "سجل عيادتك وابدأ في إدارة الرعاية الصحية بكفاءة",
     clinicInfo: "معلومات العيادة",
@@ -574,10 +618,7 @@ export const translations = {
     admin: 'المدير:',
     manager: 'مدير العيادة:',
     doctorLabel: 'الطبيب:',
-    
-    // Copyright
-    copyright: '© 2025 منصة عيادات فلسطين. جميع الحقوق محفوظة.',
-    
+
     // Flash messages
     staffMemberAddedSuccessfully: "تم إضافة الموظف بنجاح",
 
@@ -660,14 +701,11 @@ export const translations = {
     newPatientSuccess: "تم إنشاء حساب المريض وإرسال كلمة المرور عبر SMS.",
     newPatientServerError: "حدث خطأ أثناء إنشاء المريض. حاول مرة أخرى.",
     // searchPatientServerError: "حدث خطأ أثناء البحث عن المريض. حاول مرة أخرى.",
-    patientsManagement: "إدارة المرضى",
-    back: "رجوع",
 
     // البحث عن مريض
     searchPatient: "البحث عن مريض",
     searchPatientSubtitle:
       "ابحث باستخدام رقم الهوية أو رقم الهاتف للوصول إلى ملف المريض.",
-    searchPatientServerError: "حدث خطأ أثناء البحث عن المريض. حاول مرة أخرى.",
     searchPatientLabel: "أدخل رقم الهوية أو رقم الهاتف للبحث عن المريض",
     searchPatientHint:
       "يمكنك البحث برقم الهوية الكامل أو رقم الهاتف المسجل في النظام.",
