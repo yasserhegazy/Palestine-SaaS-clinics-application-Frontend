@@ -14,7 +14,7 @@ import {
 } from '@heroicons/react/24/outline';
 
 export default function StaffManagementPage() {
-  const { clinic } = useAuth();
+  const { clinic, token } = useAuth();
   const { language } = useLanguage();
   const t = translations[language];
 
@@ -41,7 +41,7 @@ export default function StaffManagementPage() {
     handleDeleteClick,
     confirmDelete,
     setIsDeleteModalOpen
-  } = useStaff();
+  } = useStaff(token);
 
   // Wrapper for form submission
   const onUpdateSubmit = (e: React.FormEvent) => {
