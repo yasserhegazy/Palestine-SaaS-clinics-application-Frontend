@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 
+
 type AppointmentStatus = "new" | "approved" | "rejected" | "rescheduled";
 
 interface AppointmentRequest {
@@ -40,6 +41,7 @@ const initialRequests: AppointmentRequest[] = [
     portalSource: "البوابة الإلكترونية",
     complaint: "ألم مستمر في الركبة اليمنى منذ شهر.",
   },
+
   {
     id: "REQ-1002",
     patientName: "سارة علي",
@@ -55,6 +57,7 @@ const initialRequests: AppointmentRequest[] = [
     complaint: "حرارة عالية وتقيؤ منذ يومين.",
   },
 ];
+
 
 export default function AppointmentRequestsPage() {
   const [requests, setRequests] =
