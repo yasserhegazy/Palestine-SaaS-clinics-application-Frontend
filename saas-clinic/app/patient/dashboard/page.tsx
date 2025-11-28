@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import apiClient from "@/lib/api";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
@@ -31,78 +32,48 @@ export default function PatientDashboard() {
     );
   }
 
-  const firstName = user.name?.split(" ")[0] || user.name;
+  // State for dashboard data
+  const [dashboardData, setDashboardData] = useState<any>(null);
+  const [upcomingAppointments, setUpcomingAppointments] = useState<any[]>([]);
+  const [loadingData, setLoadingData] = useState(true);
 
-  // بيانات وهمية مؤقتًا (استبدلها لاحقًا بـ API)
-  const upcomingAppointments = [
-    {
-      date: "2025-03-12",
-      time: "09:30",
-      clinic: language === "ar" ? "عيادة القلب" : "Cardiology Clinic",
-      doctor: language === "ar" ? "د. محمد سالم" : "Dr. Mohammed Salem",
-      status: "confirmed",
-    },
-    {
-      date: "2025-03-20",
-      time: "11:00",
-      clinic: language === "ar" ? "عيادة الباطنية" : "Internal Medicine",
-      doctor: language === "ar" ? "د. ليلى خالد" : "Dr. Layla Khaled",
-      status: "pending",
-    },
-  ];
+  // Fetch dashboard data
+  useEffect(() => {
+    const fetchData = async () => {
+      if (!isAuthenticated) return;
+      
+      try {
+        setLoadingData(true);
+        const [statsRes, appointmentsRes] = await Promise.all([
+          apiClient.get('/patient/dashboard/stats'),
+          apiClient.get('/patient/appointments/upcoming')
+        ]);
 
-  const recentVisits = [
-    {
-      date: "2025-02-28",
-      clinic: language === "ar" ? "عيادة الجلدية" : "Dermatology Clinic",
-      doctor: language === "ar" ? "د. حازم ربيع" : "Dr. Hazem Rabee",
-      notes:
-        language === "ar"
-          ? "متابعة حساسية جلدية ووصف كريم موضعي."
-          : "Follow-up for skin allergy and topical cream prescribed.",
-    },
-    {
-      date: "2025-01-15",
-      clinic: language === "ar" ? "عيادة العيون" : "Ophthalmology",
-      doctor: language === "ar" ? "د. سناء شحادة" : "Dr. Sanaa Shahada",
-      notes:
-        language === "ar"
-          ? "فحص نظر شامل وتحديث النظارة الطبية."
-          : "Full eye exam and updated glasses prescription.",
-    },
-  ];
+        setDashboardData(statsRes.data);
+        setUpcomingAppointments(appointmentsRes.data.appointments);
+      } catch (error) {
+        console.error("Failed to fetch dashboard data:", error);
+      } finally {
+        setLoadingData(false);
+      }
+    };
 
-  const prescriptions = [
-    {
-      name: language === "ar" ? "دواء الضغط" : "Blood pressure medication",
-      doctor: language === "ar" ? "د. محمد سالم" : "Dr. Mohammed Salem",
-      issuedAt: "2025-02-28",
-      active: true,
-    },
-    {
-      name: language === "ar" ? "مرهم موضعي" : "Topical ointment",
-      doctor: language === "ar" ? "د. حازم ربيع" : "Dr. Hazem Rabee",
-      issuedAt: "2025-02-10",
-      active: false,
-    },
-  ];
+    fetchData();
+  }, [isAuthenticated]);
+
+  const firstName = user?.name?.split(" ")[0] || user?.name;
 
   const getStatusBadge = (status: string) => {
-    if (status === "confirmed") {
+    if (status === "Approved" || status === "confirmed") {
       return (
         <div className="flex flex-col items-end gap-0.5">
           <span className="inline-flex items-center rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-medium text-emerald-700">
             {language === "ar" ? "مؤكد" : "Confirmed"}
           </span>
-          <span className="text-[10px] text-emerald-700/80">
-            {language === "ar"
-              ? "تم إرسال SMS بالتأكيد"
-              : "SMS confirmation sent"}
-          </span>
         </div>
       );
     }
-    if (status === "pending") {
+    if (status === "Requested" || status === "Pending Doctor Approval" || status === "pending") {
       return (
         <span className="inline-flex items-center rounded-full bg-amber-50 px-2.5 py-0.5 text-[11px] font-medium text-amber-700">
           {language === "ar" ? "بانتظار الموافقة" : "Pending approval"}
@@ -196,7 +167,7 @@ export default function PatientDashboard() {
               {t.upcomingAppointments}
             </p>
             <p className="text-2xl font-bold text-slate-900">
-              {upcomingAppointments.length}
+              {loadingData ? "..." : dashboardData?.stats?.upcoming_appointments || 0}
             </p>
             <p className="mt-1 text-[11px] text-slate-500">
               {language === "ar"
@@ -206,7 +177,9 @@ export default function PatientDashboard() {
           </div>
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col justify-between">
             <p className="text-xs text-slate-500 mb-1">{t.medicalRecords}</p>
-            <p className="text-2xl font-bold text-slate-900">18</p>
+            <p className="text-2xl font-bold text-slate-900">
+              {loadingData ? "..." : dashboardData?.stats?.medical_records || 0}
+            </p>
             <p className="mt-1 text-[11px] text-slate-500">
               {language === "ar"
                 ? "تقارير وفحوصات محفوظة في ملفك"
@@ -216,7 +189,7 @@ export default function PatientDashboard() {
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col justify-between">
             <p className="text-xs text-slate-500 mb-1">{t.prescriptions}</p>
             <p className="text-2xl font-bold text-slate-900">
-              {prescriptions.filter((p) => p.active).length}
+              {loadingData ? "..." : dashboardData?.stats?.prescriptions || 0}
             </p>
             <p className="mt-1 text-[11px] text-slate-500">
               {language === "ar"
@@ -312,7 +285,9 @@ export default function PatientDashboard() {
               </button>
             </div>
 
-            {upcomingAppointments.length === 0 ? (
+            {loadingData ? (
+              <div className="p-6 text-center text-sm text-slate-500">Loading...</div>
+            ) : upcomingAppointments.length === 0 ? (
               <div className="p-6">
                 <p className="text-sm text-slate-500">
                   {t.noUpcomingAppointments}
@@ -326,7 +301,7 @@ export default function PatientDashboard() {
               </div>
             ) : (
               <div className="divide-y">
-                {upcomingAppointments.map((app, idx) => (
+                {upcomingAppointments.map((app: any, idx: number) => (
                   <div
                     key={idx}
                     className="px-4 sm:px-5 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 hover:bg-slate-50 transition"
@@ -334,20 +309,20 @@ export default function PatientDashboard() {
                     <div className="flex items-center gap-3">
                       <div className="flex flex-col items-center justify-center rounded-xl bg-slate-900 text-white px-3 py-2 text-center">
                         <span className="text-xs font-semibold">
-                          {app.date}
+                          {new Date(app.appointment_date).toLocaleDateString()}
                         </span>
                         <span className="text-[11px] opacity-80">
-                          {app.time}
+                          {new Date(app.appointment_date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                         </span>
                       </div>
                       <div>
                         <p className="text-sm font-semibold text-slate-900">
-                          {app.clinic}
+                          {app.clinic?.name || "Clinic"}
                         </p>
                         <p className="text-xs text-slate-500 mt-0.5">
                           {language === "ar"
-                            ? `مع ${app.doctor}`
-                            : `With ${app.doctor}`}
+                            ? `مع ${app.doctor?.user?.name}`
+                            : `With ${app.doctor?.user?.name}`}
                         </p>
                       </div>
                     </div>
@@ -378,7 +353,10 @@ export default function PatientDashboard() {
               </p>
             </div>
             <div className="p-4 sm:p-5 space-y-3">
-              {prescriptions.map((p, idx) => (
+              {loadingData ? (
+                 <div className="text-center text-sm text-slate-500">Loading...</div>
+              ) : dashboardData?.recent_prescriptions?.length > 0 ? (
+                dashboardData.recent_prescriptions.map((p: any, idx: number) => (
                 <div
                   key={idx}
                   className="border border-slate-100 rounded-xl px-3 py-2.5 bg-slate-50/60 flex flex-col gap-1"
@@ -412,7 +390,11 @@ export default function PatientDashboard() {
                     {p.issuedAt}
                   </p>
                 </div>
-              ))}
+              ))) : (
+                <div className="text-center text-sm text-slate-500">
+                  {language === "ar" ? "لا توجد وصفات طبية حديثة" : "No recent prescriptions"}
+                </div>
+              )}
             </div>
           </div>
         </section>
