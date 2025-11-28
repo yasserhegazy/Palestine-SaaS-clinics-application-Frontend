@@ -8,6 +8,8 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRoleGuard } from "@/lib/roleGuard";
+import DashboardHero from "@/components/DashboardHero";
+import StatCard from "@/components/StatCard";
 
 export default function PatientDashboard() {
   const { user, logout, isAuthenticated, isLoading } = useAuth();
@@ -23,14 +25,6 @@ export default function PatientDashboard() {
       router.push("/login");
     }
   }, [isAuthenticated, isLoading, router]);
-
-  if (isLoading || !user) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
-      </div>
-    );
-  }
 
   // State for dashboard data
   const [dashboardData, setDashboardData] = useState<any>(null);
@@ -60,6 +54,14 @@ export default function PatientDashboard() {
 
     fetchData();
   }, [isAuthenticated]);
+
+  if (isLoading || !user) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600"></div>
+      </div>
+    );
+  }
 
   const firstName = user?.name?.split(" ")[0] || user?.name;
 
@@ -112,37 +114,25 @@ export default function PatientDashboard() {
 
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* هيرو */}
-        <section className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 rounded-2xl p-6 sm:p-7 text-white shadow-md relative overflow-hidden">
-          <div className="absolute inset-y-0 right-0 w-40 opacity-20 bg-[radial-gradient(circle_at_top,_#ffffff_0,_transparent_60%)]" />
-          <div className="relative flex flex-col md:flex-row justify-between gap-4">
-            <div>
-              <p className="text-xs text-teal-100 mb-1">
-                {language === "ar"
-                  ? "مرحباً بعودتك"
-                  : "Welcome back to your portal"}
-              </p>
-              <h2 className="text-2xl font-bold mb-1">
-                {language === "ar"
-                  ? `أهلاً، ${firstName} 👋`
-                  : `Hello, ${firstName} 👋`}
-              </h2>
-              <p className="text-sm text-teal-100 max-w-xl">
-                {language === "ar"
-                  ? "من هنا يمكنك متابعة مواعيدك، الاطلاع على سجلاتك الطبية والوصفات، والبقاء على اتصال مع عيادتك."
-                  : "From here you can track your appointments, view your medical records and prescriptions, and stay connected with your clinic."}
-              </p>
-
-              <button
-                onClick={() => router.push("/patient/appointments/new")}
-                className="mt-3 inline-flex items-center px-4 py-2.5 rounded-xl bg-white text-teal-700 text-xs font-semibold shadow-sm hover:bg-teal-50"
-              >
-                {language === "ar"
-                  ? "طلب موعد جديد"
-                  : "Request new appointment"}
-              </button>
-            </div>
-            <div className="self-start md:self-center bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm">
+        {/* Hero */}
+        <DashboardHero
+          title={language === "ar" ? `أهلاً، ${firstName} 👋` : `Hello, ${firstName} 👋`}
+          subtitle={language === "ar" ? "مرحباً بعودتك" : "Welcome back to your portal"}
+          description={
+            language === "ar"
+              ? "من هنا يمكنك متابعة مواعيدك، الاطلاع على سجلاتك الطبية والوصفات، والبقاء على اتصال مع عيادتك."
+              : "From here you can track your appointments, view your medical records and prescriptions, and stay connected with your clinic."
+          }
+          primaryAction={
+            <button
+              onClick={() => router.push("/patient/appointments/new")}
+              className="mt-3 inline-flex items-center px-4 py-2.5 rounded-xl bg-white text-teal-700 text-xs font-semibold shadow-sm hover:bg-teal-50"
+            >
+              {language === "ar" ? "طلب موعد جديد" : "Request new appointment"}
+            </button>
+          }
+          secondaryAction={
+            <>
               <p className="text-xs text-teal-100 mb-1">
                 {language === "ar" ? "ملخص صحي سريع" : "Quick health summary"}
               </p>
@@ -156,47 +146,42 @@ export default function PatientDashboard() {
                   ? "تذكير: الالتزام بالعلاج والمراجعة الدورية يساعد في تحسين حالتك الصحية."
                   : "Reminder: Staying consistent with treatment and regular checkups improves your health."}
               </p>
-            </div>
-          </div>
-        </section>
+            </>
+          }
+        />
 
-        {/* إحصائيات */}
+        {/* Stats */}
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col justify-between">
-            <p className="text-xs text-slate-500 mb-1">
-              {t.upcomingAppointments}
-            </p>
-            <p className="text-2xl font-bold text-slate-900">
-              {loadingData ? "..." : dashboardData?.stats?.upcoming_appointments || 0}
-            </p>
-            <p className="mt-1 text-[11px] text-slate-500">
-              {language === "ar"
+          <StatCard
+            label={t.upcomingAppointments}
+            value={dashboardData?.stats?.upcoming_appointments || 0}
+            sub={
+              language === "ar"
                 ? "مواعيد قادمة خلال الأيام المقبلة"
-                : "Upcoming visits in the next days"}
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col justify-between">
-            <p className="text-xs text-slate-500 mb-1">{t.medicalRecords}</p>
-            <p className="text-2xl font-bold text-slate-900">
-              {loadingData ? "..." : dashboardData?.stats?.medical_records || 0}
-            </p>
-            <p className="mt-1 text-[11px] text-slate-500">
-              {language === "ar"
+                : "Upcoming visits in the next days"
+            }
+            loading={loadingData}
+          />
+          <StatCard
+            label={t.medicalRecords}
+            value={dashboardData?.stats?.medical_records || 0}
+            sub={
+              language === "ar"
                 ? "تقارير وفحوصات محفوظة في ملفك"
-                : "Reports and tests stored in your file"}
-            </p>
-          </div>
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col justify-between">
-            <p className="text-xs text-slate-500 mb-1">{t.prescriptions}</p>
-            <p className="text-2xl font-bold text-slate-900">
-              {loadingData ? "..." : dashboardData?.stats?.prescriptions || 0}
-            </p>
-            <p className="mt-1 text-[11px] text-slate-500">
-              {language === "ar"
+                : "Reports and tests stored in your file"
+            }
+            loading={loadingData}
+          />
+          <StatCard
+            label={t.prescriptions}
+            value={dashboardData?.stats?.prescriptions || 0}
+            sub={
+              language === "ar"
                 ? "وصفات فعّالة يمكنك متابعتها الآن"
-                : "Active prescriptions to follow now"}
-            </p>
-          </div>
+                : "Active prescriptions to follow now"
+            }
+            loading={loadingData}
+          />
         </section>
 
         {/* إجراءات سريعة للمريض */}
