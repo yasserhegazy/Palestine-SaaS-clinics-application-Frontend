@@ -97,11 +97,12 @@ export default function NewAppointmentPage() {
       setLoading(true);
 
       // Combine date and time to create appointment_date
-      const appointmentDate = `${form.date} ${form.time}:00`;
+      
 
       await apiClient.post("/patient/appointments", {
         doctor_id: parseInt(form.doctor),
-        appointment_date: appointmentDate,
+        appointment_date: form.date,
+        appointment_time: form.time,
         notes: "Requested via web portal",
       });
 
