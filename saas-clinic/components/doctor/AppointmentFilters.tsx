@@ -30,7 +30,7 @@ export function AppointmentFilters({
           <option value="rejected">Rejected</option>
           <option value="rescheduled">Rescheduled</option>
           <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option> 
+          <option value="canceled">Cancelled</option>
         </select>
       </div>
 

@@ -10,7 +10,10 @@ import { AppointmentTable } from "@/components/doctor/AppointmentTable";
 interface AppointmentsResponse {
   appointments: Appointment[];
 }
-
+type ApiError = {
+  message?: string;
+  error?: string;
+};
 export default function DoctorDashboard() {
   const { user, token, logout, clinic, isLoading } = useAuth();
 
@@ -24,51 +27,47 @@ export default function DoctorDashboard() {
   const [dateFilter, setDateFilter] = useState<string>(""); // yyyy-mm-dd
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  // ------------------------
-  // Fetch appointments
-  // ------------------------
-  useEffect(() => {
-    if (!user || !token) return;
+useEffect(() => {
+  if (!user || !token) return;
 
-    const fetchAppointments = async () => {
-      try {
-        setIsLoadingAppointments(true);
-        setAppointmentsError(null);
+  const fetchAppointments = async () => {
+    try {
+      setIsLoadingAppointments(true);
+      setAppointmentsError(null);
 
-        const res = await fetch("/api/doctor/appointments", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+      const res = await fetch("/api/doctor/appointments", {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-        const data: AppointmentsResponse = await res.json();
+      const json = await res.json(); 
 
-        if (!res.ok) {
-          throw new Error(
-  
-            (data as any).message || "Failed to fetch appointments"
-          );
-        }
-
-setAppointments(data.appointments);
-        console.log("appointments in state =>", data.appointments);
-      } catch (err: unknown) {
-        console.error("Error fetching appointments:", err);
-        let message = "Failed to fetch appointments";
-        if (err instanceof Error) message = err.message;
-        setAppointmentsError(message);
-      } finally {
-        setIsLoadingAppointments(false);
+      if (!res.ok) {
+        const errorData = json as ApiError;
+        throw new Error(
+          errorData.message || errorData.error || "Failed to fetch appointments"
+        );
       }
-    };
 
-    fetchAppointments();
-  }, [user, token]);
+      const data = json as AppointmentsResponse;
 
-  // ------------------------
-  // Approve / Reject handlers
-  // ------------------------
+      setAppointments(data.appointments);
+      console.log("appointments in state =>", data.appointments);
+    } catch (err: unknown) {
+      console.error("Error fetching appointments:", err);
+      let message = "Failed to fetch appointments";
+      if (err instanceof Error) message = err.message;
+      setAppointmentsError(message);
+    } finally {
+      setIsLoadingAppointments(false);
+    }
+  };
+
+  fetchAppointments();
+}, [user, token]);
+
   const handleApprove = async (appointmentId: number) => {
     if (!token) {
       alert("Missing token");
@@ -138,9 +137,12 @@ const handleReschedule = async (
   appointment_date: string,
   appointment_time: string
 ) => {
-  try {
-    if (!token) throw new Error("Unauthorized: missing token");
+  if (!token) {
+    alert("Unauthorized: missing token");
+    return;
+  }
 
+  try {
     const res = await fetch(`/api/doctor/appointments/reschedule/${id}`, {
       method: "PUT",
       headers: {
@@ -153,38 +155,43 @@ const handleReschedule = async (
       }),
     });
 
-    const data = await res.json();
+    const json = await res.json();
 
     if (!res.ok) {
-      throw new Error(data.message || "Error rescheduling appointment");
+      const errorData = json as ApiError;
+      throw new Error(
+        errorData.message || errorData.error || "Error rescheduling appointment"
+      );
     }
 
-    console.log("Rescheduled successfully", data);
+    console.log("Rescheduled successfully", json);
 
     setAppointments((prev) =>
       prev.map((a) =>
         a.id === id
           ? {
               ...a,
-              status: "approved",
+              status: "approved", 
               appointment_date,
               appointment_time,
             }
           : a
       )
     );
-  } catch (err: any) {
-    console.error("Error rescheduling appointment:", err.message);
-    alert(err.message);
+  } catch (err: unknown) {
+    console.error("Error rescheduling appointment:", err);
+
+    const message =
+      err instanceof Error ? err.message : "Error rescheduling appointment";
+
+    console.log(message);
   }
 };
 
 
 
 
-  // ------------------------
-  // Filters
-  // ------------------------
+
 const filteredAppointments = useMemo(() => {
   const term = searchTerm.trim().toLowerCase();
 
