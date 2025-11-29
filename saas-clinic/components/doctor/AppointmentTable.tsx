@@ -1,11 +1,19 @@
 // src/components/doctor/AppointmentTable.tsx
-import { Appointment } from "@/types/appointment";
+
+import { useState } from "react";
+import type { Appointment } from "@/types/appointment";
 
 interface AppointmentTableProps {
   appointments: Appointment[];
   isLoading: boolean;
   error: string | null;
-  onApprove?: (id: number) => void;
+  onApprove: (id: number) => void;
+  onReject: (id: number, reason: string) => void;
+  onReschedule: (
+    id: number,
+    appointment_date: string,
+    appointment_time: string
+  ) => void;
 }
 
 export function AppointmentTable({
@@ -13,140 +21,196 @@ export function AppointmentTable({
   isLoading,
   error,
   onApprove,
+  onReject,
+  onReschedule,
 }: AppointmentTableProps) {
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center py-10">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-600"></div>
-      </div>
-    );
-  }
+  // ----------------------------
+  // State for Reject Modal
+  // ----------------------------
+  const [isRejectOpen, setIsRejectOpen] = useState(false);
+  const [rejectReason, setRejectReason] = useState("");
+  const [selectedId, setSelectedId] = useState<number | null>(null);
 
-  if (error) {
-    return <p className="text-sm text-red-600">{error}</p>;
-  }
+  // ----------------------------
+  // State for Reschedule Modal
+  // ----------------------------
+  const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
+  const [rescheduleDateTime, setRescheduleDateTime] = useState("");
+  const [rescheduleId, setRescheduleId] = useState<number | null>(null);
 
-  if (appointments.length === 0) {
-    return (
-      <p className="text-sm text-gray-500">
-        No appointment requests found for the selected filters.
-      </p>
-    );
-  }
-
-  const formatDate = (iso: string) => new Date(iso).toLocaleDateString();
-  const formatTime = (iso: string) =>
-    new Date(iso).toLocaleTimeString([], {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-
-  const statusLabel = (status: string) => {
-    switch (status) {
-      case "requested":
-        return "Requested";
-      case "approved":
-        return "Approved";
-      case "completed":
-        return "Completed";
-      case "cancelled":
-        return "Cancelled";
-      default:
-        return status;
-    }
+  const openRejectModal = (id: number) => {
+    setSelectedId(id);
+    setRejectReason("");
+    setIsRejectOpen(true);
   };
 
-  const statusClass = (status: string) => {
-    switch (status) {
-      case "requested":
-        return "bg-yellow-100 text-yellow-800";
-      case "approved":
-        return "bg-emerald-100 text-emerald-800";
-      case "completed":
-        return "bg-blue-100 text-blue-800";
-      case "cancelled":
-        return "bg-red-100 text-red-800";
-      default:
-        return "bg-gray-100 text-gray-800";
-    }
+  const closeRejectModal = () => {
+    setSelectedId(null);
+    setRejectReason("");
+    setIsRejectOpen(false);
   };
+
+  const handleConfirmReject = () => {
+    if (!selectedId) return;
+    onReject(selectedId, rejectReason.trim());
+    closeRejectModal();
+  };
+
+  const openRescheduleModal = (id: number) => {
+    setRescheduleId(id);
+    setRescheduleDateTime("");
+    setIsRescheduleOpen(true);
+  };
+
+  const closeRescheduleModal = () => {
+    setRescheduleId(null);
+    setRescheduleDateTime("");
+    setIsRescheduleOpen(false);
+  };
+
+const handleConfirmReschedule = () => {
+  if (!rescheduleId || !rescheduleDateTime) return;
+
+  const dt = new Date(rescheduleDateTime);
+
+  const appointment_date = dt.toISOString().split("T")[0];
+
+  const hours = dt.getHours().toString().padStart(2, "0");
+  const minutes = dt.getMinutes().toString().padStart(2, "0");
+
+  const appointment_time = `${hours}:${minutes}`; // 24-hour format
+
+  onReschedule(rescheduleId, appointment_date, appointment_time);
+  closeRescheduleModal();
+};
+
+ 
+  if (isLoading) return <div>Loading appointments...</div>;
+  if (error) return <div className="text-red-600 text-sm">{error}</div>;
+  if (!appointments.length)
+    return <div className="text-sm text-gray-500">No appointments found.</div>;
 
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full text-sm">
+    <>
+      <table className="min-w-full text-sm text-black">
         <thead>
-          <tr className="border-b bg-gray-50">
-            <th className="px-3 py-2 text-left font-medium text-gray-600">
-              Patient
-            </th>
-            <th className="px-3 py-2 text-left font-medium text-gray-600">
-              Clinic
-            </th>
-            <th className="px-3 py-2 text-left font-medium text-gray-600">
-              Date
-            </th>
-            <th className="px-3 py-2 text-left font-medium text-gray-600">
-              Time
-            </th>
-            <th className="px-3 py-2 text-left font-medium text-gray-600">
-              Status
-            </th>
-            <th className="px-3 py-2 text-left font-medium text-gray-600">
-              Notes
-            </th>
-            <th className="px-3 py-2 text-right font-medium text-gray-600">
-              Actions
-            </th>
+          <tr className="border-b">
+            <th className="text-left py-2 px-2">Patient</th>
+            <th className="text-left py-2 px-2">Date &amp; Time</th>
+            <th className="text-left py-2 px-2">Status</th>
+            <th className="text-left py-2 px-2">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y">
+        <tbody>
           {appointments.map((appt) => (
-            <tr key={appt.id} className="hover:bg-gray-50">
-              <td className="px-3 py-2">
-                <div className="font-medium text-gray-900">
-                  {appt.patientName}
+            <tr key={appt.id} className="border-b">
+              <td className="py-2 px-2">
+                <div className="font-medium">{appt.patientName}</div>
+                <div className="text-xs text-gray-500">
+                  {appt.patientPhone ?? ""}
                 </div>
-                {appt.patientPhone && (
-                  <div className="text-xs text-gray-500">
-                    {appt.patientPhone}
+              </td>
+              <td className="py-2 px-2">
+                {appt.dateTime ? new Date(appt.dateTime).toLocaleString() : "-"}
+              </td>
+              <td className="py-2 px-2 capitalize">{appt.status}</td>
+              <td className="py-2 px-2">
+                {appt.status === "requested" ? (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => onApprove(appt.id)}
+                      className="px-2 py-1 text-xs rounded bg-emerald-600 text-white hover:bg-emerald-700"
+                    >
+                      Approve
+                    </button>
+                    <button
+                      onClick={() => openRejectModal(appt.id)}
+                      className="px-2 py-1 text-xs rounded bg-red-600 text-white hover:bg-red-700"
+                    >
+                      Reject
+                    </button>
+                    <button
+                      onClick={() => openRescheduleModal(appt.id)}
+                      className="px-2 py-1 text-xs rounded bg-yellow-600 text-white hover:bg-yellow-700"
+                    >
+                      Reschedule
+                    </button>
                   </div>
-                )}
-              </td>
-              <td className="px-3 py-2 text-gray-700">
-                {appt.clinicName || "-"}
-              </td>
-              <td className="px-3 py-2 text-gray-700">
-                {formatDate(appt.dateTime)}
-              </td>
-              <td className="px-3 py-2 text-gray-700">
-                {formatTime(appt.dateTime)}
-              </td>
-              <td className="px-3 py-2">
-                <span
-                  className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${statusClass(
-                    appt.status
-                  )}`}
-                >
-                  {statusLabel(appt.status)}
-                </span>
-              </td>
-              <td className="px-3 py-2 text-gray-700 max-w-xs truncate">
-                {appt.notes || "-"}
-              </td>
-              <td className="px-3 py-2 text-right space-x-2">
-                {appt.status === "requested" && onApprove && (
-                  <button
-                    onClick={() => onApprove(appt.id)}
-                    className="px-3 py-1 rounded-md bg-emerald-600 text-white text-xs hover:bg-emerald-700"
-                  >
-                    Approve
-                  </button>
+                ) : (
+                  <span className="text-xs text-gray-500">No actions</span>
                 )}
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-    </div>
+
+      {/* Reject Modal */}
+      {isRejectOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-5">
+            <h2 className="text-lg font-semibold mb-3 text-gray-900">
+              سبب رفض الموعد
+            </h2>
+            <p className="text-xs text-gray-500 mb-3">
+              اكتب السبب الذي سيتم إرساله للمريض أو حفظه في السجل.
+            </p>
+            <textarea
+              className="w-full border rounded-md text-sm p-2 text-black min-h-[80px] mb-4"
+              placeholder="اكتب سبب الرفض هنا..."
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={closeRejectModal}
+                className="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
+              >
+                إلغاء
+              </button>
+              <button
+                onClick={handleConfirmReject}
+                className="px-3 py-1.5 text-xs rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-60"
+                disabled={!rejectReason.trim()}
+              >
+                تأكيد الرفض
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reschedule Modal */}
+      {isRescheduleOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-5">
+            <h2 className="text-lg font-semibold mb-3 text-gray-900">
+              Reschedule Appointment
+            </h2>
+            <input
+              type="datetime-local"
+              className="w-full border rounded-md text-sm p-2 mb-4 text-black"
+              value={rescheduleDateTime}
+              onChange={(e) => setRescheduleDateTime(e.target.value)}
+            />
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={closeRescheduleModal}
+                className="px-3 py-1.5 text-xs rounded border border-gray-300 text-gray-700 hover:bg-gray-100"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmReschedule}
+                className="px-3 py-1.5 text-xs rounded bg-yellow-600 text-white hover:bg-yellow-700 disabled:opacity-60"
+                disabled={!rescheduleDateTime}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }

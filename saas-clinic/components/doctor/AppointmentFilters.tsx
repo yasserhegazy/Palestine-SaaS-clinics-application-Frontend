@@ -1,5 +1,3 @@
-// src/components/doctor/AppointmentFilters.tsx
-
 interface AppointmentFiltersProps {
   statusFilter: string;
   dateFilter: string;
@@ -19,6 +17,7 @@ export function AppointmentFilters({
 }: AppointmentFiltersProps) {
   return (
     <div className="flex flex-wrap items-center gap-3">
+      {/* Status Filter */}
       <div>
         <label className="block text-xs text-gray-500 mb-1">Status</label>
         <select
@@ -27,13 +26,15 @@ export function AppointmentFilters({
           className="border rounded-md px-2 text-black py-1 text-sm"
         >
           <option value="all">All</option>
-          <option value="requested">Requested</option>
           <option value="approved">Approved</option>
+          <option value="rejected">Rejected</option>
+          <option value="rescheduled">Rescheduled</option>
           <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="cancelled">Cancelled</option> 
         </select>
       </div>
 
+      {/* Date Filter */}
       <div>
         <label className="block text-xs text-gray-500 mb-1 text-black">
           Date
@@ -46,6 +47,7 @@ export function AppointmentFilters({
         />
       </div>
 
+      {/* Search Filter */}
       <div>
         <label className="block text-xs text-gray-500 mb-1">Search</label>
         <input

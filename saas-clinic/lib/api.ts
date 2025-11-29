@@ -118,9 +118,9 @@ export default apiClient;
 
 // API endpoints
 export const API_ENDPOINTS = {
-  LOGIN: '/auth/login',
-  LOGOUT: '/auth/logout',
-  VERIFY_TOKEN: '/auth/verify',
-  REFRESH_TOKEN: '/auth/refresh',
-  PROFILE: '/auth/profile',
+  LOGIN: "/auth/login",
+  LOGOUT: "/auth/logout",
+  VERIFY_TOKEN: "/auth/verify",
+  REFRESH_TOKEN: "/auth/refresh",
+  PROFILE: "/auth/profile",
 } as const;

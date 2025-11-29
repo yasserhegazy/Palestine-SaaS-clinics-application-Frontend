@@ -1,6 +1,8 @@
 
 export type AppointmentStatus =
   | "requested"
+  | "rejected" 
+  | "rescheduled"
   | "approved"
   | "completed"
   | "cancelled";

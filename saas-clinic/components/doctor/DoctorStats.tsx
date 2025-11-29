@@ -10,7 +10,6 @@ export function DoctorStats({ appointments }: DoctorStatsProps) {
     (a) => a.status.toString().toLowerCase() === "pending"
   ).length;
 
-  // هنا تقدر تحسبي أرقام حقيقية بعدين
   const todaysAppointments = 12;
   const totalPatients = 156;
 
