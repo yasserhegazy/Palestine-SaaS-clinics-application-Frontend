@@ -7,6 +7,8 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useRoleGuard } from "@/lib/roleGuard";
+import DashboardHero from "@/components/DashboardHero";
+import StatCard from "@/components/StatCard";
 
 export default function ReceptionDashboard() {
   const { user, logout, clinic, isAuthenticated, isLoading } = useAuth();
@@ -169,25 +171,17 @@ export default function ReceptionDashboard() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Hero */}
-        <section className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 rounded-2xl p-6 sm:p-7 text-white shadow-md relative overflow-hidden">
-          <div className="absolute inset-y-0 left-0 w-40 opacity-20 bg-[radial-gradient(circle_at_top,_#ffffff_0,_transparent_60%)]" />
-          <div className="relative flex flex-col md:flex-row justify-between gap-4">
-            <div>
-              <p className="text-xs text-teal-100 mb-1">{today}</p>
-              <h2 className="text-2xl font-bold mb-1">
-                {t.welcomeReception ||
-                  (language === "ar"
-                    ? `أهلاً ${user.name.split(" ")[0]} 👋`
-                    : `Welcome, ${user.name.split(" ")[0]} 👋`)}
-              </h2>
-              <p className="text-sm text-teal-100 max-w-xl">
-                {t.receptionSubTitle ||
-                  (language === "ar"
-                    ? "من هنا يمكنك إدارة تسجيل المرضى، مراجعة طلبات المواعيد، تأكيد المواعيد الموافق عليها، ومتابعة التقرير المالي اليومي للعيادة."
-                    : "From here you can manage patient registration, review appointment requests, confirm approved appointments and follow the daily financial report.")}
-              </p>
-            </div>
-            <div className="self-start md:self-center bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm">
+        <DashboardHero
+          title={t.welcomeReception || (language === "ar" ? `أهلاً ${user.name.split(" ")[0]} 👋` : `Welcome, ${user.name.split(" ")[0]} 👋`)}
+          subtitle={today}
+          description={
+            t.receptionSubTitle ||
+            (language === "ar"
+              ? "من هنا يمكنك إدارة تسجيل المرضى، مراجعة طلبات المواعيد، تأكيد المواعيد الموافق عليها، ومتابعة التقرير المالي اليومي للعيادة."
+              : "From here you can manage patient registration, review appointment requests, confirm approved appointments and follow the daily financial report.")
+          }
+          secondaryAction={
+            <>
               <p className="text-xs text-teal-100 mb-1">
                 {t.quickSummaryTitle || "ملخص سريع"}
               </p>
@@ -204,21 +198,19 @@ export default function ReceptionDashboard() {
                     ? "تذكير: تأكدي من مراجعة طلبات المواعيد الجديدة وتأكيد المعتمَد منها"
                     : "Reminder: review new appointment requests and confirm approved ones.")}
               </p>
-            </div>
-          </div>
-        </section>
+            </>
+          }
+        />
 
         {/* Stats */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((item) => (
-            <div
+            <StatCard
               key={item.label}
-              className="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex flex-col justify-between"
-            >
-              <p className="text-xs text-gray-500 mb-1">{item.label}</p>
-              <p className="text-2xl font-bold text-gray-900">{item.value}</p>
-              <p className="mt-1 text-[11px] text-gray-500">{item.sub}</p>
-            </div>
+              label={item.label}
+              value={item.value}
+              sub={item.sub}
+            />
           ))}
         </section>
 
