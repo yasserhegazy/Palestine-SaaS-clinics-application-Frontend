@@ -33,7 +33,6 @@ export default function PatientDashboard() {
 
   const firstName = user.name?.split(" ")[0] || user.name;
 
-  // بيانات وهمية مؤقتًا (استبدلها لاحقًا بـ API)
   const upcomingAppointments = [
     {
       date: "2025-03-12",
@@ -141,7 +140,7 @@ export default function PatientDashboard() {
 
       
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* هيرو */}
+     
         <section className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 rounded-2xl p-6 sm:p-7 text-white shadow-md relative overflow-hidden">
           <div className="absolute inset-y-0 right-0 w-40 opacity-20 bg-[radial-gradient(circle_at_top,_#ffffff_0,_transparent_60%)]" />
           <div className="relative flex flex-col md:flex-row justify-between gap-4">
@@ -189,7 +188,6 @@ export default function PatientDashboard() {
           </div>
         </section>
 
-        {/* إحصائيات */}
         <section className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col justify-between">
             <p className="text-xs text-slate-500 mb-1">

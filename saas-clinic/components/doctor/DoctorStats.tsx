@@ -14,16 +14,16 @@ export function DoctorStats({ appointments }: DoctorStatsProps) {
   const totalPatients = 156;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8 text-black">
-      <div className="bg-white rounded-lg shadow p-6">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-3 text-black">
+      <div className="bg-white rounded-lg shadow p-4">
         <p className="text-sm text-gray-600 mb-1">Today&apos;s Appointments</p>
         <p className="text-3xl font-bold text-gray-900">{todaysAppointments}</p>
       </div>
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white rounded-lg shadow p-4">
         <p className="text-sm text-gray-600 mb-1">Total Patients</p>
         <p className="text-3xl font-bold text-gray-900">{totalPatients}</p>
       </div>
-      <div className="bg-white rounded-lg shadow p-6">
+      <div className="bg-white rounded-lg shadow p-4">
         <p className="text-sm text-gray-600 mb-1">Pending Requests</p>
         <p className="text-3xl font-bold text-gray-900">{pendingCount}</p>
       </div>

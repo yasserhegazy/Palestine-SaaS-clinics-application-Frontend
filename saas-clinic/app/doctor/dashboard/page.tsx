@@ -1,11 +1,13 @@
 "use client";
 
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Appointment } from "@/types/appointment";
 import { DoctorStats } from "@/components/doctor/DoctorStats";
-import { AppointmentFilters } from "@/components/doctor/AppointmentFilters";
-import { AppointmentTable } from "@/components/doctor/AppointmentTable";
+
+import { useLanguage } from "@/context/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { useRouter } from "next/navigation";
 
 interface AppointmentsResponse {
   appointments: Appointment[];
@@ -14,8 +16,12 @@ type ApiError = {
   message?: string;
   error?: string;
 };
+
 export default function DoctorDashboard() {
   const { user, token, logout, clinic, isLoading } = useAuth();
+  const { language } = useLanguage();
+  const isArabic = language === "ar";
+  const router = useRouter();
 
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoadingAppointments, setIsLoadingAppointments] = useState(true);
@@ -23,278 +29,235 @@ export default function DoctorDashboard() {
     null
   );
 
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [dateFilter, setDateFilter] = useState<string>(""); // yyyy-mm-dd
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  useEffect(() => {
+    if (!user || !token) return;
 
-useEffect(() => {
-  if (!user || !token) return;
+    const fetchAppointments = async () => {
+      try {
+        setIsLoadingAppointments(true);
+        setAppointmentsError(null);
 
-  const fetchAppointments = async () => {
-    try {
-      setIsLoadingAppointments(true);
-      setAppointmentsError(null);
-
-      const res = await fetch("/api/doctor/appointments", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const json = await res.json(); 
-
-      if (!res.ok) {
-        const errorData = json as ApiError;
-        throw new Error(
-          errorData.message || errorData.error || "Failed to fetch appointments"
-        );
-      }
-
-      const data = json as AppointmentsResponse;
-
-      setAppointments(data.appointments);
-      console.log("appointments in state =>", data.appointments);
-    } catch (err: unknown) {
-      console.error("Error fetching appointments:", err);
-      let message = "Failed to fetch appointments";
-      if (err instanceof Error) message = err.message;
-      setAppointmentsError(message);
-    } finally {
-      setIsLoadingAppointments(false);
-    }
-  };
-
-  fetchAppointments();
-}, [user, token]);
-
-  const handleApprove = async (appointmentId: number) => {
-    if (!token) {
-      alert("Missing token");
-      return;
-    }
-
-    try {
-      const res = await fetch(
-        `/api/doctor/appointments/approve/${appointmentId}`,
-        {
-          method: "PUT",
+        const res = await fetch("/api/doctor/appointments", {
+          method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
           },
+        });
+
+        const json = await res.json();
+
+        if (!res.ok) {
+          const errorData = json as ApiError;
+          throw new Error(
+            errorData.message ||
+              errorData.error ||
+              (isArabic
+                ? "فشل في جلب المواعيد"
+                : "Failed to fetch appointments")
+          );
         }
-      );
 
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to approve appointment");
+        const data = json as AppointmentsResponse;
+        setAppointments(data.appointments);
+      } catch (err: unknown) {
+        console.error("Error fetching appointments:", err);
+        let message = isArabic
+          ? "فشل في جلب المواعيد"
+          : "Failed to fetch appointments";
+        if (err instanceof Error) message = err.message;
+        setAppointmentsError(message);
+      } finally {
+        setIsLoadingAppointments(false);
       }
+    };
 
-      setAppointments((prev) =>
-        prev.map((a) =>
-          a.id === appointmentId ? { ...a, status: "approved" } : a
-        )
-      );
-    } catch (err: unknown) {
-      console.error("Error approving appointment:", err);
-      let message = "Failed to approve appointment";
-      if (err instanceof Error) message = err.message;
-      alert(message);
-    }
-  };
-
-const handleReject = async (appointmentId: number, rejectionReason: string) => {
-  if (!token) return alert("Missing token");
-  if (!rejectionReason.trim()) return alert("Rejection reason is required");
-
-  try {
-    const res = await fetch(
-      `/api/doctor/appointments/reject/${appointmentId}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ rejection_reason: rejectionReason }), 
-      }
-    );
-
-    const data = await res.json();
-
-    if (!res.ok)
-      throw new Error(data.message || "Failed to reject appointment");
-
-    console.log("Appointment rejected", data);
-  } catch (err) {
-    console.error("Error rejecting appointment:", err);
-    alert(err instanceof Error ? err.message : "Failed to reject appointment");
-  }
-};
-const handleReschedule = async (
-  id: number,
-  appointment_date: string,
-  appointment_time: string
-) => {
-  if (!token) {
-    alert("Unauthorized: missing token");
-    return;
-  }
-
-  try {
-    const res = await fetch(`/api/doctor/appointments/reschedule/${id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        appointment_date,
-        appointment_time,
-      }),
-    });
-
-    const json = await res.json();
-
-    if (!res.ok) {
-      const errorData = json as ApiError;
-      throw new Error(
-        errorData.message || errorData.error || "Error rescheduling appointment"
-      );
-    }
-
-    console.log("Rescheduled successfully", json);
-
-    setAppointments((prev) =>
-      prev.map((a) =>
-        a.id === id
-          ? {
-              ...a,
-              status: "approved", 
-              appointment_date,
-              appointment_time,
-            }
-          : a
-      )
-    );
-  } catch (err: unknown) {
-    console.error("Error rescheduling appointment:", err);
-
-    const message =
-      err instanceof Error ? err.message : "Error rescheduling appointment";
-
-    console.log(message);
-  }
-};
-
-
-
-
-
-const filteredAppointments = useMemo(() => {
-  const term = searchTerm.trim().toLowerCase();
-
-  return appointments.filter((appt) => {
-    const matchesStatus =
-      statusFilter === "all" ||
-      appt.status?.toLowerCase() === statusFilter.toLowerCase();
-
-    let apptDate = "";
-    if (appt.dateTime) {
-      apptDate = new Date(appt.dateTime).toISOString().slice(0, 10); // "YYYY-MM-DD"
-    }
-    const matchesDate = !dateFilter || apptDate === dateFilter;
-
-    const matchesSearch =
-      !term ||
-      appt.patientName.toLowerCase().includes(term) ||
-      (appt.patientPhone ?? "").toLowerCase().includes(term) ||
-      (appt.clinicName ?? "").toLowerCase().includes(term) ||
-      (appt.notes ?? "").toLowerCase().includes(term);
-
-    return matchesStatus && matchesDate && matchesSearch;
-  });
-}, [appointments, statusFilter, dateFilter, searchTerm]);
+    fetchAppointments();
+  }, [user, token, isArabic]);
 
   if (isLoading || !user) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600" />
       </div>
     );
   }
 
+  const firstName = user.name?.split(" ")[1] || user.name;
+
   return (
-    <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
+    <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
+      {/* الهيدر */}
+      <header className="bg-white shadow-sm border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              Doctor Dashboard
+            <h1 className="text-2xl font-bold text-slate-900">
+              {isArabic ? "لوحة تحكم الطبيب" : "Doctor Dashboard"}
             </h1>
-            <p className="text-sm text-gray-600">{clinic?.name}</p>
+            <p className="text-sm text-slate-600">
+              {clinic?.name || (isArabic ? "العيادة" : "Clinic")}
+            </p>
           </div>
           <div className="flex items-center gap-4">
+            <LanguageSwitcher />
             <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">{user.name}</p>
-              <p className="text-xs text-gray-500 capitalize">{user.role}</p>
+              <p className="text-sm font-medium text-slate-900">
+                {isArabic ? `د. ${user.name}` : user.name}
+              </p>
+              <p className="text-xs text-slate-500 capitalize">
+                {isArabic ? "طبيب" : user.role}
+              </p>
             </div>
             <button
               onClick={logout}
               className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
             >
-              Logout
+              {isArabic ? "تسجيل الخروج" : "Logout"}
             </button>
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome */}
-        <div className="bg-gradient-to-r from-purple-600 to-purple-700 rounded-lg p-6 text-white mb-8">
-          <h2 className="text-2xl font-bold mb-2">Welcome, Dr. {user.name}!</h2>
-          <p className="text-purple-100">
-            Manage your patients and appointment requests.
-          </p>
-        </div>
-
-        {/* Stats */}
-        <DoctorStats appointments={appointments} />
-
-        {/* Appointment Requests Section */}
-        <div className="bg-white rounded-lg shadow">
-          <div className="px-6 py-4 border-b flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      {/* المحتوى */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        {/* هيرو */}
+        <section className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 rounded-2xl p-6 sm:p-7 text-white shadow-md relative overflow-hidden">
+          <div className="absolute inset-y-0 right-0 w-40 opacity-20 bg-[radial-gradient(circle_at_top,_#ffffff_0,_transparent_60%)]" />
+          <div className="relative flex flex-col md:flex-row justify-between gap-4">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
-                Appointment Requests
-              </h3>
-              <p className="text-xs text-gray-500">
-                Pending and approved appointment requests.
+              <p className="text-xs text-teal-100 mb-1">
+                {isArabic
+                  ? "مرحباً بعودتك إلى العيادة"
+                  : "Welcome back to your clinic"}
+              </p>
+              <h2 className="text-2xl font-bold mb-1">
+                {isArabic
+                  ? `أهلاً د. ${firstName} 👋`
+                  : `Hello Dr. ${firstName} 👋`}
+              </h2>
+              <p className="text-sm text-teal-100 max-w-xl">
+                {isArabic
+                  ? "هنا يمكنك مراجعة مواعيد اليوم، طلبات المرضى، والمهام العاجلة بسرعة."
+                  : "Here you can review today’s appointments, patient requests, and urgent tasks at a glance."}
+              </p>
+              <button
+                type="button"
+                onClick={() => router.push("/doctor/appointments?view=today")}
+                className="mt-3 inline-flex items-center px-4 py-2.5 rounded-xl bg-white text-teal-700 text-xs font-semibold shadow-sm hover:bg-teal-50"
+              >
+                {isArabic ? "عرض جدول اليوم" : "View today’s schedule"}
+              </button>
+            </div>
+            <div className="self-start md:self-center bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm">
+              <p className="text-xs text-teal-100 mb-1">
+                {isArabic ? "ملخص سريع لليوم" : "Quick overview for today"}
+              </p>
+              <p className="font-semibold">
+                {isArabic
+                  ? "ابدأ بالنتائج الحرجة والطلبات المعلقة"
+                  : "Start with critical results and pending requests"}
+              </p>
+              <p className="text-[11px] text-teal-100 mt-1">
+                {isArabic
+                  ? "مراجعة النتائج الحرجة ورسائل المرضى أولاً تساعد في تحسين رعاية المرضى."
+                  : "Reviewing critical lab results and patient messages first helps improve patient care."}
               </p>
             </div>
+          </div>
+        </section>
 
-            <AppointmentFilters
-              statusFilter={statusFilter}
-              dateFilter={dateFilter}
-              searchTerm={searchTerm}
-              onStatusChange={setStatusFilter}
-              onDateChange={setDateFilter}
-              onSearchChange={setSearchTerm}
-            />
+        {/* إحصائيات اليوم */}
+        <section className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-slate-900">
+              {isArabic ? "نظرة عامة على اليوم" : "Today’s overview"}
+            </h3>
+            <p className="text-[11px] text-slate-500">
+              {isArabic
+                ? "ملخص سريع لحركة المواعيد والنشاط لديك."
+                : "High-level insight into your appointments and activity."}
+            </p>
+          </div>
+          <DoctorStats appointments={appointments} />
+          {appointmentsError && (
+            <p className="mt-2 text-xs text-red-600">{appointmentsError}</p>
+          )}
+        </section>
+
+        {/* إجراءات سريعة */}
+        <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 sm:p-5">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-sm font-semibold text-slate-900">
+              {isArabic ? "إجراءات سريعة" : "Quick actions"}
+            </h3>
+            <p className="text-[11px] text-slate-500">
+              {isArabic
+                ? "وصول سريع لأهم أدوات عملك اليومية."
+                : "Frequently used tools for your daily workflow."}
+            </p>
           </div>
 
-          <div className="p-6">
-            <AppointmentTable
-              appointments={filteredAppointments}
-              isLoading={isLoadingAppointments}
-              error={appointmentsError}
-              onApprove={handleApprove}
-              onReject={handleReject}
-              onReschedule={handleReschedule}
-            />
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {/* زر يفتح صفحة المواعيد */}
+            <button
+              onClick={() => router.push("/doctor/appointments")}
+              type="button"
+              className="flex flex-col items-start gap-1 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-teal-50 hover:border-teal-200 transition px-3 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-teal-700">
+                {isArabic ? "طلبات المواعيد" : "Appointment requests"}
+              </span>
+              <span className="text-sm font-medium text-slate-900">
+                {isArabic
+                  ? "مراجعة المواعيد المعلقة والمقبولة"
+                  : "Review pending & approved requests"}
+              </span>
+              <span className="text-[11px] text-slate-500">
+                {isArabic
+                  ? "قبول، رفض أو إعادة جدولة من نفس المكان."
+                  : "Approve, reject, or reschedule in one view."}
+              </span>
+            </button>
+
+            {/* باقي الكروت كما هي */}
+            <button
+              type="button"
+              className="flex flex-col items-start gap-1 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-cyan-50 hover:border-cyan-200 transition px-3 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-cyan-700">
+                {isArabic ? "متابعة المرضى" : "Patient follow-ups"}
+              </span>
+              <span className="text-sm font-medium text-slate-900">
+                {isArabic
+                  ? "المرضى الذين يحتاجون مراجعة قريبة"
+                  : "Track patients needing follow-up"}
+              </span>
+              <span className="text-[11px] text-slate-500">
+                {isArabic
+                  ? "حافظ على متابعة الحالات المزمنة والحساسة."
+                  : "Keep chronic cases and recent discharges in check."}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              className="flex flex-col items-start gap-1 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-emerald-50 hover:border-emerald-200 transition px-3 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-emerald-700">
+                {isArabic ? "الملاحظات والوصفات" : "Notes & prescriptions"}
+              </span>
+              <span className="text-sm font-medium text-slate-900">
+                {isArabic
+                  ? "توثيق الزيارة وإصدار الوصفة"
+                  : "Document visits and issue Rx"}
+              </span>
+              <span className="text-[11px] text-slate-500">
+                {isArabic
+                  ? "تأكد من توثيق كل زيارة بشكل واضح."
+                  : "Ensure every encounter is clearly documented."}
+              </span>
+            </button>
           </div>
-        </div>
+        </section>
       </main>
     </div>
   );

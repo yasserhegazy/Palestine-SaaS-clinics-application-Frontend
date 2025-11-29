@@ -7,6 +7,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import apiClient from "@/lib/api";
+import PageHeader from "@/components/common/PageHeader";
 
 // Backend appointment structure
 type BackendAppointment = {
@@ -97,13 +98,17 @@ export default function MyAppointmentsPage() {
         );
 
         setAppointments(mappedAppointments);
-      } catch (err: any) {
-        console.error("Error fetching appointments:", err);
-        setError(
-          err.response?.data?.message || 
-          "Failed to load appointments. Please try again."
-        );
-      } finally {
+      } catch (err: unknown) {
+  console.error("Error fetching appointments:", err);
+
+  const message =
+    err instanceof Error
+      ? err.message
+      : "Failed to load appointments. Please try again.";
+
+  setError(message);
+}
+finally {
         setIsLoadingAppointments(false);
       }
     };
@@ -152,33 +157,20 @@ export default function MyAppointmentsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      {/* الهيدر */}
-      <header className=" border-b">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              {language === "ar" ? "مواعيدي" : "My appointments"}
-            </h1>
-            <p className="text-sm text-slate-600">
-              {language === "ar"
-                ? "عرض وإدارة مواعيدك الحالية والمستقبلية."
-                : "View and manage your current and upcoming appointments."}
-            </p>
-          </div>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <button
-              onClick={() => router.push("/patient/dashboard")}
-              className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
-            >
-              {language === "ar" ? "رجوع" : "Back "}
-            </button>
-          </div>
-        </div>
-      </header>
+      <PageHeader
+        label={language === "ar" ? "مواعيدي" : "My appointments"} 
+        title={language === "ar" ? "مواعيدي" : "My appointments"}
+        description={
+          language === "ar"
+            ? "عرض وإدارة مواعيدك الحالية والمستقبلية."
+            : "View and manage your current and upcoming appointments."
+        }
+        extraActions={<LanguageSwitcher />}
+        backAction={() => router.push("/patient/dashboard")}
+        wrapperClass="border-b"
+      />
 
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
-       
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
           <div className="flex gap-2">
             <button
@@ -221,7 +213,6 @@ export default function MyAppointmentsPage() {
           </button>
         </div>
 
-        
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           {isLoadingAppointments ? (
             <div className="p-8 flex items-center justify-center">
