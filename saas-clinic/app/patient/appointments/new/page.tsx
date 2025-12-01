@@ -6,16 +6,14 @@ import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
-import apiClient from "@/lib/api";
 
-type Doctor = {
+interface Doctor {
   doctor_id: number;
-  user_id: number;
   name: string;
   specialization: string;
-  available_days: string[];
+  available_days: string;
   clinic_room: string;
-};
+}
 
 export default function NewAppointmentPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -26,43 +24,37 @@ export default function NewAppointmentPage() {
   const [form, setForm] = useState({
     date: "",
     time: "",
-    doctor: "",
+    doctor_id: "",
   });
   const [doctors, setDoctors] = useState<Doctor[]>([]);
-  const [loading, setLoading] = useState(false);
   const [loadingDoctors, setLoadingDoctors] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
-      router.push("/login");
-    }
-  }, [isAuthenticated, isLoading, router]);
 
   // Fetch available doctors
   useEffect(() => {
     const fetchDoctors = async () => {
-      if (!isAuthenticated || !user) return;
-
       try {
-        setLoadingDoctors(true);
-        const response = await apiClient.get<{ doctors: Doctor[] }>("/patient/doctors");
-        setDoctors(response.data.doctors);
+        const response = await fetch("/api/doctors");
+        const data = await response.json();
+        
+        if (response.ok) {
+          setDoctors(data.doctors || []);
+        } else {
+          setError(data.message || "Failed to load doctors");
+        }
       } catch (err) {
-        console.error("Error fetching doctors:", err);
-        setError(
-          language === "ar"
-            ? "فشل تحميل قائمة الأطباء. يرجى تحديث الصفحة."
-            : "Failed to load doctors list. Please refresh the page."
-        );
+        setError("Failed to load doctors");
       } finally {
         setLoadingDoctors(false);
       }
     };
 
-    fetchDoctors();
-  }, [isAuthenticated, user, language]);
+    if (user && user.role === 'Patient') {
+      fetchDoctors();
+    }
+  }, [user]);
 
   if (isLoading || !user) {
     return (
@@ -83,7 +75,7 @@ export default function NewAppointmentPage() {
     setError(null);
     setMessage(null);
 
-    if (!form.date || !form.time || !form.doctor) {
+    if (!form.date || !form.time || !form.doctor_id) {
       setError(
         language === "ar"
           ? "يرجى تعبئة جميع الحقول المطلوبة."
@@ -94,15 +86,31 @@ export default function NewAppointmentPage() {
 
     try {
       setLoading(true);
-      
-      // Combine date and time to create appointment_date
-      const appointmentDate = `${form.date} ${form.time}:00`;
 
-      await apiClient.post("/patient/appointments", {
-        doctor_id: parseInt(form.doctor),
-        appointment_date: appointmentDate,
-        notes: "Requested via web portal",
+      // Combine date and time into ISO format
+      const appointmentDateTime = new Date(`${form.date}T${form.time}`).toISOString();
+
+      const response = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctor_id: parseInt(form.doctor_id),
+          appointment_date: appointmentDateTime,
+          notes: "",
+        }),
       });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (data.errors) {
+          const errorMessages = Object.values(data.errors).flat().join(', ');
+          setError(errorMessages as string);
+        } else {
+          setError(data.message || "Failed to create appointment");
+        }
+        return;
+      }
 
       setMessage(
         language === "ar"
@@ -110,25 +118,18 @@ export default function NewAppointmentPage() {
           : "Your appointment request has been submitted. You will be notified by SMS upon approval."
       );
 
-      setForm({ date: "", time: "", doctor: "" });
-      
-      // Redirect to appointments page after short delay
-      setTimeout(() => {
-        router.push("/patient/appointments");
-      }, 2000);
-
-    } catch (err: any) {
-      console.error("Error creating appointment:", err);
+      setForm({ date: "", time: "", doctor_id: "" });
+    } catch {
       setError(
-        err.response?.data?.message ||
-        (language === "ar"
+        language === "ar"
           ? "حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى."
-          : "An error occurred while submitting the request. Please try again.")
+          : "An error occurred while submitting the request. Please try again."
       );
     } finally {
       setLoading(false);
     }
   };
+
 
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
@@ -176,7 +177,6 @@ export default function NewAppointmentPage() {
                 name="date"
                 value={form.date}
                 onChange={handleChange}
-                min={new Date().toISOString().split('T')[0]}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
               />
             </div>
@@ -204,23 +204,30 @@ export default function NewAppointmentPage() {
                 <span className="text-red-500">*</span>
               </label>
               <select
-                name="doctor"
-                value={form.doctor}
+                name="doctor_id"
+                value={form.doctor_id}
                 onChange={handleChange}
                 disabled={loadingDoctors}
                 className="w-full border border-slate-200 rounded-xl px-3 py-2.5 text-sm text-slate-900 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition disabled:opacity-50"
               >
                 <option value="">
-                  {loadingDoctors 
-                    ? (language === "ar" ? "جاري تحميل الأطباء..." : "Loading doctors...") 
-                    : (language === "ar" ? "اختر الطبيب" : "Select a doctor")}
+                  {loadingDoctors
+                    ? language === "ar" ? "جاري التحميل..." : "Loading..."
+                    : language === "ar" ? "اختر الطبيب" : "Select a doctor"}
                 </option>
                 {doctors.map((doctor) => (
                   <option key={doctor.doctor_id} value={doctor.doctor_id}>
-                    {doctor.name} - {doctor.specialization}
+                    {doctor.name} {doctor.specialization && `- ${doctor.specialization}`}
                   </option>
                 ))}
               </select>
+              {doctors.length === 0 && !loadingDoctors && (
+                <p className="mt-1 text-xs text-amber-600">
+                  {language === "ar"
+                    ? "لا يوجد أطباء متاحون حالياً"
+                    : "No doctors available"}
+                </p>
+              )}
             </div>
 
             {message && (
@@ -239,7 +246,7 @@ export default function NewAppointmentPage() {
               <button
                 type="button"
                 onClick={() =>
-                  setForm({ date: "", time: "", doctor: "" })
+                  setForm({ date: "", time: "", doctor_id: "" })
                 }
                 className="px-3 py-2 text-sm rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50"
               >
