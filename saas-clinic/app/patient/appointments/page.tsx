@@ -156,127 +156,135 @@ finally {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <PageHeader
-        label={language === "ar" ? "مواعيدي" : "My appointments"} 
-        title={language === "ar" ? "مواعيدي" : "My appointments"}
-        description={
-          language === "ar"
-            ? "عرض وإدارة مواعيدك الحالية والمستقبلية."
-            : "View and manage your current and upcoming appointments."
-        }
-        extraActions={<LanguageSwitcher />}
-        backAction={() => router.push("/patient/dashboard")}
-        wrapperClass="border-b"
-      />
+    <div className="min-h-screen bg-slate-50 py-8 px-4">
+      <div className="max-w-3xl mx-auto">
+        <PageHeader
+          label={language === "ar" ? "مواعيدي الحالية  " : "My appointments"}
+          title={language === "ar" ? "مواعيدي" : "My appointments"}
+          description={
+            language === "ar"
+              ? "عرض وإدارة مواعيدك الحالية والمستقبلية."
+              : "View and manage your current and upcoming appointments."
+          }
+          extraActions={<LanguageSwitcher />}
+          backAction={() => router.push("/patient/dashboard")}
+          wrapperClass="border-b"
+        />
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex gap-2">
+        <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex gap-2">
+              <button
+                onClick={() => setFilter("all")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                  filter === "all"
+                    ? "bg-teal-600 text-white border-teal-600"
+                    : "bg-white text-slate-700 border-slate-200"
+                }`}
+              >
+                {language === "ar" ? "الكل" : "All"}
+              </button>
+              <button
+                onClick={() => setFilter("upcoming")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                  filter === "upcoming"
+                    ? "bg-teal-600 text-white border-teal-600"
+                    : "bg-white text-slate-700 border-slate-200"
+                }`}
+              >
+                {language === "ar" ? "المواعيد القادمة" : "Upcoming"}
+              </button>
+              <button
+                onClick={() => setFilter("past")}
+                className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                  filter === "past"
+                    ? "bg-teal-600 text-white border-teal-600"
+                    : "bg-white text-slate-700 border-slate-200"
+                }`}
+              >
+                {language === "ar" ? "المواعيد السابقة" : "Past"}
+              </button>
+            </div>
+
             <button
-              onClick={() => setFilter("all")}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                filter === "all"
-                  ? "bg-teal-600 text-white border-teal-600"
-                  : "bg-white text-slate-700 border-slate-200"
-              }`}
+              onClick={() => router.push("/patient/appointments/new")}
+              className="text-xs px-4 py-2 rounded-xl bg-teal-600 text-white font-medium hover:bg-teal-700"
             >
-              {language === "ar" ? "الكل" : "All"}
-            </button>
-            <button
-              onClick={() => setFilter("upcoming")}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                filter === "upcoming"
-                  ? "bg-teal-600 text-white border-teal-600"
-                  : "bg-white text-slate-700 border-slate-200"
-              }`}
-            >
-              {language === "ar" ? "المواعيد القادمة" : "Upcoming"}
-            </button>
-            <button
-              onClick={() => setFilter("past")}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
-                filter === "past"
-                  ? "bg-teal-600 text-white border-teal-600"
-                  : "bg-white text-slate-700 border-slate-200"
-              }`}
-            >
-              {language === "ar" ? "المواعيد السابقة" : "Past"}
+              {language === "ar" ? "طلب موعد جديد" : "Request new appointment"}
             </button>
           </div>
 
-          <button
-            onClick={() => router.push("/patient/appointments/new")}
-            className="text-xs px-4 py-2 rounded-xl bg-teal-600 text-white font-medium hover:bg-teal-700"
-          >
-            {language === "ar" ? "طلب موعد جديد" : "Request new appointment"}
-          </button>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          {isLoadingAppointments ? (
-            <div className="p-8 flex items-center justify-center">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
-            </div>
-          ) : error ? (
-            <div className="p-6">
-              <p className="text-sm text-red-600">{error}</p>
-              <button
-                onClick={() => window.location.reload()}
-                className="mt-2 text-xs text-teal-700 hover:underline"
-              >
-                {language === "ar" ? "إعادة المحاولة" : "Retry"}
-              </button>
-            </div>
-          ) : filteredAppointments.length === 0 ? (
-            <div className="p-6">
-              <p className="text-sm text-slate-500">
-                {language === "ar"
-                  ? "لا توجد مواعيد مطابقة للفلتر الحالي."
-                  : "No appointments match the current filter."}
-              </p>
-            </div>
-          ) : (
-            <div className="divide-y">
-              {filteredAppointments.map((app) => (
-                <div
-                  key={app.id}
-                  className="px-4 sm:px-5 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 hover:bg-slate-50 transition"
+          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+            {isLoadingAppointments ? (
+              <div className="p-8 flex items-center justify-center">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
+              </div>
+            ) : error ? (
+              <div className="p-6">
+                <p className="text-sm text-red-600">{error}</p>
+                <button
+                  onClick={() => window.location.reload()}
+                  className="mt-2 text-xs text-teal-700 hover:underline"
                 >
-                  <div className="flex items-center gap-3">
-                    <div className="flex flex-col items-center justify-center rounded-xl bg-slate-900 text-white px-3 py-2 text-center">
-                      <span className="text-xs font-semibold">{app.date}</span>
-                      <span className="text-[11px] opacity-80">{app.time}</span>
+                  {language === "ar" ? "إعادة المحاولة" : "Retry"}
+                </button>
+              </div>
+            ) : filteredAppointments.length === 0 ? (
+              <div className="p-6">
+                <p className="text-sm text-slate-500">
+                  {language === "ar"
+                    ? "لا توجد مواعيد مطابقة للفلتر الحالي."
+                    : "No appointments match the current filter."}
+                </p>
+              </div>
+            ) : (
+              <div className="divide-y">
+                {filteredAppointments.map((app) => (
+                  <div
+                    key={app.id}
+                    className="px-4 sm:px-5 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 hover:bg-slate-50 transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="flex flex-col items-center justify-center rounded-xl bg-slate-900 text-white px-3 py-2 text-center">
+                        <span className="text-xs font-semibold">
+                          {app.date}
+                        </span>
+                        <span className="text-[11px] opacity-80">
+                          {app.time}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-slate-900">
+                          {app.clinic}
+                        </p>
+                        <p className="text-xs text-slate-500 mt-0.5">
+                          {language === "ar"
+                            ? `مع ${app.doctor}`
+                            : `With ${app.doctor}`}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-semibold text-slate-900">
-                        {app.clinic}
-                      </p>
-                      <p className="text-xs text-slate-500 mt-0.5">
+                    <div className="flex flex-col items-end gap-1">
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium border ${getStatusClass(
+                          app.status
+                        )}`}
+                      >
+                        {getStatusLabel(app.status)}
+                      </span>
+                      <button className="text-[11px] text-teal-700 hover:underline">
                         {language === "ar"
-                          ? `مع ${app.doctor}`
-                          : `With ${app.doctor}`}
-                      </p>
+                          ? "عرض تفاصيل الموعد"
+                          : "View details"}
+                      </button>
                     </div>
                   </div>
-                  <div className="flex flex-col items-end gap-1">
-                    <span
-                      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium border ${getStatusClass(
-                        app.status
-                      )}`}
-                    >
-                      {getStatusLabel(app.status)}
-                    </span>
-                    <button className="text-[11px] text-teal-700 hover:underline">
-                      {language === "ar" ? "عرض تفاصيل الموعد" : "View details"}
-                    </button>
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
+                ))}
+              </div>
+            )}
+          </div>
+        </main>
+      </div>
     </div>
   );
 }

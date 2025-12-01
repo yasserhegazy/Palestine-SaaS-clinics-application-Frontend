@@ -8,6 +8,8 @@ import { DoctorStats } from "@/components/doctor/DoctorStats";
 import { useLanguage } from "@/context/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
+import DashboardHeader from "@/components/DashboardHeader";
+import DashboardHero from "@/components/DashboardHero";
 
 interface AppointmentsResponse {
   appointments: Appointment[];
@@ -20,6 +22,7 @@ type ApiError = {
 export default function DoctorDashboard() {
   const { user, token, logout, clinic, isLoading } = useAuth();
   const { language } = useLanguage();
+  const t = [language];
   const isArabic = language === "ar";
   const router = useRouter();
 
@@ -87,83 +90,52 @@ export default function DoctorDashboard() {
   return (
     <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
       {/* الهيدر */}
-      <header className="bg-white shadow-sm border-b border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-slate-900">
-              {isArabic ? "لوحة تحكم الطبيب" : "Doctor Dashboard"}
-            </h1>
-            <p className="text-sm text-slate-600">
-              {clinic?.name || (isArabic ? "العيادة" : "Clinic")}
-            </p>
-          </div>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <div className="text-right">
-              <p className="text-sm font-medium text-slate-900">
-                {isArabic ? `د. ${user.name}` : user.name}
-              </p>
-              <p className="text-xs text-slate-500 capitalize">
-                {isArabic ? "طبيب" : user.role}
-              </p>
-            </div>
-            <button
-              onClick={logout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
-            >
-              {isArabic ? "تسجيل الخروج" : "Logout"}
-            </button>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader user={user} logout={logout} t={t} />
 
-      {/* المحتوى */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* هيرو */}
-        <section className="bg-gradient-to-r from-teal-600 via-teal-500 to-cyan-500 rounded-2xl p-6 sm:p-7 text-white shadow-md relative overflow-hidden">
-          <div className="absolute inset-y-0 right-0 w-40 opacity-20 bg-[radial-gradient(circle_at_top,_#ffffff_0,_transparent_60%)]" />
-          <div className="relative flex flex-col md:flex-row justify-between gap-4">
-            <div>
-              <p className="text-xs text-teal-100 mb-1">
-                {isArabic
-                  ? "مرحباً بعودتك إلى العيادة"
-                  : "Welcome back to your clinic"}
-              </p>
-              <h2 className="text-2xl font-bold mb-1">
-                {isArabic
-                  ? `أهلاً د. ${firstName} 👋`
-                  : `Hello Dr. ${firstName} 👋`}
-              </h2>
-              <p className="text-sm text-teal-100 max-w-xl">
-                {isArabic
-                  ? "هنا يمكنك مراجعة مواعيد اليوم، طلبات المرضى، والمهام العاجلة بسرعة."
-                  : "Here you can review today’s appointments, patient requests, and urgent tasks at a glance."}
-              </p>
-              <button
-                type="button"
-                onClick={() => router.push("/doctor/appointments?view=today")}
-                className="mt-3 inline-flex items-center px-4 py-2.5 rounded-xl bg-white text-teal-700 text-xs font-semibold shadow-sm hover:bg-teal-50"
-              >
-                {isArabic ? "عرض جدول اليوم" : "View today’s schedule"}
-              </button>
-            </div>
-            <div className="self-start md:self-center bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm">
+        <DashboardHero
+          title={
+            isArabic ? `أهلاً د. ${firstName} 👋` : `Hello Dr. ${firstName} 👋`
+          }
+          subtitle={
+            isArabic
+              ? "مرحباً بعودتك إلى العيادة"
+              : "Welcome back to your clinic"
+          }
+          description={
+            isArabic
+              ? "هنا يمكنك مراجعة مواعيد اليوم، طلبات المرضى، والمهام العاجلة بسرعة."
+              : "Here you can review today’s appointments, patient requests, and urgent tasks at a glance."
+          }
+          primaryAction={
+            <button
+              onClick={() => router.push("/doctor/appointments?view=today")}
+              className="mt-3 inline-flex items-center px-4 py-2.5 rounded-xl bg-white text-teal-700 text-xs font-semibold shadow-sm hover:bg-teal-50"
+            >
+              {isArabic ? "عرض جدول اليوم" : "View today’s schedule"}
+            </button>
+          }
+          secondaryAction={
+            <div className="self-start md:self-center bg-white/10 border border-white/20 rounded-xl px-4 py-3 text-sm max-w-xs">
               <p className="text-xs text-teal-100 mb-1">
                 {isArabic ? "ملخص سريع لليوم" : "Quick overview for today"}
               </p>
+
               <p className="font-semibold">
                 {isArabic
                   ? "ابدأ بالنتائج الحرجة والطلبات المعلقة"
                   : "Start with critical results and pending requests"}
               </p>
-              <p className="text-[11px] text-teal-100 mt-1">
+
+              <p className="text-[11px] text-teal-100 mt-1 leading-relaxed">
                 {isArabic
                   ? "مراجعة النتائج الحرجة ورسائل المرضى أولاً تساعد في تحسين رعاية المرضى."
                   : "Reviewing critical lab results and patient messages first helps improve patient care."}
               </p>
             </div>
-          </div>
-        </section>
+          }
+        />
 
         {/* إحصائيات اليوم */}
         <section className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">

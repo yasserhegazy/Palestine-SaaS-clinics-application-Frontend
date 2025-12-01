@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import { translations } from '@/lib/translations';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useRoleGuard } from '@/lib/roleGuard';
+import DashboardHeader from '@/components/DashboardHeader';
 
 export default function ClinicDashboard() {
   const { user, logout, clinic, isAuthenticated, isLoading } = useAuth();
@@ -48,27 +49,9 @@ export default function ClinicDashboard() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">{t.clinicManagement}</h1>
-            <p className="text-sm text-gray-600">{clinic?.name || t.clinicManagement}</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">{user.name}</p>
-              <p className="text-xs text-gray-500">{user.role}</p>
-            </div>
-            <button
-              onClick={logout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
-            >
-              {t.logout}
-            </button>
-          </div>
-        </div>
-      </header>
+    =
+            <DashboardHeader user={user} logout={logout} t={t} />
+      
 
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -3,14 +3,14 @@
 import React from "react";
 import { useLanguage } from "@/context/LanguageContext";
 
-
 interface PageHeaderProps {
   label: string;
   title: string;
   description: string;
   backAction?: () => void;
   extraActions?: React.ReactNode;
-  wrapperClass?: string; 
+  wrapperClass?: string;
+  
 }
 
 export default function PageHeader({
@@ -21,11 +21,12 @@ export default function PageHeader({
   extraActions,
   wrapperClass = "",
 }: PageHeaderProps) {
-      const { language } = useLanguage();
-      const isArabic = language === "ar";
+  const { language } = useLanguage();
+  const isArabic = language === "ar";
+
   return (
     <header className={wrapperClass}>
-      <div className="flex items-center justify-between gap-3 mx-auto px-4 sm:px-6 lg:px-9 py-8 mb-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mb-6 flex items-center justify-between gap-3">
         <div>
           <p className="text-xs text-slate-500 mb-1">{label}</p>
           <h2 className="text-xl font-semibold text-slate-900">{title}</h2>

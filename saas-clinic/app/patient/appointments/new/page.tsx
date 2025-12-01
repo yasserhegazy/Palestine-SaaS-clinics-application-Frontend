@@ -97,12 +97,11 @@ export default function NewAppointmentPage() {
       setLoading(true);
 
       // Combine date and time to create appointment_date
-      
+      const appointmentDate = `${form.date} ${form.time}:00`;
 
       await apiClient.post("/patient/appointments", {
         doctor_id: parseInt(form.doctor),
-        appointment_date: form.date,
-        appointment_time: form.time,
+        appointment_date: appointmentDate,
         notes: "Requested via web portal",
       });
 
@@ -121,10 +120,15 @@ export default function NewAppointmentPage() {
     } catch (err: unknown) {
       console.error("Error creating appointment:", err);
 
+      const axiosError = err as {
+        response?: { data?: { message?: string } };
+      };
+
       setError(
-        language === "ar"
-          ? "حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى."
-          : "An error occurred while submitting the request. Please try again."
+        axiosError.response?.data?.message ||
+          (language === "ar"
+            ? "حدث خطأ أثناء إرسال الطلب. حاول مرة أخرى."
+            : "An error occurred while submitting the request. Please try again.")
       );
     } finally {
       setLoading(false);
@@ -134,21 +138,22 @@ export default function NewAppointmentPage() {
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-3xl mx-auto">
+        {/* هيدر علوي */}
+      
         <PageHeader
-          label={language === "ar" ? "حجز المواعيد" : "Appointment booking"}
-          title={
-            language === "ar" ? "طلب موعد جديد" : "Request new appointment"
-          }
+          label={language === "ar" ? "طلب جديد" : "New Appointment"}
+          title={language === "ar" ? "طلب موعد جديد " : "New Appointment"}
           description={
             language === "ar"
-              ? "اختر التاريخ، الوقت، الطبيب والعيادة لطلب موعد جديد."
-              : "Select the date, time, doctor and clinic to request a new appointment."
+              ? "  طلب موعد جديد واعطائىك التفاصيل للازمة"
+              : "View and manage your current and upcoming appointments."
           }
           extraActions={<LanguageSwitcher />}
-          backAction={() => router.back()}
+          backAction={() => router.push("/patient/dashboard")}
+          wrapperClass="border-b"
         />
 
-        
+        {/* الفورم */}
         <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
           <form
             onSubmit={handleSubmit}

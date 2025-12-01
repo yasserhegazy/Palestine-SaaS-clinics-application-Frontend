@@ -3,11 +3,11 @@
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useRoleGuard } from "@/lib/roleGuard";
 import DashboardHero from "@/components/DashboardHero";
+import DashboardHeader from "@/components/DashboardHeader";
 import StatCard from "@/components/StatCard";
 
 export default function ReceptionDashboard() {
@@ -145,34 +145,17 @@ export default function ReceptionDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">
-              {t.receptionDashboard}
-            </h1>
-            <p className="text-sm text-gray-600">{clinic?.name}</p>
-          </div>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <div className="text-right">
-              <p className="text-sm font-medium text-gray-900">{user.name}</p>
-              <p className="text-xs text-gray-500">{user.role}</p>
-            </div>
-            <button
-              onClick={logout}
-              className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors text-sm font-medium"
-            >
-              {t.logout}
-            </button>
-          </div>
-        </div>
-      </header>
+      <DashboardHeader user={user} logout={logout} t={t} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Hero */}
         <DashboardHero
-          title={t.welcomeReception || (language === "ar" ? `أهلاً ${user.name.split(" ")[0]} 👋` : `Welcome, ${user.name.split(" ")[0]} 👋`)}
+          title={
+            t.welcomeReception ||
+            (language === "ar"
+              ? `أهلاً ${user.name.split(" ")[0]} 👋`
+              : `Welcome, ${user.name.split(" ")[0]} 👋`)
+          }
           subtitle={today}
           description={
             t.receptionSubTitle ||
