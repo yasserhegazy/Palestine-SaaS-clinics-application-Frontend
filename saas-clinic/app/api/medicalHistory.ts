@@ -45,7 +45,7 @@ export async function getMyMedicalHistory(token: string): Promise<Visit[]> {
     },
   };
 
-  const response = await axios.get(`${API_BASE}/patient/history`, config);
+  const response = await axios.get(`${API_BASE}/patient/medical-history`, config);
 
   return response.data.data || response.data || [];
 }

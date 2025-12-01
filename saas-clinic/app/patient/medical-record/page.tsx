@@ -28,29 +28,6 @@ export default function MedicalRecordPage() {
     );
   }
 
-  // Dummy data - In production, fetch from API based on authenticated user
-  const visits: Visit[] = [
-    {
-      date: "2025-02-28",
-      clinic: language === "ar" ? "عيادة الجلدية" : "Dermatology Clinic",
-      diagnosis:
-        language === "ar" ? "حساسية جلدية مزمنة" : "Chronic skin allergy",
-      doctor: language === "ar" ? "د. حازم ربيع" : "Dr. Hazem Rabee",
-    },
-    {
-      date: "2025-01-15",
-      clinic: language === "ar" ? "عيادة العيون" : "Ophthalmology",
-      diagnosis: language === "ar" ? "قصر نظر بسيط" : "Mild myopia",
-      doctor: language === "ar" ? "د. سناء شحادة" : "Dr. Sanaa Shahada",
-    },
-    {
-      date: "2024-12-10",
-      clinic: language === "ar" ? "عيادة الأسنان" : "Dental Clinic",
-      diagnosis: language === "ar" ? "تسوس الأسنان" : "Tooth decay",
-      doctor: language === "ar" ? "د. أحمد الحلو" : "Dr. Ahmad Al-Helo",
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-5xl mx-auto">
@@ -81,7 +58,8 @@ export default function MedicalRecordPage() {
           </div>
         </div>
 
-        <PreviousVisits visits={visits} showSummary={true} />
+        {/* PreviousVisits will automatically fetch data for authenticated patient */}
+        <PreviousVisits showSummary={true} />
       </div>
     </div>
   );
