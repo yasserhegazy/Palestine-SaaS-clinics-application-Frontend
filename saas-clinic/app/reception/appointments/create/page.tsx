@@ -9,6 +9,8 @@ import AppointmentForm, { type AppointmentFormData } from "@/components/Appointm
 import PatientSearch, { LookupPatient } from "@/components/PatientSearch";
 import PreviousVisits from "@/components/PreviousVisits";
 
+import { toast } from "react-hot-toast";
+
 export default function CreateAppointmentPage() {
   const { language } = useLanguage();
   const t = translations[language];
@@ -23,7 +25,7 @@ export default function CreateAppointmentPage() {
 
   const handleFormSubmit = async (data: AppointmentFormData) => {
     if (!selectedPatient) {
-      alert(language === "ar" ? "يرجى اختيار مريض أولاً" : "Please select a patient first");
+      toast.error(language === "ar" ? "يرجى اختيار مريض أولاً" : "Please select a patient first");
       return;
     }
 
@@ -45,21 +47,22 @@ export default function CreateAppointmentPage() {
       });
 
       if (response.ok) {
-        alert(
+        toast.success(
           language === "ar"
             ? "تم إنشاء الموعد بنجاح"
             : "Appointment created successfully"
         );
         router.push("/reception/dashboard");
       } else {
-        throw new Error("Failed to create appointment");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to create appointment");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating appointment:", error);
-      alert(
-        language === "ar"
+      toast.error(
+        error.message || (language === "ar"
           ? "حدث خطأ أثناء إنشاء الموعد"
-          : "An error occurred while creating the appointment"
+          : "An error occurred while creating the appointment")
       );
     } finally {
       setIsSubmitting(false);
