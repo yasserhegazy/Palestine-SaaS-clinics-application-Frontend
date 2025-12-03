@@ -40,7 +40,7 @@ const createApiClient = (tokenResolver?: TokenResolver): AxiosInstance => {
         const status = error.response.status;
         const errorData = error.response.data;
 
-        console.error(`HTTP Error ${status}:`, errorData);
+        // Don't log expected errors (422, 403, 429) - they're handled by the UI
 
         // Handle 401 Unauthorized - token expired or invalid
         if (status === 401 && typeof window !== 'undefined') {
@@ -53,15 +53,8 @@ const createApiClient = (tokenResolver?: TokenResolver): AxiosInstance => {
           }
         }
 
-        // Handle 403 Forbidden
-        if (status === 403) {
-          console.error('Access forbidden:', errorData);
-        }
-
-        // Handle 429 Too Many Requests (rate limiting)
-        if (status === 429) {
-          console.error('Too many requests. Please try again later.');
-        }
+        // Handle 403 Forbidden - don't log, let UI handle it
+        // Handle 429 Too Many Requests - don't log, let UI handle it
 
         // Handle 500/502/503 Server Errors
         if (status >= 500) {
@@ -69,10 +62,7 @@ const createApiClient = (tokenResolver?: TokenResolver): AxiosInstance => {
           error.message = `Server error (${status}). Please contact support or try again later.`;
         }
 
-        // Handle 422 Validation Errors
-        if (status === 422) {
-          console.error('Validation error:', errorData);
-        }
+        // Handle 422 Validation Errors - don't log, let UI handle it
       } else if (error.request) {
         // Request made but no response received
         console.error(

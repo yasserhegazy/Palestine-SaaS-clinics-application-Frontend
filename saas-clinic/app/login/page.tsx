@@ -70,7 +70,7 @@ export default function LoginPage() {
       await login(data.login, data.password);
       // Navigation is handled in AuthContext based on role
     } catch (err: unknown) {
-      console.error('Login error:', err);
+      // Don't log to console - error is displayed in UI
       
       if (err && typeof err === 'object' && 'response' in err) {
         const axiosError = err as { response?: { status?: number; data?: { message?: string; error?: string } } };
