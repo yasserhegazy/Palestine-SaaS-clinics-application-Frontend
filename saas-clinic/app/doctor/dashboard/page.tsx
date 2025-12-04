@@ -6,10 +6,9 @@ import type { Appointment } from "@/types/appointment";
 import { DoctorStats } from "@/components/doctor/DoctorStats";
 
 import { useLanguage } from "@/context/LanguageContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useRouter } from "next/navigation";
-import DashboardHeader from "@/components/DashboardHeader";
 import DashboardHero from "@/components/DashboardHero";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 interface AppointmentsResponse {
   appointments: Appointment[];
@@ -20,9 +19,8 @@ type ApiError = {
 };
 
 export default function DoctorDashboard() {
-  const { user, token, logout, clinic, isLoading } = useAuth();
+  const { user, token, isLoading } = useAuth();
   const { language } = useLanguage();
-  const t = [language];
   const isArabic = language === "ar";
   const router = useRouter();
 
@@ -90,9 +88,8 @@ export default function DoctorDashboard() {
   return (
     <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
       {/* الهيدر */}
-      <DashboardHeader user={user} logout={logout} t={t} />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Breadcrumbs />
         {/* هيرو */}
         <DashboardHero
           title={

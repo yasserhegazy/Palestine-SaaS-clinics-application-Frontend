@@ -5,9 +5,9 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import apiClient from "@/lib/api";
 import PageHeader from "@/components/common/PageHeader";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 // Backend appointment structure
 type BackendAppointment = {
@@ -158,6 +158,8 @@ finally {
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-3xl mx-auto">
+        <Breadcrumbs />
+
         <PageHeader
           label={language === "ar" ? "مواعيدي الحالية  " : "My appointments"}
           title={language === "ar" ? "مواعيدي" : "My appointments"}
@@ -166,7 +168,6 @@ finally {
               ? "عرض وإدارة مواعيدك الحالية والمستقبلية."
               : "View and manage your current and upcoming appointments."
           }
-          extraActions={<LanguageSwitcher />}
           backAction={() => router.push("/patient/dashboard")}
           wrapperClass="border-b"
         />

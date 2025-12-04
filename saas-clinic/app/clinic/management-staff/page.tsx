@@ -3,7 +3,6 @@
 import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import { translations } from '@/lib/translations';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useStaff } from '../../hooks/useStaff';
 import { StaffType } from '../../api/mangmentStaff';
 import {
@@ -12,6 +11,7 @@ import {
   PencilSquareIcon,
   TrashIcon
 } from '@heroicons/react/24/outline';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 export default function StaffManagementPage() {
   const { clinic, token } = useAuth();
@@ -54,27 +54,23 @@ export default function StaffManagementPage() {
   // ----- JSX -----
   return (
     <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-gray-200 sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Breadcrumbs />
+
+        <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{t.staffManagementTitle}</h1>
             <p className="text-sm text-gray-500 mt-1">{clinic?.name} - Staff Directory</p>
           </div>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <button
-              onClick={() => window.history.back()}
-              className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all duration-200 text-sm font-medium flex items-center gap-2"
-            >
-              {t.btnBack}
-            </button>
-          </div>
+          <button
+            onClick={() => window.history.back()}
+            className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all duration-200 text-sm font-medium flex items-center gap-2"
+          >
+            {t.btnBack}
+          </button>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-100">
 
           {/* Table Header / Controls */}

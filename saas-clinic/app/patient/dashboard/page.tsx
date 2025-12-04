@@ -8,7 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import { useRoleGuard } from "@/lib/roleGuard";
 import DashboardHero from "@/components/DashboardHero";
-import DashboardHeader from "@/components/DashboardHeader";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 import type {
   PatientDashboardData,
@@ -20,7 +20,7 @@ import { PatientUpcomingAppointments } from "@/components/patient/PatientUpcomin
 import { PatientPrescriptions } from "@/components/patient/PatientPrescriptions";
 
 export default function PatientDashboard() {
-  const { user, logout, isAuthenticated, isLoading } = useAuth();
+  const { user, isAuthenticated, isLoading } = useAuth();
   const { language } = useLanguage();
   const t = translations[language];
   const router = useRouter();
@@ -77,9 +77,8 @@ export default function PatientDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <DashboardHeader user={user} logout={logout} t={t} />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Breadcrumbs />
         <DashboardHero
           title={
             language === "ar"

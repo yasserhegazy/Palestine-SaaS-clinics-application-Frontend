@@ -7,11 +7,11 @@ import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useRoleGuard } from "@/lib/roleGuard";
 import DashboardHero from "@/components/DashboardHero";
-import DashboardHeader from "@/components/DashboardHeader";
 import StatCard from "@/components/StatCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function ReceptionDashboard() {
-  const { user, logout, clinic, isAuthenticated, isLoading } = useAuth();
+  const { user, clinic, isAuthenticated, isLoading } = useAuth();
   const { language } = useLanguage();
   const t = translations[language];
   const router = useRouter();
@@ -145,9 +145,8 @@ export default function ReceptionDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <DashboardHeader user={user} logout={logout} t={t} />
-
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Breadcrumbs />
         {/* Hero */}
         <DashboardHero
           title={

@@ -7,10 +7,10 @@ import type { Appointment } from "@/types/appointment";
 import { AppointmentFilters } from "@/components/doctor/AppointmentFilters";
 import { AppointmentTable } from "@/components/doctor/AppointmentTable";
 import { useLanguage } from "@/context/LanguageContext";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
 import { useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/components/common/PageHeader";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 
 interface AppointmentsResponse {
@@ -22,7 +22,7 @@ type ApiError = {
 };
 
 export default function DoctorAppointmentsPage() {
-  const { user, token, logout, clinic, isLoading } = useAuth();
+  const { user, token, isLoading } = useAuth();
   const { language } = useLanguage();
   const isArabic = language === "ar";
     const searchParams = useSearchParams();
@@ -300,8 +300,9 @@ export default function DoctorAppointmentsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-       
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Breadcrumbs />
+
         <PageHeader
           label={isArabic ? "إدارة مواعيدك" : "Manage your appointments"}
           title={

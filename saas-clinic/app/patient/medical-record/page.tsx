@@ -5,8 +5,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import LanguageSwitcher from "@/components/LanguageSwitcher";
-import PreviousVisits, { Visit } from "@/components/PreviousVisits";
+import Breadcrumbs from "@/components/Breadcrumbs";
+import PreviousVisits from "@/components/PreviousVisits";
 
 export default function MedicalRecordPage() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -31,6 +31,8 @@ export default function MedicalRecordPage() {
   return (
     <div className="min-h-screen bg-slate-50 py-8 px-4">
       <div className="max-w-5xl mx-auto">
+        <Breadcrumbs />
+
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
             <p className="text-xs text-slate-500 mb-1">
@@ -43,23 +45,19 @@ export default function MedicalRecordPage() {
             </h1>
             <p className="text-sm text-slate-500 mt-1">
               {language === "ar"
-                ? "يمكنك هنا الاطلاع على ملخص زياراتك وتشخيصاتك السابقة."
+                ? "هنا يمكنك مشاهدة ملخص لزياراتك السابقة والتشخيصات."
                 : "Here you can view a summary of your previous visits and diagnoses."}
             </p>
           </div>
-          <div className="flex items-center gap-3">
-            <LanguageSwitcher />
-            <button
-              onClick={() => router.push("/patient/dashboard")}
-              className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
-            >
-              {language === "ar" ? "رجوع" : "Back"}
-            </button>
-          </div>
+          <button
+            onClick={() => router.push("/patient/dashboard")}
+            className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
+          >
+            {language === "ar" ? "عودة" : "Back"}
+          </button>
         </div>
 
-        {/* PreviousVisits will automatically fetch data for authenticated patient */}
-        <PreviousVisits showSummary={true} />
+        <PreviousVisits showSummary />
       </div>
     </div>
   );
