@@ -33,6 +33,7 @@ export default function Breadcrumbs({ customItems }: BreadcrumbsProps) {
     settings: { en: 'Settings', ar: 'الإعدادات' },
     appointments: { en: 'Appointments', ar: 'المواعيد' },
     patients: { en: 'Patients', ar: 'المرضى' },
+    'medical-record': { en: 'Medical Record', ar: 'السجل الطبي' },
     'medical-records': { en: 'Medical Records', ar: 'السجلات الطبية' },
     'medical-history': { en: 'Medical History', ar: 'التاريخ الطبي' },
     analytics: { en: 'Analytics', ar: 'التحليلات' },
