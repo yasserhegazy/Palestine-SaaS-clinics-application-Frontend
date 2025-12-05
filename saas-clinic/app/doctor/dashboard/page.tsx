@@ -38,7 +38,7 @@ export default function DoctorDashboard() {
         setIsLoadingAppointments(true);
         setAppointmentsError(null);
 
-        const res = await fetch("/api/doctor/appointments", {
+        const res = await fetch("/api/doctor/appointments/requests", {
           method: "GET",
           headers: {
             Authorization: `Bearer ${token}`,
