@@ -51,17 +51,26 @@ export async function PUT(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
+    const requestFormData = await request.formData();
+    const formData = new FormData();
+
+    requestFormData.forEach((value, key) => {
+      if (typeof value === 'string') {
+        formData.append(key, value);
+      } else if (value instanceof File) {
+        formData.append(key, value, value.name);
+      }
+    });
+
     const url = `${API_BASE_URL}/manager/clinic/settings`;
 
     const response = await fetch(url, {
-      method: 'PUT',
+      method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
       },
-      body: JSON.stringify(body),
+      body: formData,
     });
 
     const data = await response.json();

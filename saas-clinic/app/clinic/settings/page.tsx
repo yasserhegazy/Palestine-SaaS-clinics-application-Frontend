@@ -51,6 +51,8 @@ export default function ClinicSettingsPage() {
         setLoading(true);
         setError(null);
         const data = await getClinicSettings();
+        console.log('Fetched clinic settings:', data);
+        console.log('Logo URL from fetch:', data.logo_url);
         setClinicData(data);
         setFormData({
           name: data.name,
@@ -61,7 +63,10 @@ export default function ClinicSettingsPage() {
           status: data.status,
         });
         if (data.logo_url) {
+          console.log('Setting logo preview to:', data.logo_url);
           setLogoPreview(data.logo_url);
+        } else {
+          console.log('No logo_url found in response');
         }
       } catch (err: any) {
         console.error('Error fetching clinic settings:', err);
@@ -97,8 +102,25 @@ export default function ClinicSettingsPage() {
     setError(null);
     
     try {
-      const updatedClinic = await updateClinicSettings(formData);
+      const updatedClinic = await updateClinicSettings({
+        ...formData,
+        logo: selectedFile,
+      });
+      
+      console.log('Updated clinic data:', updatedClinic);
+      console.log('Logo URL:', updatedClinic.logo_url);
+      
       setClinicData(updatedClinic);
+      setFormData({
+        name: updatedClinic.name,
+        address: updatedClinic.address,
+        phone: updatedClinic.phone,
+        email: updatedClinic.email,
+        subscription_plan: updatedClinic.subscription_plan,
+        status: updatedClinic.status,
+      });
+      setLogoPreview(updatedClinic.logo_url || null);
+      setSelectedFile(null);
       setShowSuccess(true);
       setTimeout(() => setShowSuccess(false), 3000);
     } catch (err: any) {
@@ -124,16 +146,18 @@ export default function ClinicSettingsPage() {
     }
   };
 
+  const isArabic = language === 'ar';
+
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+    <div className="min-h-screen bg-gray-50 font-sans text-gray-900" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Success Toast */}
       {showSuccess && (
         <div className="fixed top-4 right-4 z-50 animate-in slide-in-from-top duration-300">
           <div className="bg-green-50 border border-green-200 rounded-xl shadow-lg p-4 flex items-center gap-3">
             <CheckCircleIcon className="h-6 w-6 text-green-600" />
             <div>
-              <p className="font-semibold text-green-900">Settings Updated!</p>
-              <p className="text-sm text-green-700">Your clinic settings have been saved successfully.</p>
+              <p className="font-semibold text-green-900">{isArabic ? 'تم تحديث الإعدادات!' : 'Settings Updated!'}</p>
+              <p className="text-sm text-green-700">{isArabic ? 'تم حفظ إعدادات العيادة بنجاح.' : 'Your clinic settings have been saved successfully.'}</p>
             </div>
           </div>
         </div>
@@ -145,7 +169,7 @@ export default function ClinicSettingsPage() {
           <div className="bg-red-50 border border-red-200 rounded-xl shadow-lg p-4 flex items-center gap-3">
             <InformationCircleIcon className="h-6 w-6 text-red-600" />
             <div>
-              <p className="font-semibold text-red-900">Error</p>
+              <p className="font-semibold text-red-900">{isArabic ? 'خطأ' : 'Error'}</p>
               <p className="text-sm text-red-700">{error}</p>
             </div>
           </div>
@@ -159,14 +183,14 @@ export default function ClinicSettingsPage() {
         {/* Header */}
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Clinic Settings</h1>
-            <p className="text-sm text-gray-500 mt-1">Manage your clinic information and preferences</p>
+            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{t.settings || (isArabic ? 'إعدادات العيادة' : 'Clinic Settings')}</h1>
+            <p className="text-sm text-gray-500 mt-1">{isArabic ? 'إدارة معلومات العيادة والتفضيلات' : 'Manage your clinic information and preferences'}</p>
           </div>
           <button
             onClick={() => window.history.back()}
             className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all duration-200 text-sm font-medium flex items-center gap-2"
           >
-            {t.btnBack || 'Back'}
+            {t.back || 'Back'}
           </button>
         </div>
 
@@ -178,12 +202,12 @@ export default function ClinicSettingsPage() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <p className="text-gray-600">Loading clinic settings...</p>
+              <p className="text-gray-600">{isArabic ? 'جاري تحميل إعدادات العيادة...' : 'Loading clinic settings...'}</p>
             </div>
           </div>
         ) : (
         <>
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-6" encType="multipart/form-data">
           {/* Clinic Information Card */}
           <div className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-100">
             <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-teal-50 to-blue-50">
@@ -192,8 +216,8 @@ export default function ClinicSettingsPage() {
                   <BuildingOfficeIcon className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">Clinic Information</h2>
-                  <p className="text-sm text-gray-600">Update your clinic's basic details</p>
+                  <h2 className="text-xl font-bold text-gray-900">{isArabic ? 'معلومات العيادة' : 'Clinic Information'}</h2>
+                  <p className="text-sm text-gray-600">{isArabic ? 'تحديث التفاصيل الأساسية للعيادة' : "Update your clinic's basic details"}</p>
                 </div>
               </div>
             </div>
@@ -203,16 +227,22 @@ export default function ClinicSettingsPage() {
               <div className="flex flex-col md:flex-row gap-6 items-start">
                 <div className="flex-shrink-0">
                   <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Clinic Logo
+                    {isArabic ? 'شعار العيادة' : 'Clinic Logo'}
                   </label>
                   <div className="relative group">
                     <div className="w-32 h-32 rounded-xl border-2 border-dashed border-gray-300 group-hover:border-teal-500 transition-colors flex items-center justify-center overflow-hidden bg-gray-50">
                       {logoPreview ? (
-                        <img src={logoPreview} alt="Logo preview" className="w-full h-full object-cover" />
+                        <img 
+                          src={logoPreview} 
+                          alt="Logo preview" 
+                          className="w-full h-full object-cover"
+                          onLoad={() => console.log('Image loaded successfully:', logoPreview)}
+                          onError={(e) => console.error('Image failed to load:', logoPreview, e)}
+                        />
                       ) : (
                         <div className="text-center">
                           <PhotoIcon className="h-12 w-12 text-gray-400 mx-auto mb-2" />
-                          <p className="text-xs text-gray-500">Upload Logo</p>
+                          <p className="text-xs text-gray-500">{isArabic ? 'رفع الشعار' : 'Upload Logo'}</p>
                         </div>
                       )}
                     </div>
@@ -224,7 +254,7 @@ export default function ClinicSettingsPage() {
                     />
                   </div>
                   <p className="text-xs text-gray-500 mt-2">
-                    Max 2MB • JPG, PNG, GIF, SVG
+                    {isArabic ? 'الحد الأقصى 2 ميجابايت • JPG, PNG, GIF, SVG' : 'Max 2MB • JPG, PNG, GIF, SVG'}
                   </p>
                 </div>
 
@@ -232,7 +262,7 @@ export default function ClinicSettingsPage() {
                   {/* Clinic Name */}
                   <div className="md:col-span-2">
                     <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
-                      Clinic Name *
+                      {t.clinicName || (isArabic ? 'اسم العيادة' : 'Clinic Name')} *
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -246,7 +276,7 @@ export default function ClinicSettingsPage() {
                         value={formData.name}
                         onChange={handleInputChange}
                         className="pl-10 w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all"
-                        placeholder="Enter clinic name"
+                        placeholder={isArabic ? 'أدخل اسم العيادة' : 'Enter clinic name'}
                       />
                     </div>
                   </div>
@@ -254,7 +284,7 @@ export default function ClinicSettingsPage() {
                   {/* Address */}
                   <div className="md:col-span-2">
                     <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
-                      Address *
+                      {isArabic ? 'العنوان' : 'Address'} *
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -268,7 +298,7 @@ export default function ClinicSettingsPage() {
                         value={formData.address}
                         onChange={handleInputChange}
                         className="pl-10 w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all"
-                        placeholder="Enter clinic address"
+                        placeholder={isArabic ? 'أدخل عنوان العيادة' : 'Enter clinic address'}
                       />
                     </div>
                   </div>
@@ -276,7 +306,7 @@ export default function ClinicSettingsPage() {
                   {/* Phone */}
                   <div>
                     <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-2">
-                      Phone Number *
+                      {t.phone || (isArabic ? 'رقم الهاتف' : 'Phone Number')} *
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -298,7 +328,7 @@ export default function ClinicSettingsPage() {
                   {/* Email */}
                   <div>
                     <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
-                      Email Address *
+                      {t.email || (isArabic ? 'البريد الإلكتروني' : 'Email Address')} *
                     </label>
                     <div className="relative">
                       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -329,8 +359,8 @@ export default function ClinicSettingsPage() {
                   <CreditCardIcon className="h-6 w-6 text-white" />
                 </div>
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900">Subscription & Status</h2>
-                  <p className="text-sm text-gray-600">Manage your subscription plan and clinic status</p>
+                  <h2 className="text-xl font-bold text-gray-900">{isArabic ? 'الاشتراك والحالة' : 'Subscription & Status'}</h2>
+                  <p className="text-sm text-gray-600">{isArabic ? 'إدارة خطة الاشتراك وحالة العيادة' : 'Manage your subscription plan and clinic status'}</p>
                 </div>
               </div>
             </div>
@@ -339,7 +369,7 @@ export default function ClinicSettingsPage() {
               {/* Subscription Plan */}
               <div>
                 <label htmlFor="subscription_plan" className="block text-sm font-medium text-gray-700 mb-2">
-                  Subscription Plan
+                  {isArabic ? 'خطة الاشتراك' : 'Subscription Plan'}
                 </label>
                 <div className="relative">
                   <select
@@ -349,9 +379,9 @@ export default function ClinicSettingsPage() {
                     onChange={handleInputChange}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all appearance-none cursor-pointer bg-white"
                   >
-                    <option value="Basic">Basic Plan</option>
-                    <option value="Standard">Standard Plan</option>
-                    <option value="Premium">Premium Plan</option>
+                    <option value="Basic">{t.basicPlan || (isArabic ? 'الخطة الأساسية' : 'Basic Plan')}</option>
+                    <option value="Standard">{t.proPlan || (isArabic ? 'الخطة المتقدمة' : 'Standard Plan')}</option>
+                    <option value="Premium">{t.enterprisePlan || (isArabic ? 'الخطة المميزة' : 'Premium Plan')}</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -362,9 +392,9 @@ export default function ClinicSettingsPage() {
                 <div className="mt-2 flex items-start gap-2">
                   <InformationCircleIcon className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
                   <p className="text-xs text-gray-500">
-                    {formData.subscription_plan === 'Basic' && 'Up to 50 patients, 2 doctors'}
-                    {formData.subscription_plan === 'Standard' && 'Up to 200 patients, 5 doctors'}
-                    {formData.subscription_plan === 'Premium' && 'Unlimited patients and doctors'}
+                    {formData.subscription_plan === 'Basic' && (isArabic ? 'حتى 50 مريض، 2 طبيب' : 'Up to 50 patients, 2 doctors')}
+                    {formData.subscription_plan === 'Standard' && (isArabic ? 'حتى 200 مريض، 5 أطباء' : 'Up to 200 patients, 5 doctors')}
+                    {formData.subscription_plan === 'Premium' && (isArabic ? 'عدد غير محدود من المرضى والأطباء' : 'Unlimited patients and doctors')}
                   </p>
                 </div>
               </div>
@@ -372,7 +402,7 @@ export default function ClinicSettingsPage() {
               {/* Clinic Status */}
               <div>
                 <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-2">
-                  Clinic Status
+                  {t.status || (isArabic ? 'حالة العيادة' : 'Clinic Status')}
                 </label>
                 <div className="relative">
                   <select
@@ -382,8 +412,8 @@ export default function ClinicSettingsPage() {
                     onChange={handleInputChange}
                     className="w-full px-4 py-2.5 rounded-xl border border-gray-200 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 outline-none transition-all appearance-none cursor-pointer bg-white"
                   >
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
+                    <option value="Active">{t.active || (isArabic ? 'نشط' : 'Active')}</option>
+                    <option value="Inactive">{isArabic ? 'غير نشط' : 'Inactive'}</option>
                   </select>
                   <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                     <svg className="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -400,7 +430,7 @@ export default function ClinicSettingsPage() {
                     <span className={`h-1.5 w-1.5 rounded-full ${
                       formData.status === 'Active' ? 'bg-green-500' : 'bg-red-500'
                     }`}></span>
-                    {formData.status === 'Active' ? 'Clinic is accepting patients' : 'Clinic is not accepting patients'}
+                    {formData.status === 'Active' ? (isArabic ? 'العيادة تقبل المرضى' : 'Clinic is accepting patients') : (isArabic ? 'العيادة لا تقبل المرضى' : 'Clinic is not accepting patients')}
                   </span>
                 </div>
               </div>
@@ -414,7 +444,7 @@ export default function ClinicSettingsPage() {
               onClick={handleCancel}
               className="px-6 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-all"
             >
-              Cancel
+              {t.cancel || (isArabic ? 'إلغاء' : 'Cancel')}
             </button>
             <button
               type="submit"
@@ -427,12 +457,12 @@ export default function ClinicSettingsPage() {
                     <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                     <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                   </svg>
-                  Saving...
+                  {isArabic ? 'جاري الحفظ...' : 'Saving...'}
                 </>
               ) : (
                 <>
                   <CheckCircleIcon className="h-5 w-5" />
-                  Save Changes
+                  {t.save || (isArabic ? 'حفظ التغييرات' : 'Save Changes')}
                 </>
               )}
             </button>
@@ -444,12 +474,12 @@ export default function ClinicSettingsPage() {
           <div className="flex gap-3">
             <InformationCircleIcon className="h-6 w-6 text-blue-600 flex-shrink-0" />
             <div>
-              <h3 className="font-semibold text-blue-900 mb-1">Important Information</h3>
+              <h3 className="font-semibold text-blue-900 mb-1">{isArabic ? 'معلومات هامة' : 'Important Information'}</h3>
               <ul className="text-sm text-blue-800 space-y-1">
-                <li>• Changes to clinic information will be reflected across the entire system</li>
-                <li>• Email address must be unique and will be used for system notifications</li>
-                <li>• Setting status to "Inactive" will prevent new patient registrations</li>
-                <li>• Logo changes may take a few moments to appear throughout the system</li>
+                <li>• {isArabic ? 'التغييرات على معلومات العيادة ستنعكس على النظام بأكمله' : 'Changes to clinic information will be reflected across the entire system'}</li>
+                <li>• {isArabic ? 'يجب أن يكون البريد الإلكتروني فريداً وسيستخدم لإشعارات النظام' : 'Email address must be unique and will be used for system notifications'}</li>
+                <li>• {isArabic ? 'تعيين الحالة إلى "غير نشط" سيمنع تسجيلات المرضى الجدد' : 'Setting status to "Inactive" will prevent new patient registrations'}</li>
+                <li>• {isArabic ? 'قد يستغرق ظهور تغييرات الشعار بضع لحظات في النظام' : 'Logo changes may take a few moments to appear throughout the system'}</li>
               </ul>
             </div>
           </div>
