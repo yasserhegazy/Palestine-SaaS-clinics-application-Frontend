@@ -6,12 +6,37 @@ interface DoctorStatsProps {
 }
 
 export function DoctorStats({ appointments }: DoctorStatsProps) {
-  const pendingCount = appointments.filter(
-    (a) => a.status.toString().toLowerCase() === "pending"
-  ).length;
+  const today = new Date();
 
-  const todaysAppointments = 12;
-  const totalPatients = 156;
+  const todaysAppointments = appointments.filter((a) => {
+    if (!a.dateTime) return false;
+    const d = new Date(a.dateTime);
+    if (Number.isNaN(d.getTime())) return false;
+
+    return (
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth() &&
+      d.getDate() === today.getDate()
+    );
+  }).length;
+
+  const pendingCount = appointments.filter(
+    (a) => (a.status ?? "").toString().toLowerCase() === "pending"
+  ).length;
+const patientKeys = new Set<string>();
+
+for (const a of appointments) {
+  const key =
+    (a.patientId && String(a.patientId)) ||
+    a.patientPhone ||
+    a.patientName ||
+    "";
+
+  if (key) patientKeys.add(key);
+}
+
+
+  const totalPatients = patientKeys.size;
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-3 text-black">

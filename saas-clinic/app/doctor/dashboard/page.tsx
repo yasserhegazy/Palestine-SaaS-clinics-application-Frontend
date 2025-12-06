@@ -1,20 +1,36 @@
 "use client";
 
-console.log("🔥 DoctorDashboard FILE loaded");
-
 import { useAuth } from "@/context/AuthContext";
 import { useEffect, useState, useCallback } from "react";
 import type { Appointment } from "@/types/appointment";
 import { DoctorStats } from "@/components/doctor/DoctorStats";
-
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import DashboardHeader from "@/components/DashboardHeader";
 import DashboardHero from "@/components/DashboardHero";
 
+
+interface ApiAppointment {
+  id?: number;
+  appointment_id?: number;
+  appointment_date?: string;
+  appointment_time?: string | null;
+  patient_name?: string;
+  patient_phone?: string;
+  clinic_name?: string;
+  reason?: string;
+  appointment_status?: string;
+  dateTime?: string;
+  patientName?: string;
+  patientPhone?: string;
+  clinicName?: string;
+  notes?: string;
+  status?: string;
+}
+
 interface AppointmentsResponse {
-  appointments?: Appointment[] | any[];
-  data?: Appointment[] | any[];
+  appointments?: ApiAppointment[];
+  data?: ApiAppointment[];
 }
 
 type ApiError = {
@@ -22,13 +38,16 @@ type ApiError = {
   error?: string;
 };
 
-// نوحد شكل بيانات الـ API مع type Appointment
-function normalizeAppointments(json: any): Appointment[] {
-  const base: any[] = Array.isArray(json)
+function normalizeAppointments(
+  json: AppointmentsResponse | Appointment[]
+): Appointment[] {
+  const base: (ApiAppointment | Appointment)[] = Array.isArray(json)
     ? json
     : json.appointments ?? json.data ?? [];
 
-  return base.map((a: any) => {
+  return base.map((raw) => {
+    const a = raw as ApiAppointment & Partial<Appointment>;
+
     const appointment_date =
       a.appointment_date ??
       (a.dateTime
@@ -50,14 +69,13 @@ function normalizeAppointments(json: any): Appointment[] {
         : undefined);
 
     const normalized: Appointment = {
-      ...a,
-      id: a.id ?? a.appointment_id,
+      id: a.id ?? a.appointment_id ?? 0,
+      dateTime,
+      status: a.status ?? a.appointment_status ?? "requested",
+      notes: a.notes ?? a.reason ?? "",
       patientName: a.patientName ?? a.patient_name ?? "",
       patientPhone: a.patientPhone ?? a.patient_phone ?? "",
       clinicName: a.clinicName ?? a.clinic_name ?? "",
-      notes: a.notes ?? a.reason ?? "",
-      status: a.status ?? a.appointment_status ?? "requested",
-      dateTime,
     };
 
     return normalized;
@@ -78,7 +96,7 @@ export default function DoctorDashboard() {
   );
 
   const fetchAppointments = useCallback(async () => {
-    console.log("🚀 [Dashboard] useEffect/fetchAppointments running");
+    console.log("🚀 [Dashboard] fetchAppointments running");
 
     if (!user || !token) {
       console.log("⛔ [Dashboard] no user or token", { user, token });
@@ -158,11 +176,9 @@ export default function DoctorDashboard() {
 
   return (
     <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
-      {/* الهيدر */}
       <DashboardHeader user={user} logout={logout} t={t} />
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
-        {/* هيرو */}
         <DashboardHero
           title={
             isArabic ? `أهلاً د. ${firstName} 👋` : `Hello Dr. ${firstName} 👋`
@@ -206,7 +222,6 @@ export default function DoctorDashboard() {
           }
         />
 
-        {/* إحصائيات اليوم */}
         <section className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-slate-900">
@@ -229,7 +244,6 @@ export default function DoctorDashboard() {
           )}
         </section>
 
-        {/* إجراءات سريعة */}
         <section className="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 sm:p-5">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-slate-900">
