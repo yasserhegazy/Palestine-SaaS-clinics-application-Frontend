@@ -32,6 +32,7 @@ export default function Breadcrumbs({ customItems }: BreadcrumbsProps) {
     reports: { en: 'Reports', ar: 'التقارير' },
     settings: { en: 'Settings', ar: 'الإعدادات' },
     appointments: { en: 'Appointments', ar: 'المواعيد' },
+    'today-appointments': { en: "Today's Appointments", ar: 'مواعيد اليوم' },
     patients: { en: 'Patients', ar: 'المرضى' },
     search: { en: 'Search', ar: 'بحث' },
     create: { en: 'Create appointment', ar: 'إنشاء موعد' },
