@@ -352,21 +352,42 @@ export default function PatientSearch({
               )}
 
               {!loading && !error && noResults && (
-                <div className="mt-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm text-slate-500">
-                  <span>
-                    {language === "ar"
-                      ? `لا توجد نتائج ل "${trimmedQuery}".`
-                      : `No patients found for "${trimmedQuery}".`}
-                  </span>
-                  {retryable && (
+                <div className="mt-3 space-y-3">
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-sm text-slate-500">
+                    <span>
+                      {language === "ar"
+                        ? `لا توجد نتائج ل "${trimmedQuery}".`
+                        : `No patients found for "${trimmedQuery}".`}
+                    </span>
+                    {retryable && (
+                      <button
+                        type="button"
+                        onClick={handleRetry}
+                        className="text-xs font-semibold text-teal-700 hover:underline"
+                      >
+                        {language === "ar" ? "أعد المحاولة" : "Retry"}
+                      </button>
+                    )}
+                  </div>
+                  
+                  {/* Create New Patient Button */}
+                  <div className="pt-3 border-t border-slate-200">
+                    <p className="text-xs text-slate-600 mb-2">
+                      {language === "ar"
+                        ? "لم تجد المريض؟ يمكنك إنشاء ملف جديد"
+                        : "Patient not found? Create a new record"}
+                    </p>
                     <button
                       type="button"
-                      onClick={handleRetry}
-                      className="text-xs font-semibold text-teal-700 hover:underline"
+                      onClick={() => router.push('/reception/patients/register')}
+                      className="w-full md:w-auto px-4 py-2.5 rounded-xl bg-teal-600 text-white text-sm font-medium hover:bg-teal-700 transition flex items-center justify-center gap-2"
                     >
-                      {language === "ar" ? "أعد المحاولة" : "Retry"}
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                      {language === "ar" ? "إنشاء ملف مريض جديد" : "Create new patient record"}
                     </button>
-                  )}
+                  </div>
                 </div>
               )}
 

@@ -28,31 +28,31 @@ interface AppointmentRequest {
 const initialRequests: AppointmentRequest[] = [
   {
     id: "REQ-1001",
-    patientName: "U.O-U.O_ OœO-U.O_",
+    patientName: "أحمد محمد",
     nationalId: "401234567",
     phone: "0590000000",
-    specialty: "OúO\" OU,O1O,OU.",
-    doctorName: "O_. OrOU,O_ USU^O3U?",
+    specialty: "طب القلب",
+    doctorName: "د. خالد يوسف",
     preferredDate: "2025-02-20",
     preferredTime: "15:00",
     createdAt: "2025-02-18 10:30",
     status: "new",
-    portalSource: "OU,O\"U^OO\"Oc OU,OU,UŸO¦OñU^U+USOc",
-    complaint: "OœU,U. U.O3O¦U.Oñ U?US OU,OñUŸO\"Oc OU,USU.U+U% U.U+Oø O'UØOñ.",
+    portalSource: "البوابة الإلكترونية",
+    complaint: "ألم مستمر في الصدر الأيسر منذ أسبوع.",
   },
   {
     id: "REQ-1002",
-    patientName: "O3OOñOc O1U,US",
+    patientName: "سارة علي",
     nationalId: "408765432",
     phone: "0591111111",
-    specialty: "OúO\" OU,OœOúU?OU,",
-    doctorName: "O_. OœO-U.O_ OñOOÝO_",
+    specialty: "طب الأطفال",
+    doctorName: "د. محمد رائد",
     preferredDate: "2025-02-21",
     preferredTime: "11:00",
     createdAt: "2025-02-18 11:15",
     status: "new",
-    portalSource: "O¦OúO\"USU, OU,OªU^OU,",
-    complaint: "O-OñOOñOc O1OU,USOc U^O¦U,USO U.U+Oø USU^U.USU+.",
+    portalSource: "تطبيق الهاتف",
+    complaint: "حرارة عالية وألم في حلقيه.",
   },
 ];
 
@@ -124,14 +124,14 @@ export default function AppointmentRequestsPage() {
         <div className="mb-2 flex items-center justify-between gap-3">
           <div>
             <p className="text-xs text-slate-500 mb-1">
-              {t.patientsManagement || "OO_OOñOc OU,U.OñOU%"}
+              {t.patientsManagement || (language === "ar" ? "إدارة المرضى" : "Patients management")}
             </p>
             <h1 className="text-2xl font-bold text-slate-900">
-              {t.appointmentRequestsTitle || "OúU,O\"OO¦ OU,U.U^OO1USO_"}
+              {t.appointmentRequestsTitle || (language === "ar" ? "طلبات المواعيد" : "Appointment Requests")}
             </h1>
             <p className="text-sm text-slate-500 mt-1">
               {t.appointmentRequestsSubtitle ||
-                "U.OñOOªO1Oc OU,OúU,O\"OO¦ OU,U,OO_U.Oc U.U+ OU,O\"U^OO\"Oc OU,OU,UŸO¦OñU^U+USOcOO O¦O_U,USU, OU,O¦U?OOæUSU,OO U^O¦O-U^USU,UØO U,U,OúO\"USO\" OU,U.U+OO3O\" U,U,U.U^OU?U,Oc OœU^ OU,O¦O1O_USU,."}
+                (language === "ar" ? "مراجعة الطلبات الواردة من البوابة الإلكترونية، تدقيق التفاصيل وتحويلها للطبيب المناسب للموافقة من الادمن." : "Review requests from the online portal, verify details and forward to the appropriate doctor for admin approval.")}
             </p>
           </div>
 
@@ -139,7 +139,7 @@ export default function AppointmentRequestsPage() {
             onClick={() => router.back()}
             className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
           >
-            {t.back || "OñOªU^O1"}
+            {t.back || (language === "ar" ? "رجوع" : "Back")}
           </button>
         </div>
 
@@ -149,7 +149,7 @@ export default function AppointmentRequestsPage() {
               type="text"
               placeholder={
                 t.appointmentRequestsSearchPlaceholder ||
-                "O\"O-O® O\"OU,OO3U.OO OñU,U. OU,UØU^USOcOO OU,UØOO¦U?OO OñU,U. OU,OúU,O\"..."
+                (language === "ar" ? "بحث بالاسم، رقم الهوية، الهاتف، رقم الطلب..." : "Search by name, ID, phone, request number...")
               }
               value={search}
               onChange={(e) => setSearch(e.target.value)}
@@ -159,12 +159,12 @@ export default function AppointmentRequestsPage() {
 
           <div className="flex flex-wrap gap-2">
             {[
-              { label: t.appointmentStatusAll || "OU,UŸU,", value: "all" as const },
-              { label: t.appointmentStatusNew || "OªO_USO_Oc", value: "new" as const },
-              { label: t.appointmentStatusApproved || "U.U,O\"U^U,Oc", value: "approved" as const },
-              { label: t.appointmentStatusRejected || "U.OñU?U^OOc", value: "rejected" as const },
+              { label: t.appointmentStatusAll || (language === "ar" ? "الكل" : "All"), value: "all" as const },
+              { label: t.appointmentStatusNew || (language === "ar" ? "جديدة" : "New"), value: "new" as const },
+              { label: t.appointmentStatusApproved || (language === "ar" ? "مُأكدة" : "Approved"), value: "approved" as const },
+              { label: t.appointmentStatusRejected || (language === "ar" ? "مرفوضة" : "Rejected"), value: "rejected" as const },
               {
-                label: t.appointmentStatusRescheduled || "U.U?O1OO_ OªO_U^U,O¦UØO",
+                label: t.appointmentStatusRescheduled || (language === "ar" ? "مُعاد جدولته" : "Rescheduled"),
                 value: "rescheduled" as const,
               },
             ].map((item) => (
@@ -184,7 +184,7 @@ export default function AppointmentRequestsPage() {
         </div>
 
         <div className="text-sm text-gray-500">
-          {(t.appointmentRequestsCountLabel || "O1O_O_ OU,OúU,O\"OO¦") + ": "}
+          {(t.appointmentRequestsCountLabel || (language === "ar" ? "عدد الطلبات" : "Number of requests")) + ": "}
           <span className="font-semibold text-gray-800">{filteredRequests.length}</span>
         </div>
 
@@ -194,18 +194,18 @@ export default function AppointmentRequestsPage() {
               <table className="min-w-full text-sm text-right">
                 <thead className="bg-gray-50 text-xs text-gray-500">
                   <tr>
-                    <th className="px-4 py-3">OñU,U. OU,OúU,O\"</th>
+                    <th className="px-4 py-3">{t.appointmentRequestNumber || (language === "ar" ? "رقم الطلب" : "Request ID")}</th>
                     <th className="px-4 py-3">
-                      {t.appointmentDetailsPatientName || "OO3U. OU,U.OñUSO"}
+                      {t.appointmentDetailsPatientName || (language === "ar" ? "اسم المريض" : "Patient Name")}
                     </th>
-                    <th className="px-4 py-3">{t.appointmentDetailsPhone || "OU,UØOO¦U?"}</th>
-                    <th className="px-4 py-3">{t.appointmentDetailsSpecialty || "OU,O¦OrOæOæ"}</th>
-                    <th className="px-4 py-3">{t.appointmentDetailsDoctor || "OU,OúO\"USO\""}</th>
+                    <th className="px-4 py-3">{t.appointmentDetailsPhone || (language === "ar" ? "الهاتف" : "Phone")}</th>
+                    <th className="px-4 py-3">{t.appointmentDetailsSpecialty || (language === "ar" ? "التخصص" : "Specialty")}</th>
+                    <th className="px-4 py-3">{t.appointmentDetailsDoctor || (language === "ar" ? "الطبيب" : "Doctor")}</th>
                     <th className="px-4 py-3">
-                      {t.appointmentDetailsPreferredSlot || "OU,U.U^O1O_ OU,U.U?OU,"}
+                      {t.appointmentDetailsPreferredSlot || (language === "ar" ? "الموعد المفضل" : "Preferred Slot")}
                     </th>
-                    <th className="px-4 py-3">{t.appointmentDetailsCurrentStatus || "OU,O-OU,Oc"}</th>
-                    <th className="px-4 py-3">OOªOñOO­OO¦</th>
+                    <th className="px-4 py-3">{t.appointmentDetailsCurrentStatus || (language === "ar" ? "الحالة" : "Status")}</th>
+                    <th className="px-4 py-3">{t.actions || (language === "ar" ? "إجراءات" : "Actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -213,7 +213,7 @@ export default function AppointmentRequestsPage() {
                     <tr>
                       <td colSpan={8} className="px-4 py-6 text-center text-gray-400 text-sm">
                         {t.appointmentRequestsNoResults ||
-                          "U,O O¦U^OªO_ OúU,O\"OO¦ U.OúOO\"U,Oc U,U,O\"O-O® OœU^ OU,U?U,O¦Oñ OU,O-OU,US."}
+                          (language === "ar" ? "لا توجد طلبات مطابقة للبحث من الفلتر الحالي." : "No matching requests found for current filter.")}
                       </td>
                     </tr>
                   )}
@@ -236,7 +236,7 @@ export default function AppointmentRequestsPage() {
                           onClick={() => handleOpenDetails(req)}
                           className="text-xs px-3 py-1 rounded-lg bg-emerald-50 text-emerald-700 border border-emerald-100 hover:bg-emerald-100"
                         >
-                          {language === "ar" ? "O1OñO OU,O¦U?OOæUSU," : "View details"}
+                          {t.viewDetails || (language === "ar" ? "عرض التفاصيل" : "View details")}
                         </button>
                       </td>
                     </tr>
@@ -253,23 +253,23 @@ export default function AppointmentRequestsPage() {
               <div className="flex items-start justify-between gap-4">
                 <div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-1">
-                    {t.appointmentDetailsTitle || "O¦U?OOæUSU, OúU,O\" OU,U.U^O1O_"}
+                    {t.appointmentDetailsTitle || (language === "ar" ? "تفاصيل طلب الموعد" : "Appointment Request Details")}
                   </h2>
                   <p className="text-xs text-gray">
-                    {(t.appointmentDetailsRequestNumber || "OñU,U. OU,OúU,O\"") +
+                    {(t.appointmentDetailsRequestNumber || (language === "ar" ? "رقم الطلب" : "Request Number")) +
                       `: ${selectedRequest.id}`}{" "}
-                    Aú{" "}
+                    •{" "}
                     {language === "ar"
-                      ? `O¦OOñUSOr OU,O¦U,O_USU.: ${selectedRequest.createdAt}`
+                      ? `تاريخ التقديم: ${selectedRequest.createdAt}`
                       : `Submitted at: ${selectedRequest.createdAt}`}
                   </p>
                 </div>
                 <button
                   onClick={closeDetails}
                   className="text-gray-400 hover:text-gray-600 text-xl leading-none"
-                  aria-label={language === "ar" ? "OO§U,OU," : "Close"}
+                  aria-label={t.close || (language === "ar" ? "إغلاق" : "Close")}
                 >
-                  A-
+                  ×
                 </button>
               </div>
 
@@ -291,7 +291,7 @@ export default function AppointmentRequestsPage() {
                   value={`${selectedRequest.preferredDate} - ${selectedRequest.preferredTime}`}
                 />
                 <InfoItem
-                  label={t.appointmentDetailsCurrentStatus || "OU,O-OU,Oc OU,O-OU,USOc"}
+                  label={t.appointmentDetailsCurrentStatus || (language === "ar" ? "الحالة الحالية" : "Current Status")}
                   value={<StatusBadge status={selectedRequest.status} />}
                 />
               </div>
@@ -299,7 +299,7 @@ export default function AppointmentRequestsPage() {
               {selectedRequest.complaint && (
                 <div className="mt-2">
                   <div className="text-xs font-semibold text-gray-600 mb-1">
-                    {t.appointmentDetailsComplaint || "U^OæU? OU,O-OU,Oc / OU,O'UŸU^U%"}
+                    {t.appointmentDetailsComplaint || (language === "ar" ? "وصف الحالة / الشكوى" : "Complaint / Description")}
                   </div>
                   <p className="text-sm text-gray-800 bg-gray-50 rounded-lg px-3 py-2">{selectedRequest.complaint}</p>
                 </div>
@@ -308,7 +308,7 @@ export default function AppointmentRequestsPage() {
               <div className="mt-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    {t.appointmentDetailsDate || "O¦OOñUSOr OU,U.U^O1O_"}
+                    {t.appointmentDetailsDate || (language === "ar" ? "تاريخ الموعد" : "Appointment Date")}
                   </label>
                   <input
                     type="date"
@@ -319,7 +319,7 @@ export default function AppointmentRequestsPage() {
                 </div>
                 <div>
                   <label className="block text-xs text-gray-500 mb-1">
-                    {t.appointmentDetailsTime || "U^U,O¦ OU,U.U^O1O_"}
+                    {t.appointmentDetailsTime || (language === "ar" ? "وقت الموعد" : "Appointment Time")}
                   </label>
                   <input
                     type="time"
@@ -333,7 +333,7 @@ export default function AppointmentRequestsPage() {
               <div className="mt-2">
                 <label className="block text-xs text-gray-500 mb-1">
                   {t.appointmentDetailsNoteLabel ||
-                    "U.U,OO-O,Oc (O¦O,UØOñ U?US U.U,U? OU,U.U^O1O_ / USU.UŸU+ OOñO3OU,UØO U,U,U.OñUSO)"}
+                    (language === "ar" ? "ملاحظات (تكتب في تأكيد الموعد / رسالة إرسالها للمريض)" : "Notes (written in confirmation / message to patient)")}
                 </label>
                 <textarea
                   rows={3}
@@ -341,9 +341,9 @@ export default function AppointmentRequestsPage() {
                   onChange={(e) => setActionNote(e.target.value)}
                   className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder={
-                    language === "ar"
-                      ? "U.O®OU,: O¦U. O¦OœUŸUSO_ OU,U.U^O1O_OO USU?OñOªU% OU,O-OU^Oñ U,O\"U, 10 O_U,OOÝU,..."
-                      : "Example: Appointment confirmed, please arrive 10 minutes earlier..."
+                    t.appointmentNotePlaceholder || (language === "ar"
+                      ? "مثال: تم تأكيد الموعد، يُرجى الحضور قبل 10 دقائق..."
+                      : "Example: Appointment confirmed, please arrive 10 minutes earlier...")
                   }
                 />
               </div>
@@ -360,37 +360,37 @@ export default function AppointmentRequestsPage() {
                     }
                     className="px-4 py-2 rounded-lg bg-emerald-600 text-white text-sm hover:bg-emerald-700"
                   >
-                    {t.appointmentActionApprove || "U,O\"U^U, OU,U.U^O1O_"}
+                    {t.appointmentActionApprove || (language === "ar" ? "تأكيد الموعد" : "Approve Request")}
                   </button>
                   <button
                     onClick={() =>
                       updateRequestStatus(selectedRequest.id, "rescheduled", {
                         note:
                           actionNote ||
-                          (language === "ar"
-                            ? "O¦U. OO1OO_Oc OªO_U^U,Oc OU,U.U^O1O_."
-                            : "Appointment has been rescheduled."),
+                          (t.appointmentRescheduleNote || (language === "ar"
+                            ? "تم إعادة جدولة الموعد."
+                            : "Appointment has been rescheduled.")),
                         newDate,
                         newTime,
                       })
                     }
                     className="px-4 py-2 rounded-lg bg-amber-500 text-white text-sm hover:bg-amber-600"
                   >
-                    {t.appointmentActionReschedule || "OO1OO_Oc OªO_U^U,Oc"}
+                    {t.appointmentActionReschedule || (language === "ar" ? "إعادة جدولة" : "Reschedule")}
                   </button>
                   <button
                     onClick={() =>
                       updateRequestStatus(selectedRequest.id, "rejected", {
                         note:
                           actionNote ||
-                          (language === "ar"
-                            ? "O¦U. OñU?O OU,OúU,O\" O\"O3O\"O\" O1O_U. O¦U^U?Oñ U.U^O1O_ U.U+OO3O\"."
-                            : "The request was rejected due to unavailability of a suitable slot."),
+                          (t.appointmentRejectNote || (language === "ar"
+                            ? "تم رفض الطلب بسبب عدم توفر موعد مناسب."
+                            : "The request was rejected due to unavailability of a suitable slot.")),
                       })
                     }
                     className="px-4 py-2 rounded-lg bg-red-500 text-white text-sm hover:bg-red-600"
                   >
-                    {t.appointmentActionReject || "OñU?O OU,OúU,O\""}
+                    {t.appointmentActionReject || (language === "ar" ? "رفض الطلب" : "Reject Request")}
                   </button>
                 </div>
 
@@ -398,7 +398,7 @@ export default function AppointmentRequestsPage() {
                   onClick={closeDetails}
                   className="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-50"
                 >
-                  {t.appointmentActionClose || "OU,O§OO­ / OO§U,OU,"}
+                  {t.appointmentActionClose || (language === "ar" ? "الغاء / إغلاق" : "Cancel / Close")}
                 </button>
               </div>
             </div>
@@ -415,19 +415,19 @@ function StatusBadge({ status }: { status: AppointmentStatus }) {
 
   const map: Record<AppointmentStatus, { label: string; className: string }> = {
     new: {
-      label: t.appointmentStatusNew || "OªO_USO_",
+      label: t.appointmentStatusNew || (language === "ar" ? "جديد" : "New"),
       className: "bg-blue-50 text-blue-700 border-blue-100",
     },
     approved: {
-      label: t.appointmentStatusApproved || "U.U,O\"U^U,",
+      label: t.appointmentStatusApproved || (language === "ar" ? "مُأكد" : "Approved"),
       className: "bg-emerald-50 text-emerald-700 border-emerald-100",
     },
     rejected: {
-      label: t.appointmentStatusRejected || "U.OñU?U^O",
+      label: t.appointmentStatusRejected || (language === "ar" ? "مرفوض" : "Rejected"),
       className: "bg-red-50 text-red-700 border-red-100",
     },
     rescheduled: {
-      label: t.appointmentStatusRescheduled || "U.U?O1OO_ OªO_U^U,O¦UØO",
+      label: t.appointmentStatusRescheduled || (language === "ar" ? "مُعاد جدولته" : "Rescheduled"),
       className: "bg-amber-50 text-amber-700 border-amber-100",
     },
   };
