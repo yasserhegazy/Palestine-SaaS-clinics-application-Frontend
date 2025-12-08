@@ -2,31 +2,31 @@
 console.log("🔥 DoctorDashboard FILE loaded");
 
 import { useAuth } from "@/context/AuthContext";
-import { useEffect, useMemo, useState, useCallback, useRef } from "react";
+import { useEffect, useMemo, useState, useCallback } from "react";
 import toast from "react-hot-toast";
 import type { Appointment } from "@/types/appointment";
 import { AppointmentFilters } from "@/components/doctor/AppointmentFilters";
 import { AppointmentTable } from "@/components/doctor/AppointmentTable";
 import { useLanguage } from "@/context/LanguageContext";
-import { useSearchParams } from "next/navigation";
-import { useRouter } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import PageHeader from "@/components/common/PageHeader";
-
 
 interface AppointmentsResponse {
   appointments: Appointment[];
 }
+
 type ApiError = {
   message?: string;
   error?: string;
 };
 
 export default function DoctorAppointmentsPage() {
-  const { user, token, logout, clinic, isLoading } = useAuth();
+  const { user, token, isLoading } = useAuth();
   const { language } = useLanguage();
   const isArabic = language === "ar";
-    const searchParams = useSearchParams();
-    const router = useRouter();
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
 
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoadingAppointments, setIsLoadingAppointments] = useState(true);
@@ -34,10 +34,58 @@ export default function DoctorAppointmentsPage() {
     null
   );
 
-  const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [dateFilter, setDateFilter] = useState<string>(""); // yyyy-mm-dd
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
 
+  // =============================
+  // 1) Fetch Initial Appointments
+  // =============================
+  const fetchAppointments = useCallback(async () => {
+    if (!user || !token) return;
+
+    try {
+      setIsLoadingAppointments(true);
+      setAppointmentsError(null);
+
+      const res = await fetch("/api/doctor/appointments", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const json = await res.json();
+
+      if (!res.ok) {
+        const err = json as ApiError;
+        throw new Error(
+          err.message ||
+            err.error ||
+            (isArabic ? "فشل في جلب المواعيد" : "Failed to fetch appointments")
+        );
+      }
+
+      const data = json as AppointmentsResponse;
+      setAppointments(data.appointments);
+    } catch (err) {
+      console.error("Error fetching appointments:", err);
+      const msg =
+        err instanceof Error
+          ? err.message
+          : isArabic
+          ? "فشل في جلب المواعيد"
+          : "Failed to fetch appointments";
+
+      setAppointmentsError(msg);
+      toast.error(msg);
+    } finally {
+      setIsLoadingAppointments(false);
+    }
+  }, [user, token, isArabic]);
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
+
+  // تعيين فلتر "اليوم"
   useEffect(() => {
     const view = searchParams.get("view");
     if (view === "today") {
@@ -49,113 +97,44 @@ export default function DoctorAppointmentsPage() {
     }
   }, [searchParams]);
 
-  const hasLoaded = useRef(false);
-
-  const fetchAppointments = useCallback(async () => {
-    if (!user || !token) return;
-
-    try {
-      // Only show loading spinner on first load
-      if (!hasLoaded.current) {
-        setIsLoadingAppointments(true);
-      }
-      
-      setAppointmentsError(null);
-
-      const res = await fetch("/api/doctor/appointments", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const json = await res.json();
-
-      if (!res.ok) {
-        const errorData = json as ApiError;
-        throw new Error(
-          errorData.message ||
-            errorData.error ||
-            (isArabic
-              ? "فشل في جلب المواعيد"
-              : "Failed to fetch appointments")
-        );
-      }
-
-      const data = json as AppointmentsResponse;
-      setAppointments(data.appointments);
-      hasLoaded.current = true;
-    } catch (err: unknown) {
-      console.error("Error fetching appointments:", err);
-      let message = isArabic
-        ? "فشل في جلب المواعيد"
-        : "Failed to fetch appointments";
-      if (err instanceof Error) message = err.message;
-      setAppointmentsError(message);
-      toast.error(message);
-    } finally {
-      setIsLoadingAppointments(false);
-    }
-  }, [user, token, isArabic]);
-
-  useEffect(() => {
-    fetchAppointments();
-  }, [fetchAppointments]);
-
+  // =============================
+  // 2) Approve Appointment
+  // =============================
   const handleApprove = async (appointmentId: number) => {
-    if (!token) {
-      alert(isArabic ? "الرمز مفقود" : "Missing token");
-      return;
-    }
-
     try {
       const res = await fetch(
         `/api/doctor/appointments/approve/${appointmentId}`,
         {
           method: "PUT",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-      if (!res.ok) {
-        throw new Error(
-          data.message ||
-            (isArabic ? "فشل في قبول الموعد" : "Failed to approve appointment")
-        );
-      }
+      // تحديث فوري بدون انتظار API
+      setAppointments((prev) => prev.filter((a) => a.id !== appointmentId));
 
-      setAppointments((prev) =>
-        prev.map((a) =>
-          a.id === appointmentId ? { ...a, status: "approved" } : a
-        )
+      toast.success(isArabic ? "تم قبول الموعد" : "Appointment approved");
+    } catch (err) {
+      toast.error(
+        err instanceof Error
+          ? err.message
+          : isArabic
+          ? "خطأ في قبول الموعد"
+          : "Failed to approve"
       );
-      
-      toast.success(isArabic ? "تم قبول الموعد بنجاح" : "Appointment approved successfully");
-      fetchAppointments(); // Background refresh
-
-    } catch (err: unknown) {
-      console.error("Error approving appointment:", err);
-      let message = isArabic
-        ? "فشل في قبول الموعد"
-        : "Failed to approve appointment";
-      if (err instanceof Error) message = err.message;
-      toast.error(message);
     }
   };
 
-  const handleReject = async (
-    appointmentId: number,
-    rejectionReason: string
-  ) => {
-    if (!token) return alert(isArabic ? "الرمز مفقود" : "Missing token");
-    if (!rejectionReason.trim())
-      return alert(
-        isArabic ? "سبب الرفض مطلوب" : "Rejection reason is required"
-      );
+  // =============================
+  // 3) Reject Appointment
+  // =============================
+  const handleReject = async (appointmentId: number, reason: string) => {
+    if (!reason.trim()) {
+      return alert(isArabic ? "سبب الرفض مطلوب" : "Rejection reason required");
+    }
 
     try {
       const res = await fetch(
@@ -166,46 +145,32 @@ export default function DoctorAppointmentsPage() {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ rejection_reason: rejectionReason }),
+          body: JSON.stringify({ rejection_reason: reason }),
         }
       );
 
       const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-      if (!res.ok)
-        throw new Error(
-          data.message ||
-            (isArabic ? "فشل في رفض الموعد" : "Failed to reject appointment")
-        );
-
-      console.log("Appointment rejected", data);
-
+      // حذف فوري من الجدول
       setAppointments((prev) => prev.filter((a) => a.id !== appointmentId));
-      toast.success(isArabic ? "تم رفض الموعد بنجاح" : "Appointment rejected successfully");
-      fetchAppointments(); // Background refresh
 
+      toast.success(isArabic ? "تم رفض الموعد" : "Appointment rejected");
     } catch (err) {
-      console.error("Error rejecting appointment:", err);
       toast.error(
         err instanceof Error
           ? err.message
           : isArabic
-          ? "فشل في رفض الموعد"
-          : "Failed to reject appointment"
+          ? "خطأ في رفض الموعد"
+          : "Failed to reject"
       );
     }
   };
 
-  const handleReschedule = async (
-    id: number,
-    appointment_date: string,
-    appointment_time: string
-  ) => {
-    if (!token) {
-      alert(isArabic ? "غير مصرح: الرمز مفقود" : "Unauthorized: missing token");
-      return;
-    }
-
+  // =============================
+  // 4) Reschedule Appointment
+  // =============================
+  const handleReschedule = async (id: number, date: string, time: string) => {
     try {
       const res = await fetch(`/api/doctor/appointments/reschedule/${id}`, {
         method: "PUT",
@@ -214,74 +179,55 @@ export default function DoctorAppointmentsPage() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          appointment_date,
-          appointment_time,
+          appointment_date: date,
+          appointment_time: time,
         }),
       });
 
-      const json = await res.json();
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message);
 
-      if (!res.ok) {
-        const errorData = json as ApiError;
-        throw new Error(
-          errorData.message ||
-            errorData.error ||
-            (isArabic
-              ? "خطأ في إعادة جدولة الموعد"
-              : "Error rescheduling appointment")
-        );
-      }
-
-      console.log("Rescheduled successfully", json);
-
+      // تحديث فوري بدون API fetch
       setAppointments((prev) =>
         prev.map((a) =>
           a.id === id
-            ? {
-                ...a,
-                status: "approved",
-                appointment_date,
-                appointment_time,
-              }
+            ? { ...a, status: "approved", dateTime: `${date}T${time}` }
             : a
         )
       );
-      
-      toast.success(isArabic ? "تم إعادة جدولة الموعد بنجاح" : "Appointment rescheduled successfully");
-      fetchAppointments(); // Background refresh
 
-    } catch (err: unknown) {
-      console.error("Error rescheduling appointment:", err);
-
-      const message =
+      toast.success(isArabic ? "تم إعادة الجدولة" : "Rescheduled");
+    } catch (err) {
+      toast.error(
         err instanceof Error
           ? err.message
           : isArabic
-          ? "خطأ في إعادة جدولة الموعد"
-          : "Error rescheduling appointment";
-
-      console.log(message);
-      toast.error(message);
+          ? "خطأ في إعادة الجدولة"
+          : "Failed to reschedule"
+      );
     }
   };
 
+  // =============================
+  // 5) Filtering Logic (Safe)
+  // =============================
   const filteredAppointments = useMemo(() => {
     const term = searchTerm.trim().toLowerCase();
 
     return appointments.filter((appt) => {
       const matchesStatus =
         statusFilter === "all" ||
-        appt.status?.toLowerCase() === statusFilter.toLowerCase();
+        appt.status.toLowerCase() === statusFilter.toLowerCase();
 
-      let apptDate = "";
-      if (appt.dateTime) {
-        apptDate = new Date(appt.dateTime).toISOString().slice(0, 10);
-      }
-      const matchesDate = !dateFilter || apptDate === dateFilter;
+      const dateString = appt.dateTime
+        ? new Date(appt.dateTime).toISOString().slice(0, 10)
+        : "";
+
+      const matchesDate = !dateFilter || dateString === dateFilter;
 
       const matchesSearch =
         !term ||
-        appt.patientName.toLowerCase().includes(term) ||
+        (appt.patientName ?? "").toLowerCase().includes(term) ||
         (appt.patientPhone ?? "").toLowerCase().includes(term) ||
         (appt.clinicName ?? "").toLowerCase().includes(term) ||
         (appt.notes ?? "").toLowerCase().includes(term);
@@ -290,6 +236,9 @@ export default function DoctorAppointmentsPage() {
     });
   }, [appointments, statusFilter, dateFilter, searchTerm]);
 
+  // =============================
+  // LOADING
+  // =============================
   if (isLoading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
@@ -298,10 +247,12 @@ export default function DoctorAppointmentsPage() {
     );
   }
 
+  // =============================
+  // UI
+  // =============================
   return (
-    <div className="min-h-screen bg-slate-50 " dir={isArabic ? "rtl" : "ltr"}>
+    <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-       
         <PageHeader
           label={isArabic ? "إدارة مواعيدك" : "Manage your appointments"}
           title={
@@ -311,25 +262,26 @@ export default function DoctorAppointmentsPage() {
           }
           description={
             isArabic
-              ? "راجع المواعيد المعلقة، وافق أو ارفض أو أعد جدولة مباشرة من هذه الصفحة."
-              : "Review pending appointments, approve, reject, or reschedule directly from this page."
+              ? "راجع ووافق أو ارفض أو أعد جدولة المواعيد."
+              : "Review, approve, reject or reschedule appointments."
           }
           backAction={() => router.push("/doctor/dashboard")}
         />
 
         <section className="bg-white rounded-2xl shadow-sm border border-slate-100">
-          <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row justify-between gap-4">
             <div>
               <h3 className="text-sm font-semibold text-slate-900">
                 {isArabic ? "طلبات المواعيد" : "Appointment requests"}
               </h3>
               <p className="text-[11px] text-slate-500">
                 {isArabic
-                  ? "جميع الطلبات المعلقة والمقبولة من المرضى."
-                  : "Pending and approved appointment requests from your patients."}
+                  ? "جميع الطلبات المعلقة والمقبولة."
+                  : "All pending and approved requests."}
               </p>
+
               {appointmentsError && (
-                <p className="mt-1 text-[11px] text-red-600">
+                <p className="text-[11px] text-red-600 mt-1">
                   {appointmentsError}
                 </p>
               )}
@@ -359,6 +311,4 @@ export default function DoctorAppointmentsPage() {
       </main>
     </div>
   );
-
-  
 }

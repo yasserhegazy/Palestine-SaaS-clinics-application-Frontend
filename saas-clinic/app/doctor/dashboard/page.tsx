@@ -276,6 +276,27 @@ export default function DoctorDashboard() {
                   : "Approve, reject, or reschedule in one view."}
               </span>
             </button>
+            <button
+              onClick={() => router.push("/doctor/upcoming-appointments")}
+              type="button"
+              className="flex flex-col items-start gap-1 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-teal-50 hover:border-teal-200 transition px-3 py-3 text-left"
+            >
+              <span className="text-xs font-semibold text-teal-700">
+                {isArabic ? "المواعيد القادمة" : "Upcoming Appointments"}
+              </span>
+
+              <span className="text-sm font-medium text-slate-900">
+                {isArabic
+                  ? "عرض ومتابعة المواعيد القادمة"
+                  : "View and track upcoming appointments"}
+              </span>
+
+              <span className="text-[11px] text-slate-500">
+                {isArabic
+                  ? "متابعة جميع المواعيد المجدولة بسهولة."
+                  : "Easily track all scheduled appointments."}
+              </span>
+            </button>
 
             <button
               type="button"
@@ -293,25 +314,6 @@ export default function DoctorDashboard() {
                 {isArabic
                   ? "حافظ على متابعة الحالات المزمنة والحساسة."
                   : "Keep chronic cases and recent discharges in check."}
-              </span>
-            </button>
-
-            <button
-              type="button"
-              className="flex flex-col items-start gap-1 rounded-xl border border-slate-100 bg-slate-50/80 hover:bg-emerald-50 hover:border-emerald-200 transition px-3 py-3 text-left"
-            >
-              <span className="text-xs font-semibold text-emerald-700">
-                {isArabic ? "الملاحظات والوصفات" : "Notes & prescriptions"}
-              </span>
-              <span className="text-sm font-medium text-slate-900">
-                {isArabic
-                  ? "توثيق الزيارة وإصدار الوصفة"
-                  : "Document visits and issue Rx"}
-              </span>
-              <span className="text-[11px] text-slate-500">
-                {isArabic
-                  ? "تأكد من توثيق كل زيارة بشكل واضح."
-                  : "Ensure every encounter is clearly documented."}
               </span>
             </button>
           </div>
