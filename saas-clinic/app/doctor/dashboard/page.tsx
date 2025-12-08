@@ -156,8 +156,14 @@ export default function DoctorDashboard() {
         <Breadcrumbs />
 
         <DashboardHero
-          title={isArabic ? `أهلاً د. ${firstName} 👋` : `Hello Dr. ${firstName} 👋`}
-          subtitle={isArabic ? "مرحباً بعودتك إلى العيادة" : "Welcome back to your clinic"}
+          title={
+            isArabic ? `أهلاً د. ${firstName} 👋` : `Hello Dr. ${firstName} 👋`
+          }
+          subtitle={
+            isArabic
+              ? "مرحباً بعودتك إلى العيادة"
+              : "Welcome back to your clinic"
+          }
           description={
             isArabic
               ? "هنا يمكنك مراجعة مواعيد اليوم، طلبات المرضى، والمهام العاجلة بسرعة."
@@ -203,34 +209,48 @@ export default function DoctorDashboard() {
 
           <div className="p-4 sm:p-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <QuickActionCard
-              label={isArabic ? "مواعيد اليوم" : "Today's Appointments"}
-              title={isArabic ? "مواعيد اليوم" : "Today's Schedule"}
-              description={isArabic ? "عرض جميع مواعيد اليوم" : "View all today's appointments"}
-              href="/doctor/today-appointments"
+              label={isArabic ? "المواعيد القادمة" : "Upcoming Appointments"}
+              title={isArabic ? "المواعيد القادمة" : "Upcoming Schedule"}
+              description={
+                isArabic
+                  ? "عرض جميع المواعيد القادمة"
+                  : "View all upcoming appointments"
+              }
+              href="/doctor/upcoming-appointments"
               color="teal"
             />
-            
+
             <QuickActionCard
               label={isArabic ? "طلبات المواعيد" : "Appointment Requests"}
               title={isArabic ? "طلبات المواعيد" : "Pending Requests"}
-              description={isArabic ? "مراجعة وإدارة الطلبات" : "Review and manage requests"}
+              description={
+                isArabic
+                  ? "مراجعة وإدارة الطلبات"
+                  : "Review and manage requests"
+              }
               href="/doctor/appointments"
               color="blue"
             />
 
             <QuickActionCard
-              label={isArabic ? "السجلات الطبية" : "Medical Records"}
-              title={isArabic ? "السجلات الطبية" : "Patient Records"}
-              description={isArabic ? "الوصول إلى السجلات الطبية" : "Access medical records"}
-              href="/doctor/medical-records"
+              label={isArabic ? "مواعيد اليوم" : "Today's Appointments"}
+              title={isArabic ? "مواعيد اليوم" : "Today's Schedule"}
+              description={
+                isArabic
+                  ? "عرض مواعيد اليوم والسجلات"
+                  : "View today's appointments and records"
+              }
+              href="/doctor/today-appointments"
               color="purple"
             />
 
             <QuickActionCard
               label={isArabic ? "البحث عن مريض" : "Search Patient"}
               title={isArabic ? "البحث عن مريض" : "Find Patient"}
-              description={isArabic ? "البحث في قاعدة البيانات" : "Search patient database"}
-              href="/doctor/patients"
+              description={
+                isArabic ? "البحث في قاعدة البيانات" : "Search patient database"
+              }
+              href="/reception/patients/search"
               color="orange"
             />
           </div>

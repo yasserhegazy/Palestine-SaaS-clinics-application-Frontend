@@ -15,7 +15,12 @@ export async function GET(req: NextRequest) {
     }
 
     try {
-        const res = await fetch(`${API_BASE_URL}/doctor/appointments`, {
+        // Get query parameters from the request
+        const { searchParams } = new URL(req.url);
+        const queryString = searchParams.toString();
+        const url = `${API_BASE_URL}/doctor/appointments${queryString ? `?${queryString}` : ''}`;
+
+        const res = await fetch(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json",

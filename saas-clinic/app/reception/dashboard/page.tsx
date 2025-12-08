@@ -15,7 +15,7 @@ export default function ReceptionDashboard() {
   const { language } = useLanguage();
   const t = translations[language];
   const router = useRouter();
-  
+
   // Protect route - only secretaries can access
   useRoleGuard(['Secretary']);
 
@@ -376,7 +376,7 @@ export default function ReceptionDashboard() {
   </span>
 </button>
 
-            
+
 
             {/* Daily financial report */}
             <button

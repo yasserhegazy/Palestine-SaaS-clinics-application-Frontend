@@ -35,7 +35,7 @@ export default function DoctorAppointmentsPage() {
   );
 
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [dateFilter, setDateFilter] = useState<string>(""); 
+  const [dateFilter, setDateFilter] = useState<string>("");
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
@@ -75,9 +75,7 @@ export default function DoctorAppointmentsPage() {
         throw new Error(
           errorData.message ||
             errorData.error ||
-            (isArabic
-              ? "فشل في جلب المواعيد"
-              : "Failed to fetch appointments")
+            (isArabic ? "فشل في جلب المواعيد" : "Failed to fetch appointments")
         );
       }
 
@@ -132,9 +130,10 @@ export default function DoctorAppointmentsPage() {
         )
       );
 
-      toast.success(isArabic ? "تم قبول الموعد بنجاح" : "Appointment approved successfully");
+      toast.success(
+        isArabic ? "تم قبول الموعد بنجاح" : "Appointment approved successfully"
+      );
       fetchAppointments();
-
     } catch (err: unknown) {
       let message = isArabic
         ? "فشل في قبول الموعد"
@@ -176,9 +175,10 @@ export default function DoctorAppointmentsPage() {
         );
 
       setAppointments((prev) => prev.filter((a) => a.id !== appointmentId));
-      toast.success(isArabic ? "تم رفض الموعد بنجاح" : "Appointment rejected successfully");
+      toast.success(
+        isArabic ? "تم رفض الموعد بنجاح" : "Appointment rejected successfully"
+      );
       fetchAppointments();
-
     } catch (err) {
       toast.error(
         err instanceof Error
@@ -239,9 +239,12 @@ export default function DoctorAppointmentsPage() {
         )
       );
 
-      toast.success(isArabic ? "تم إعادة جدولة الموعد بنجاح" : "Appointment rescheduled successfully");
+      toast.success(
+        isArabic
+          ? "تم إعادة جدولة الموعد بنجاح"
+          : "Appointment rescheduled successfully"
+      );
       fetchAppointments();
-
     } catch (err: unknown) {
       const message =
         err instanceof Error
@@ -267,12 +270,13 @@ export default function DoctorAppointmentsPage() {
       }
       const matchesDate = !dateFilter || apptDate === dateFilter;
 
-      const matchesSearch =
-        !term ||
-        appt.patientName.toLowerCase().includes(term) ||
-        (appt.patientPhone ?? "").toLowerCase().includes(term) ||
-        (appt.clinicName ?? "").toLowerCase().includes(term) ||
-        (appt.notes ?? "").toLowerCase().includes(term);
+     const matchesSearch =
+       !term ||
+       (appt.patientName ?? "").toLowerCase().includes(term) ||
+       (appt.patientPhone ?? "").toLowerCase().includes(term) ||
+       (appt.clinicName ?? "").toLowerCase().includes(term) ||
+       (appt.notes ?? "").toLowerCase().includes(term);
+
 
       return matchesStatus && matchesDate && matchesSearch;
     });
