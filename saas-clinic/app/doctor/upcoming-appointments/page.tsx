@@ -7,6 +7,7 @@ import { Appointment } from "@/types/appointment";
 import { useLanguage } from "@/context/LanguageContext";
 import { useRouter } from "next/navigation";
 import PageHeader from "@/components/common/PageHeader";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 interface AppointmentsResponse {
   appointments: Appointment[];
@@ -39,7 +40,7 @@ export default function DoctorUpcomingAppointmentsPage() {
 
       setAppointmentsError(null);
 
-      const res = await fetch("/api/doctor/appointments", {
+      const res = await fetch("/api/doctor/appointments/upcoming", {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -129,6 +130,19 @@ export default function DoctorUpcomingAppointmentsPage() {
   return (
     <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <Breadcrumbs
+          customItems={[
+            { label: isArabic ? "الطبيب" : "Doctor", href: "/doctor/dashboard" },
+            {
+              label: isArabic ? "لوحة التحكم" : "Dashboard",
+              href: "/doctor/dashboard",
+            },
+            {
+              label: isArabic ? "المواعيد القادمة" : "Upcoming appointments",
+              href: null,
+            },
+          ]}
+        />
         <PageHeader
           label={isArabic ? "مواعيدك القادمة" : "Your upcoming appointments"}
           title={
