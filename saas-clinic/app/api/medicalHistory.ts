@@ -25,12 +25,26 @@ export async function getPatientMedicalHistory(
     },
   };
 
-  const response = await axios.get(
-    `${API_BASE}/clinic/patients/${patientId}/history`,
-    config
-  );
+  try {
+    const response = await axios.get(
+      `${API_BASE}/clinic/patients/${patientId}/history`,
+      config
+    );
 
-  return response.data.data || response.data || [];
+    // Backend returns { patient: {...}, medicalHistory: [...] }
+    const medicalHistory = response.data.medicalHistory || [];
+    
+    // Transform backend data to Visit format
+    return medicalHistory.map((record: any) => ({
+      date: record.visit_date || record.created_at?.split('T')[0] || 'N/A',
+      clinic: record.clinic_name || 'Clinic',
+      diagnosis: record.diagnosis || 'No diagnosis recorded',
+      doctor: record.doctor_name || 'Unknown Doctor',
+    }));
+  } catch (error) {
+    console.error('Error fetching patient medical history:', error);
+    return [];
+  }
 }
 
 /**
