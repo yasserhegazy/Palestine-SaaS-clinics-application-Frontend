@@ -6,6 +6,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import type { Appointment } from "@/types/appointment";
 import toast from "react-hot-toast";
 import { format } from "date-fns";
+import axios from "axios";
 
 interface MedicalRecord {
   id: number;
@@ -140,8 +141,8 @@ export default function AppointmentDetailsModal({
         setLoading(true);
         setError(null);
 
-        const res = await fetch(
-          `/api/clinic/patients/${appointment.patientId}/history`,
+        const res = await axios.get(
+          `http://127.0.0.1:8000/api/clinic/patients/${appointment.patientId}/history`,
           {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -150,16 +151,7 @@ export default function AppointmentDetailsModal({
           }
         );
 
-        const json = (await res.json()) as PatientHistoryApiResponse;
-
-        if (!res.ok) {
-          const msg =
-            ("message" in json && json.message) ||
-            (isArabic
-              ? "فشل في جلب سجل المريض"
-              : "Failed to fetch patient history");
-          throw new Error(msg || "");
-        }
+        const json = res.data as PatientHistoryApiResponse;
 
         if ("patient" in json && json.patient) {
           setPatient(json.patient);
@@ -173,7 +165,9 @@ export default function AppointmentDetailsModal({
         }
       } catch (err: unknown) {
         const msg =
-          err instanceof Error
+          axios.isAxiosError(err) && err.response?.data?.message
+            ? err.response.data.message
+            : err instanceof Error
             ? err.message
             : isArabic
             ? "حدث خطأ أثناء جلب السجل الطبي"

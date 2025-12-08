@@ -6,6 +6,7 @@ export interface Clinic {
   clinic_id: number;
   name: string;
   address: string;
+  logo?: string;
 }
 
 export interface User {

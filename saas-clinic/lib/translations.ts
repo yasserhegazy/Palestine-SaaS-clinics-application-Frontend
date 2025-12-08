@@ -156,7 +156,7 @@ export const translations = {
 
     // Patient Dashboard
     patientPortal: "Patient Portal",
-    secretaryPortal: "Secrtery Portal",
+    secretaryPortal: "Secretary Portal",
     yourHealthRecords: "Your Health Records",
     upcomingAppointments: "Upcoming Appointments",
     medicalRecords: "Medical Records",
@@ -167,10 +167,17 @@ export const translations = {
     recentVisits: "Recent Visits",
     visitHistoryWillAppear: "Your visit history will appear here",
 
+    // Quick action: New appointment (merged)
+    qaNewAppointmentLabel: "New Appointment",
+    qaNewAppointmentTitle: "Create a new appointment",
+    qaNewAppointmentDesc:
+      "Select time, doctor, and type of consultation quickly",
+
     // Staff Management
     addStaffMember: "Add Staff Member",
     staffRegistrationForm: "Staff Registration Form",
-    addNewDoctorSecretary: "Add a new doctor or secretary to your clinic",
+    addNewDoctorSecretary:
+      "Add a new doctor or secretary to your clinic",
     role: "Role",
     name: "Name",
     phone: "Phone",
@@ -180,7 +187,8 @@ export const translations = {
     specialization: "Specialization",
     clinicRoom: "Clinic Room",
     availableDays: "Available Days",
-    availableDaysExample: "Example: Monday, Wednesday, Friday or Sun-Thu",
+    availableDaysExample:
+      "Example: Monday, Wednesday, Friday or Sun-Thu",
     adding: "Adding...",
 
     // Management Staff
@@ -247,13 +255,16 @@ export const translations = {
     doctorLabel: "Doctor:",
 
     // Copyright
-    copyright: "© 2025 Palestine Clinics SaaS. All rights reserved.",
+    copyright:
+      "© 2025 Palestine Clinics SaaS. All rights reserved.",
 
     // Flash messages
-    staffMemberAddedSuccessfully: "Staff member added successfully",
+    staffMemberAddedSuccessfully:
+      "Staff member added successfully",
 
-    // Reception - secretary dashboard
-    welcomeReception: "Welcome to the reception dashboard",
+    // Reception portal
+    welcomeReception:
+      "Welcome to the reception dashboard",
     receptionSubTitle:
       "Manage patients, appointments and daily financial reports",
 
@@ -262,14 +273,18 @@ export const translations = {
     statusCheckedIn: "Checked in",
 
     todaysAppointmentsTitle: "Today's appointments",
-    todaysAppointmentsSubtitle: "Nearest appointments in the next hours",
+    todaysAppointmentsSubtitle:
+      "Nearest appointments in the next hours",
     manageAllAppointments: "Manage all appointments",
 
     waitingRoomTitle: "Waiting room now",
-    waitingRoomSubtitle: "Patients ordered by ticket number",
+    waitingRoomSubtitle:
+      "Patients ordered by ticket number",
     appointmentRequests: "Pending appointment requests",
+
     quickSummaryTitle: "Quick summary",
-    quickSummaryPatientsWaiting: "patients waiting at reception now",
+    quickSummaryPatientsWaiting:
+      "patients waiting at reception now",
     quickSummaryReminder:
       "Reminder: review new appointment requests and confirm approved ones",
 
@@ -280,48 +295,58 @@ export const translations = {
 
     // Quick actions cards
     qaNewPatientLabel: "New patient",
-    qaNewPatientTitle: "Register a new patient and create an account",
+    qaNewPatientTitle:
+      "Register a new patient and create an account",
     qaNewPatientDesc:
       "Enter name, ID number and phone. The system sends the password by SMS.",
 
     qaSearchPatientLabel: "Search patient",
-    qaSearchPatientTitle: "Open an existing patient file",
+    qaSearchPatientTitle:
+      "Open an existing patient file",
     qaSearchPatientDesc:
       "Search by national ID or phone number to open the medical file.",
 
     qaRequestsLabel: "Appointment requests",
-    qaRequestsTitle: "Review requests from the patient portal",
+    qaRequestsTitle:
+      "Review requests from the patient portal",
     qaRequestsDesc:
       "Check details and forward the request to the appropriate doctor.",
 
     qaConfirmLabel: "Confirm appointments",
-    qaConfirmTitle: "Confirm appointments approved by doctors",
+    qaConfirmTitle:
+      "Confirm appointments approved by doctors",
     qaConfirmDesc:
       "Change status to 'Active' and send a confirmation message to the patient.",
 
     qaDailyReportLabel: "Daily financial report",
-    qaDailyReportTitle: "View today’s incoming amounts",
+    qaDailyReportTitle:
+      "View today’s incoming amounts",
     qaDailyReportDesc:
       "Total payments, paid/unpaid invoices and cash vs electronic amounts.",
+
     // New patient page
     patientsManagement: "Patients management",
     newPatient: "New Patient",
     newPatientSubtitle:
       "Enter the basic patient information to create an account and send the password via SMS.",
     fullNameLabel: "Full name",
-    fullNamePlaceholder: "Enter full name (first, middle, last)",
+    fullNamePlaceholder:
+      "Enter full name (first, middle, last)",
     nationalIdLabel: "National ID",
     nationalIdPlaceholder: "e.g. 123456789",
-    nationalIdHint: "Used to make sure the patient is not registered twice.",
+    nationalIdHint:
+      "Used to make sure the patient is not registered twice.",
     phoneLabel: "Phone number",
     phonePlaceholder: "e.g. 0599123456",
-    phoneHint: "The first password will be sent to this phone number via SMS.",
+    phoneHint:
+      "The first password will be sent to this phone number via SMS.",
 
     clearForm: "Clear form",
     saveAndSendPassword: "Save & send password",
     saving: "Saving...",
 
-    newPatientTipsTitle: "Guidelines for registering a new patient",
+    newPatientTipsTitle:
+      "Guidelines for registering a new patient",
     newPatientTipsBody:
       "Make sure the ID and phone number match the official documents. This data will be used to log in and to contact the patient.",
     newPatientTip1:
@@ -331,9 +356,10 @@ export const translations = {
     newPatientTip3:
       "Inform the patient that the password has been sent to their phone.",
     newPatientFooter:
-      "When you save, the system automatically creates a patient account and sends a temporary password that can be changed later from the portal.",
+      "When you save, the system automatically creates a patient account and sends a temporary password that the patient can change later from the portal.",
 
-    newPatientSuccess: "Patient account created and password sent via SMS.",
+    newPatientSuccess:
+      "Patient account created and password sent via SMS.",
     newPatientServerError:
       "An error occurred while creating the patient. Please try again.",
 
@@ -349,7 +375,8 @@ export const translations = {
     bloodTypePlaceholder: "e.g., O+, A-, B+",
     optional: "Optional",
     allergiesLabel: "Allergies",
-    allergiesPlaceholder: "Enter any allergies or important medical notes",
+    allergiesPlaceholder:
+      "Enter any allergies or important medical notes",
 
     // Appointment Requests
     appointmentRequestsTitle: "Appointment Requests",
@@ -357,7 +384,8 @@ export const translations = {
       "Review upcoming requests from the portal, check details, and assign to the appropriate doctor.",
     appointmentRequestsSearchPlaceholder:
       "Search by name, ID, phone, request number...",
-    appointmentRequestsCountLabel: "Number of requests",
+    appointmentRequestsCountLabel:
+      "Number of requests",
     appointmentRequestsNoResults:
       "No requests match the search or current filter.",
 
@@ -365,44 +393,64 @@ export const translations = {
     appointmentStatusNew: "New",
     appointmentStatusApproved: "Approved",
     appointmentStatusRejected: "Rejected",
-    appointmentStatusRescheduled: "Rescheduled",
+    appointmentStatusRescheduled:
+      "Rescheduled",
     doctorPortal: "Doctor portal",
     adminPortal: "Admin portal",
-    appointmentDetailsTitle: "Appointment Request Details",
-    appointmentDetailsRequestNumber: "Request Number",
-    appointmentDetailsPatientName: "Patient Name",
-    appointmentDetailsNationalId: "National ID",
-    appointmentDetailsPhone: "Phone Number",
-    appointmentDetailsSource: "Request Source",
-    appointmentDetailsSpecialty: "Specialty",
-    appointmentDetailsDoctor: "Requested Doctor",
-    appointmentDetailsPreferredSlot: "Preferred Slot",
-    appointmentDetailsCurrentStatus: "Current Status",
-    appointmentDetailsComplaint: "Condition Description / Complaint",
+    appointmentDetailsTitle:
+      "Appointment Request Details",
+    appointmentDetailsRequestNumber:
+      "Request Number",
+    appointmentDetailsPatientName:
+      "Patient Name",
+    appointmentDetailsNationalId:
+      "National ID",
+    appointmentDetailsPhone:
+      "Phone Number",
+    appointmentDetailsSource:
+      "Request Source",
+    appointmentDetailsSpecialty:
+      "Specialty",
+    appointmentDetailsDoctor:
+      "Requested Doctor",
+    appointmentDetailsPreferredSlot:
+      "Preferred Slot",
+    appointmentDetailsCurrentStatus:
+      "Current Status",
+    appointmentDetailsComplaint:
+      "Condition Description / Complaint",
     appointmentDetailsDate: "Appointment Date",
     appointmentDetailsTime: "Appointment Time",
     appointmentDetailsNoteLabel:
       "Note (appears in appointment file / can be sent to patient)",
 
-    appointmentActionApprove: "Approve appointment",
-    appointmentActionReschedule: "Reschedule",
+    appointmentActionApprove:
+      "Approve appointment",
+    appointmentActionReschedule:
+      "Reschedule",
     appointmentActionReject: "Reject request",
-    appointmentActionClose: "Cancel / Close",
+    appointmentActionClose:
+      "Cancel / Close",
+
     search: "Search",
-    noPatientsFound: "No patients found matching the search criteria.",
+    noPatientsFound:
+      "No patients found matching the search criteria.",
     searchPatientServerError:
       "An error occurred while searching for the patient. Please try again.",
   },
+
+  // ====================================================
+  // =================== Arabic =========================
+  // ====================================================
+
   ar: {
-    // Header
+    // Header + Landing Page
     yourClinic: "عيادتك",
     whyUs: "لماذا نحن",
     features: "الميزات",
     easyFast: "سهل وسريع",
-    pricing: "الاسعار",
+    pricing: "الأسعار",
     freeTrial: "جرّب مجانًا",
-
-    // Hero Section
     welcomeTo: "مرحبًا بك في",
     palestineClinics: "منصّة فلسطين للعيادات",
     heroSubtitle:
@@ -415,13 +463,16 @@ export const translations = {
     fastBooking: "حجز سريع",
     fastBookingDesc: "أدر المواعيد بسرعة وكفاءة دون عناء.",
     patientTracking: "متابعة المرضى",
-    patientTrackingDesc: "تابع سجلات المرضى ومواعيدهم بكل سهولة.",
+    patientTrackingDesc:
+      "تابع سجلات المرضى ومواعيدهم بكل سهولة.",
     workflow: "سير عمل محسّن",
-    workflowDesc: "نظّم خطوات العمل في عيادتك للحصول على إنتاجية أعلى.",
+    workflowDesc:
+      "نظّم خطوات العمل في عيادتك للحصول على إنتاجية أعلى.",
     support: "دعم 24/7",
-    supportDesc: "ندعم عيادتك على مدار الساعة وطوال أيام الأسبوع.",
+    supportDesc:
+      "ندعم عيادتك على مدار الساعة وطوال أيام الأسبوع.",
 
-    // Features Section
+    // Features
     feature: "الميزات",
     featuresSubtitle: "استكشف أهم إمكانات منصتنا",
     patientInfo: "بيانات المرضى",
@@ -439,31 +490,40 @@ export const translations = {
     staff: "الطاقم",
     staffDesc: "أدِر بيانات موظفي العيادة.",
     billing: "الفوترة",
-    billingDesc: "تتبّع الفواتير والمدفوعات والسجلات المالية.",
+    billingDesc:
+      "تتبّع الفواتير والمدفوعات والسجلات المالية.",
     appointments: "المواعيد",
     appointmentsDesc: "رتّب المواعيد وتابعها بسهولة.",
 
-    // Easy And Fast
+    // Easy fast
     easy_Fast: "سهل وسريع",
-    easyFastSubtitle: "اتّبع هذه الخطوات الأربع لتسجيل عيادتك بسرعة.",
+    easyFastSubtitle:
+      "اتّبع هذه الخطوات الأربع لتسجيل عيادتك بسرعة.",
     step1Title: "أنشئ حسابًا",
-    step1Desc: "سجّل بريدك الإلكتروني وعرّف معلومات عيادتك.",
+    step1Desc:
+      "سجّل بريدك الإلكتروني وعرّف معلومات عيادتك.",
     step2Title: "أضف تفاصيل العيادة",
-    step2Desc: "حدّث خدمات العيادة وأوقات العمل.",
+    step2Desc:
+      "حدّث خدمات العيادة وأوقات العمل.",
     step3Title: "التحقّق والموافقة",
-    step3Desc: "تحقّق من بياناتك واحصل على الموافقة للبدء.",
+    step3Desc: "تحقّق من بياناتك واحصل على الموافقة.",
     step4Title: "ابدأ خدمة المرضى",
-    step4Desc: "أطلق العيادة عبر النظام وابدأ بإدارة المواعيد.",
+    step4Desc:
+      "أطلق العيادة عبر النظام وابدأ بإدارة المواعيد.",
 
     // Pricing
     pricingTitle: "خطط الأسعار",
-    pricingSubtitle: "اختر الخطة التي تناسب عيادتك وابدأ فورًا.",
+    pricingSubtitle:
+      "اختر الخطة التي تناسب عيادتك وابدأ فورًا.",
     basicPlan: "الخطة الأساسية",
-    basicDesc: "مثالية للعيادات الصغيرة التي تحتاج إلى الأدوات الضرورية.",
+    basicDesc:
+      "مثالية للعيادات الصغيرة التي تحتاج إلى الأدوات الضرورية.",
     proPlan: "الخطة الاحترافية",
-    proDesc: "الخيار الأفضل لمعظم العيادات بميزات متقدمة ومرونة عالية.",
+    proDesc:
+      "الخيار الأفضل لمعظم العيادات بميزات متقدمة.",
     enterprisePlan: "خطة المؤسسات",
-    enterpriseDesc: "للشبكات الطبية والمنظمات التي تحتاج حلولًا مخصّصة.",
+    enterpriseDesc:
+      "للشبكات الطبية والمنظمات التي تحتاج حلولًا مخصّصة.",
     mostPopular: "الأكثر شيوعًا",
     choosePlan: "اختر الخطة",
     feature1: "لوحة تحكم سهلة الاستخدام",
@@ -472,11 +532,11 @@ export const translations = {
     feature4: "تنبيهات SMS للمرضى",
     featureBig1: "دعم أولوية على مدار الساعة",
     featureBig2: "إدارة متعدّدة الفروع",
-    featureBig3: "صلاحيات متقدمة للمستخدمين",
+    featureBig3: "صلاحيات مستخدم متقدمة",
 
-    // Footer
     rightsReserved: "جميع الحقوق محفوظة.",
-    // Login page
+
+    // Login Page
     title: "منصة عيادات فلسطين",
     subtitle: "نظام إدارة الرعاية الصحية",
     email: "البريد الإلكتروني",
@@ -485,11 +545,12 @@ export const translations = {
     login: "تسجيل الدخول",
     forgotPassword: "نسيت كلمة المرور؟",
     welcome: "مرحباً بعودتك",
-    signInPrompt: "سجل الدخول للوصول إلى لوحة التحكم",
+    signInPrompt:
+      "سجل الدخول للوصول إلى لوحة التحكم",
     dontHaveAccount: "ليس لديك حساب؟",
     registerClinic: "سجل عيادتك",
 
-    // Dashboard common
+    // Dashboard Common
     logout: "تسجيل الخروج",
     back: "رجوع",
     cancel: "إلغاء",
@@ -500,11 +561,14 @@ export const translations = {
     searchPatient: "البحث عن مريض",
     searchPatientSubtitle:
       "أدخل رقم الهوية أو الهاتف لعرض المرضى المرتبطين بعيادتك.",
-    searchPatientLabel: "أدخل رقم الهوية أو الهاتف لبدء البحث",
+    searchPatientLabel:
+      "أدخل رقم الهوية أو الهاتف لبدء البحث",
     searchPatientHint:
-      "نبحث تلقائياً عن أول خمسة مرضى يطابقون البداية التي أدخلتها (هوية أو هاتف).",
-    sessionExpired: "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مرة أخرى.",
-    notAuthorized: "ليست لديك صلاحية للوصول إلى هذا القسم.",
+      "نبحث تلقائياً عن أول خمسة مرضى برقم الهوية أو الهاتف.",
+    sessionExpired:
+      "انتهت صلاحية الجلسة. يرجى تسجيل الدخول مجددًا.",
+    notAuthorized:
+      "ليست لديك صلاحية للوصول إلى هذا القسم.",
 
     // Platform Dashboard
     platformDashboard: "لوحة تحكم المنصة",
@@ -526,11 +590,6 @@ export const translations = {
     actions: "الإجراءات",
     active: "نشط",
     view: "عرض",
-    patientPortal: "بوابة المريض",
-    doctorPortal: "بوابة الطبيب",
-    secretaryPortal: "بوابة السكرتير",
-    adminPortal: "بوابة الإدارة",
-    yourHealthRecords: "سجلاتك الصحية",
 
     // Clinic Dashboard
     clinicManagement: "إدارة العيادة",
@@ -553,10 +612,10 @@ export const translations = {
     newAppointment: "موعد جديد",
     patientCheckin: "تسجيل حضور المريض",
 
-    // Patient Dashboard
+    // Patient Dashboard (fixed conflicts)
     patientPortal: "بوابة المريض",
-    doctorPortal: "بوابة  الطبيب",
-    secretaryPortal: "لوحة تحكم الاستقبال",
+    doctorPortal: "بوابة الطبيب",
+    secretaryPortal: "بوابة السكرتير",
     yourHealthRecords: "سجلاتك الصحية",
     upcomingAppointments: "المواعيد القادمة",
     medicalRecords: "السجلات الطبية",
@@ -565,12 +624,21 @@ export const translations = {
     noUpcomingAppointments: "لا توجد مواعيد قادمة",
     bookAppointment: "حجز موعد",
     recentVisits: "الزيارات الحديثة",
-    visitHistoryWillAppear: "سيظهر تاريخ زياراتك هنا",
+    visitHistoryWillAppear:
+      "سيظهر تاريخ زياراتك هنا",
+
+    // Quick Actions – New Appointment (merged)
+    qaNewAppointmentLabel: "حجز موعد جديد",
+    qaNewAppointmentTitle:
+      "إنشاء موعد جديد للمريض",
+    qaNewAppointmentDesc:
+      "تحديد وقت، طبيب، ونوع الاستشارة بسهولة وسرعة",
 
     // Staff Management
     addStaffMember: "إضافة موظف",
     staffRegistrationForm: "نموذج تسجيل الموظفين",
-    addNewDoctorSecretary: "إضافة طبيب أو سكرتير جديد إلى عيادتك",
+    addNewDoctorSecretary:
+      "إضافة طبيب أو سكرتير جديد إلى عيادتك",
     role: "الدور",
     name: "الاسم",
     phone: "الهاتف",
@@ -580,17 +648,21 @@ export const translations = {
     specialization: "التخصص",
     clinicRoom: "غرفة العيادة",
     availableDays: "الأيام المتاحة",
-    availableDaysExample: "مثال: الاثنين، الأربعاء، الجمعة أو الأحد-الخميس",
+    availableDaysExample:
+      "مثال: الاثنين، الأربعاء، الجمعة أو الأحد-الخميس",
     adding: "جارٍ الإضافة...",
 
     managementStaff: "إدارة الموظفين",
     manageEmployees: "إدارة موظفي العيادة",
-    staffManagementTitle: "إدارة الموظفين",
-    staffDetailsTitle: "تفاصيل الموظفين",
+    staffManagementTitle:
+      "إدارة الموظفين",
+    staffDetailsTitle:
+      "تفاصيل الموظفين",
     searchPlaceholder: "بحث…",
     filterAll: "الكل",
     filterDoctor: "دكتور",
-    filterSecretary: "سكرتير",
+    filterSecretary:
+      "سكرتير",
     colStatus: "الحالة",
     colActions: "الإجراءات",
     colName: "الاسم",
@@ -600,177 +672,260 @@ export const translations = {
     btnEdit: "تعديل",
     btnDelete: "حذف",
     btnBack: "رجوع",
-    noRecordsMessage: "لا توجد سجلات",
+    noRecordsMessage:
+      "لا توجد سجلات",
     colRole: "الدور",
     colSpecialization: "التخصص",
-    colAvailableDays: "أيام العمل",
+    colAvailableDays:
+      "أيام العمل",
     editStaffTitle: "تعديل بيانات الموظف",
     deleteStaffTitle: "حذف الموظف",
     deleteConfirmationMessage:
-      "هل أنت متأكد أنك تريد حذف هذا الموظف؟ لا يمكن التراجع عن هذا الإجراء.",
+      "هل أنت متأكد أنك تريد حذف هذا الموظف؟",
     btnCancel: "إلغاء",
     btnSave: "حفظ التغييرات",
     statusActive: "نشط",
     statusInactive: "غير نشط",
 
-    joinTitle: "انضم إلى منصة عيادات فلسطين",
-    joinSubtitle: "سجل عيادتك وابدأ في إدارة الرعاية الصحية بكفاءة",
+    // Join Us page
+    joinTitle:
+      "انضم إلى منصة عيادات فلسطين",
+    joinSubtitle:
+      "سجل عيادتك وابدأ في إدارة الرعاية الصحية بكفاءة",
     clinicInfo: "معلومات العيادة",
     speciality: "التخصص (اختياري)",
     address: "العنوان",
     clinicPhone: "هاتف العيادة",
-    clinicEmail: "بريد العيادة الإلكتروني",
-    subscriptionPlan: "خطة الاشتراك",
+    clinicEmail:
+      "بريد العيادة الإلكتروني",
+    subscriptionPlan:
+      "خطة الاشتراك",
     logo: "شعار العيادة (اختياري)",
     managerInfo: "معلومات المدير",
     managerName: "اسم المدير",
-    managerEmail: "البريد الإلكتروني للمدير",
-    managerPhone: "هاتف المدير",
-    confirmPassword: "تأكيد كلمة المرور",
+    managerEmail:
+      "البريد الإلكتروني للمدير",
+    managerPhone:
+      "هاتف المدير",
+    confirmPassword:
+      "تأكيد كلمة المرور",
     register: "تسجيل العيادة",
-    alreadyHaveAccount: "لديك حساب بالفعل؟",
+    alreadyHaveAccount:
+      "لديك حساب بالفعل؟",
     loginHere: "تسجيل الدخول هنا",
     selectPlan: "اختر خطة",
     basic: "أساسية",
     standard: "قياسية",
     premium: "مميزة",
-    registering: "جارٍ التسجيل...",
-    searchPatientServerError: "حدث خطأ أثناء البحث عن المريض. حاول مرة أخرى.",
-    // Demo credentials
+    registering:
+      "جارٍ التسجيل...",
+
     demoCredentials: "🔐 بيانات التجربة:",
     admin: "المدير:",
     manager: "مدير العيادة:",
     doctorLabel: "الطبيب:",
 
     // Flash messages
-    staffMemberAddedSuccessfully: "تم إضافة الموظف بنجاح",
+    staffMemberAddedSuccessfully:
+      "تم إضافة الموظف بنجاح",
 
-    // لوحة تحكم الاستقبال
-    welcomeReception: "أهلاً بك في لوحة تحكم الاستقبال",
-    receptionSubTitle: "إدارة تسجيل المرضى، المواعيد والتقارير المالية اليومية",
+    // Reception Dashboard Arabic
+    welcomeReception:
+      "أهلاً بك في لوحة تحكم الاستقبال",
+    receptionSubTitle:
+      "إدارة تسجيل المرضى، المواعيد والتقارير المالية اليومية",
 
     statusConfirmed: "مؤكد",
     statusWaiting: "بانتظار الحضور",
     statusCheckedIn: "تم الاستقبال",
 
-    todaysAppointmentsTitle: "مواعيد اليوم",
-    todaysAppointmentsSubtitle: "أقرب المواعيد خلال الساعات القادمة",
-    manageAllAppointments: "إدارة جميع المواعيد",
+    todaysAppointmentsTitle:
+      "مواعيد اليوم",
+    todaysAppointmentsSubtitle:
+      "أقرب المواعيد خلال الساعات القادمة",
+    manageAllAppointments:
+      "إدارة جميع المواعيد",
 
-    waitingRoomTitle: "غرفة الانتظار الآن",
-    waitingRoomSubtitle: "ترتيب المرضى حسب رقم الدور",
+    waitingRoomTitle:
+      "غرفة الانتظار الآن",
+    waitingRoomSubtitle:
+      "ترتيب المرضى حسب رقم الدور",
+    appointmentRequests:
+      "طلبات مواعيد معلّقة",
 
-    quickSummaryTitle: "ملخص سريع",
-    quickSummaryPatientsWaiting: "مرضى بانتظار الاستقبال الآن",
+    quickSummaryTitle:
+      "ملخص سريع",
+    quickSummaryPatientsWaiting:
+      "مرضى بانتظار الاستقبال الآن",
     quickSummaryReminder:
-      "تذكير: تأكدي من مراجعة طلبات المواعيد الجديدة وتأكيد المعتمَد منها",
+      "تذكير: تأكدي من مراجعة طلبات المواعيد الجديدة",
 
-    quickActionsReception: "الإجراءات السريعة للسكرتير",
+    quickActionsReception:
+      "الإجراءات السريعة للسكرتير",
 
-    appointmentDetailsEdit: "تفاصيل / تعديل",
-    waitingRoomCheckin: "استقبال / تسجيل دخول",
-    appointmentRequests: "طلبات مواعيد معلّقة",
-    // كروت الإجراءات السريعة
+    appointmentDetailsEdit:
+      "تفاصيل / تعديل",
+    waitingRoomCheckin:
+      "استقبال / تسجيل دخول",
+
+    // Quick actions Arabic
     qaNewPatientLabel: "مريض جديد",
-    qaNewPatientTitle: "تسجيل مريض جديد وإنشاء حساب تلقائي",
+    qaNewPatientTitle:
+      "تسجيل مريض جديد وإنشاء حساب تلقائي",
     qaNewPatientDesc:
       "إدخال الاسم، رقم الهوية، رقم الهاتف – مع إرسال كلمة المرور عبر SMS.",
 
-    qaSearchPatientLabel: "البحث عن مريض",
-    qaSearchPatientTitle: "الوصول لملف مريض سابق",
+    qaSearchPatientLabel:
+      "البحث عن مريض",
+    qaSearchPatientTitle:
+      "الوصول لملف مريض سابق",
     qaSearchPatientDesc:
-      "البحث باستخدام رقم الهوية أو رقم الهاتف لفتح الملف الطبي.",
+      "البحث باستخدام رقم الهوية أو رقم الهاتف.",
 
-    qaRequestsLabel: "طلبات المواعيد",
-    qaRequestsTitle: "مراجعة الطلبات القادمة من البوابة الإلكترونية",
-    qaRequestsDesc: "تدقيق التفاصيل وإرسال الطلب للطبيب المناسب للموافقة.",
+    qaRequestsLabel:
+      "طلبات المواعيد",
+    qaRequestsTitle:
+      "مراجعة الطلبات القادمة",
+    qaRequestsDesc:
+      "تدقيق التفاصيل وإرسال الطلب للطبيب المناسب.",
 
-    qaConfirmLabel: "تأكيد المواعيد",
-    qaConfirmTitle: "اعتماد الموعد بعد موافقة الطبيب",
-    qaConfirmDesc: "تحويل حالة الموعد إلى 'فعال' مع إرسال رسالة تأكيد للمريض.",
+    qaConfirmLabel:
+      "تأكيد المواعيد",
+    qaConfirmTitle:
+      "اعتماد الموعد بعد موافقة الطبيب",
+    qaConfirmDesc:
+      "تحويل حالة الموعد إلى فعّال وإرسال رسالة تأكيد.",
 
-    qaDailyReportLabel: "التقرير المالي اليومي",
-    qaDailyReportTitle: "إحصاء المبالغ المالية الداخلة اليوم",
+    qaDailyReportLabel:
+      "التقرير المالي اليومي",
+    qaDailyReportTitle:
+      "إحصاء المبالغ المالية الداخلة اليوم",
     qaDailyReportDesc:
-      "إجمالي المبالغ المستلمة، عدد الفواتير المدفوعة وغير المدفوعة، وإجمالي النقدي والإلكتروني.",
-    // صفحة المريض الجديد
-    patientsManagement: "إدارة المرضى",
+      "إجمالي المبالغ، الفواتير المدفوعة وغير المدفوعة.",
+
+    // New Patient
+    patientsManagement:
+      "إدارة المرضى",
     newPatient: "تسجيل مريض جديد",
     newPatientSubtitle:
-      "أدخل بيانات المريض الأساسية ليتم إنشاء حساب له وإرسال كلمة المرور تلقائياً.",
+      "أدخل بيانات المريض الأساسية ليتم إنشاء حساب له وإرسال كلمة المرور تلقائيًا.",
 
     fullNameLabel: "الاسم الكامل",
-    fullNamePlaceholder: "اكتب الاسم الثلاثي أو الرباعي",
+    fullNamePlaceholder:
+      "اكتب الاسم الثلاثي أو الرباعي",
     nationalIdLabel: "رقم الهوية",
-    nationalIdPlaceholder: "مثال: 123456789",
-    nationalIdHint: "يُستخدم للتأكد من عدم تكرار تسجيل نفس المريض.",
+    nationalIdPlaceholder:
+      "مثال: 123456789",
+    nationalIdHint:
+      "للتأكد من عدم تكرار المرضى.",
     phoneLabel: "رقم الهاتف",
-    phonePlaceholder: "مثال: 059XXXXXXXX",
-    phoneHint: "سيتم إرسال كلمة المرور الأولى لهذا الرقم عبر رسالة SMS.",
+    phonePlaceholder:
+      "مثال: 059XXXXXXXX",
+    phoneHint:
+      "سيتم إرسال كلمة المرور عبر SMS.",
 
     clearForm: "مسح الحقول",
-    saveAndSendPassword: "حفظ وإرسال كلمة المرور",
+    saveAndSendPassword:
+      "حفظ وإرسال كلمة المرور",
     saving: "جاري الحفظ...",
 
-    newPatientTipsTitle: "إرشادات تسجيل مريض جديد",
+    newPatientTipsTitle:
+      "إرشادات تسجيل مريض جديد",
     newPatientTipsBody:
-      "تأكّد من مطابقة بيانات الهوية ورقم الهاتف مع الوثائق الرسمية الخاصة بالمريض، لأن هذه المعلومات ستُستخدم لاحقاً في تسجيل الدخول للبوابة الإلكترونية وفي التواصل معه.",
-    newPatientTip1: "تجنّب إدخال أسماء مختصرة قدر الإمكان.",
-    newPatientTip2: "تأكد من كتابة رقم الهاتف بشكل صحيح مع المقدمة.",
-    newPatientTip3: "أبلغ المريض بأن كلمة المرور أُرسلت على هاتفه.",
+      "تأكد من تطابق بيانات الهوية ورقم الهاتف.",
+    newPatientTip1:
+      "تجنب إدخال أسماء مختصرة.",
+    newPatientTip2:
+      "تأكد من كتابة رقم الهاتف بشكل صحيح.",
+    newPatientTip3:
+      "أبلغ المريض بأن كلمة المرور أُرسلت.",
     newPatientFooter:
-      "عند حفظ البيانات، يقوم النظام تلقائياً بإنشاء حساب للمريض وإرسال كلمة مرور مؤقتة يمكنه تغييرها لاحقاً من خلال البوابة الإلكترونية.",
+      "يقوم النظام تلقائيًا بإرسال كلمة مرور مؤقتة.",
 
-    newPatientSuccess: "تم إنشاء حساب المريض وإرسال كلمة المرور عبر SMS.",
-    newPatientServerError: "حدث خطأ أثناء إنشاء المريض. حاول مرة أخرى.",
-    // searchPatientServerError: "حدث خطأ أثناء البحث عن المريض. حاول مرة أخرى.",
+    newPatientSuccess:
+      "تم إنشاء حساب المريض وإرسال كلمة المرور.",
+    newPatientServerError:
+      "حدث خطأ أثناء إنشاء المريض.",
 
-    // البحث عن مريض
-    searchPatient: "البحث عن مريض",
-    searchPatientSubtitle:
-      "ابحث باستخدام رقم الهوية أو رقم الهاتف للوصول إلى ملف المريض.",
-    searchPatientLabel: "أدخل رقم الهوية أو رقم الهاتف للبحث عن المريض",
-    searchPatientHint:
-      "يمكنك البحث برقم الهوية الكامل أو رقم الهاتف المسجل في النظام.",
-    search: "بحث",
-    noPatientsFound: "لا توجد أي نتائج مطابقة لبيانات البحث المدخلة.",
+    // Additional fields
+    dateOfBirthLabel: "تاريخ الميلاد",
+    genderLabel: "الجنس",
+    male: "ذكر",
+    female: "أنثى",
+    other: "آخر",
+    addressLabel: "العنوان",
+    addressPlaceholder:
+      "مثال: غزة، الرمال",
+    bloodTypeLabel: "فصيلة الدم",
+    bloodTypePlaceholder:
+      "مثال: O+, A-",
+    optional: "اختياري",
+    allergiesLabel: "الحساسية",
+    allergiesPlaceholder:
+      "أدخل أي حساسية أو ملاحظة مهمة",
 
-    // طلبات المواعيد
-    appointmentRequestsTitle: "طلبات المواعيد",
+    // Appointment requests
+    appointmentRequestsTitle:
+      "طلبات المواعيد",
     appointmentRequestsSubtitle:
-      "مراجعة الطلبات القادمة من البوابة الإلكترونية، تدقيق التفاصيل، وتحويلها للطبيب المناسب للموافقة أو التعديل.",
+      "مراجعة الطلبات القادمة من البوابة الإلكترونية.",
     appointmentRequestsSearchPlaceholder:
       "بحث بالاسم، رقم الهوية، الهاتف، رقم الطلب...",
-    appointmentRequestsCountLabel: "عدد الطلبات",
+    appointmentRequestsCountLabel:
+      "عدد الطلبات",
     appointmentRequestsNoResults:
-      "لا توجد طلبات مطابقة للبحث أو الفلتر الحالي.",
+      "لا توجد طلبات مطابقة.",
 
     appointmentStatusAll: "الكل",
     appointmentStatusNew: "جديدة",
     appointmentStatusApproved: "مقبولة",
     appointmentStatusRejected: "مرفوضة",
-    appointmentStatusRescheduled: "مُعاد جدولتها",
+    appointmentStatusRescheduled:
+      "مُعاد جدولتها",
 
-    appointmentDetailsTitle: "تفاصيل طلب الموعد",
-    appointmentDetailsRequestNumber: "رقم الطلب",
-    appointmentDetailsPatientName: "اسم المريض",
-    appointmentDetailsNationalId: "رقم الهوية",
-    appointmentDetailsPhone: "رقم الهاتف",
-    appointmentDetailsSource: "مصدر الطلب",
-    appointmentDetailsSpecialty: "التخصص",
-    appointmentDetailsDoctor: "الطبيب المطلوب",
-    appointmentDetailsPreferredSlot: "الموعد المفضل",
-    appointmentDetailsCurrentStatus: "الحالة الحالية",
-    appointmentDetailsComplaint: "وصف الحالة / الشكوى",
-    appointmentDetailsDate: "تاريخ الموعد",
-    appointmentDetailsTime: "وقت الموعد",
+    appointmentDetailsTitle:
+      "تفاصيل طلب الموعد",
+    appointmentDetailsRequestNumber:
+      "رقم الطلب",
+    appointmentDetailsPatientName:
+      "اسم المريض",
+    appointmentDetailsNationalId:
+      "رقم الهوية",
+    appointmentDetailsPhone:
+      "رقم الهاتف",
+    appointmentDetailsSource:
+      "مصدر الطلب",
+    appointmentDetailsSpecialty:
+      "التخصص",
+    appointmentDetailsDoctor:
+      "الطبيب المطلوب",
+    appointmentDetailsPreferredSlot:
+      "الموعد المفضل",
+    appointmentDetailsCurrentStatus:
+      "الحالة الحالية",
+    appointmentDetailsComplaint:
+      "وصف الحالة / الشكوى",
+    appointmentDetailsDate:
+      "تاريخ الموعد",
+    appointmentDetailsTime:
+      "وقت الموعد",
     appointmentDetailsNoteLabel:
-      "ملاحظة (تظهر في ملف الموعد / يمكن إرسالها للمريض)",
+      "ملاحظة (تظهر في ملف الموعد)",
 
-    appointmentActionApprove: "قبول الموعد",
-    appointmentActionReschedule: "إعادة جدولة",
-    appointmentActionReject: "رفض الطلب",
-    appointmentActionClose: "إلغاء / إغلاق",
+    appointmentActionApprove:
+      "قبول الموعد",
+    appointmentActionReschedule:
+      "إعادة جدولة",
+    appointmentActionReject:
+      "رفض الطلب",
+    appointmentActionClose:
+      "إلغاء / إغلاق",
+
+    search: "بحث",
+    noPatientsFound:
+      "لا توجد نتائج مطابقة.",
+    searchPatientServerError:
+      "حدث خطأ أثناء البحث عن المريض.",
   },
 };
 

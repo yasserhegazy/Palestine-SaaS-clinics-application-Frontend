@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import PageHeader from "@/components/common/PageHeader";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import type { Appointment } from "@/types/appointment";
 import AppointmentDetailsModal from "@/components/doctor/AppointmentDetailsModal";
 import CreateMedicalRecordForm from "@/components/doctor/CreateMedicalRecordForm";
@@ -175,6 +176,9 @@ useEffect(() => {
       dir={isArabic ? "rtl" : "ltr"}
     >
       <main className="max-w-7xl mx-auto px-4 py-8 space-y-6">
+        {/* ====== BREADCRUMBS ====== */}
+        <Breadcrumbs />
+        
         {/* ====== HEADER ====== */}
         <PageHeader
           label={isArabic ? "جدول اليوم" : "Today's Schedule"}

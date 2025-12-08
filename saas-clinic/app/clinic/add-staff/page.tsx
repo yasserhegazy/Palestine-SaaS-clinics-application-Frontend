@@ -9,7 +9,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useLanguage } from '@/context/LanguageContext';
 import apiClient from '@/lib/api';
 import { translations } from '@/lib/translations';
-import LanguageSwitcher from '@/components/LanguageSwitcher';
+import Breadcrumbs from '@/components/Breadcrumbs';
 
 // Base schema for common fields
 const baseStaffSchema = z.object({
@@ -110,27 +110,23 @@ export default function AddStaffPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+      {/* Main Content */}
+      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+        <Breadcrumbs />
+
+        <div className="flex items-start justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{t.addStaffMember}</h1>
             <p className="text-sm text-gray-600">{clinic?.name}</p>
           </div>
-          <div className="flex items-center gap-4">
-            <LanguageSwitcher />
-            <button
-              onClick={() => router.back()}
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
-            >
-              {t.back}
-            </button>
-          </div>
+          <button
+            onClick={() => router.back()}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
+          >
+            {t.back}
+          </button>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden">
           {/* Form Header */}
           <div className="bg-linear-to-r from-teal-600 to-cyan-600 px-8 py-6 text-white">

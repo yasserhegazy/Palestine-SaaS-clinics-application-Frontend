@@ -35,6 +35,7 @@ export default function CreateMedicalRecordForm({
   const [diagnosis, setDiagnosis] = useState("");
   const [prescription, setPrescription] = useState("");
   const [nextVisit, setNextVisit] = useState("");
+  const [createNextAppointment, setCreateNextAppointment] = useState(false);
   const [errors, setErrors] = useState<FieldErrors>({});
   const [submitting, setSubmitting] = useState(false);
 
@@ -128,6 +129,7 @@ export default function CreateMedicalRecordForm({
         diagnosis: diagnosis.trim(),
         prescription: prescription.trim(),
         next_visit: nextVisit || null,
+        create_next_appointment: createNextAppointment,
       };
 
       const res = await fetch(
@@ -151,11 +153,21 @@ export default function CreateMedicalRecordForm({
         throw new Error(msg);
       }
 
-      toast.success(
-        isArabic
-          ? "تم إنشاء السجل الطبي بنجاح"
-          : "Medical record created successfully"
-      );
+      // Show success message
+      let successMsg = isArabic
+        ? "تم إنشاء السجل الطبي بنجاح"
+        : "Medical record created successfully";
+
+      // If next appointment was created, add that info
+      if (json.next_appointment) {
+        const nextApptDate = json.next_appointment.appointment_date;
+        const nextApptTime = json.next_appointment.appointment_time;
+        successMsg += isArabic
+          ? `\nتم جدولة موعد المتابعة: ${nextApptDate} في ${nextApptTime}`
+          : `\nFollow-up scheduled: ${nextApptDate} at ${nextApptTime}`;
+      }
+
+      toast.success(successMsg);
 
       onSuccess();
       onClose();
@@ -383,6 +395,30 @@ export default function CreateMedicalRecordForm({
                   : "After saving, this medical record will be linked to the current appointment and can be reviewed later from the patient profile."}
               </p>
             </div>
+          </div>
+
+          {/* Auto-schedule next appointment checkbox */}
+          <div className="rounded-2xl border border-teal-100 bg-teal-50/30 px-3.5 py-3">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={createNextAppointment}
+                onChange={(e) => setCreateNextAppointment(e.target.checked)}
+                className="mt-0.5 w-4 h-4 rounded border-teal-300 text-teal-600 focus:ring-2 focus:ring-teal-500/25"
+              />
+              <div className="flex-1">
+                <p className="text-xs font-semibold text-teal-900">
+                  {isArabic
+                    ? "جدولة موعد المتابعة تلقائياً"
+                    : "Auto-schedule follow-up appointment"}
+                </p>
+                <p className="text-[11px] text-teal-700 mt-0.5">
+                  {isArabic
+                    ? "سيتم إنشاء موعد جديد تلقائياً في أول وقت متاح في جدولك. سيظهر الموعد للمريض في صفحته."
+                    : "A new appointment will be automatically created at the first available slot in your schedule. The patient will see it on their page."}
+                </p>
+              </div>
+            </label>
           </div>
         </form>
 
