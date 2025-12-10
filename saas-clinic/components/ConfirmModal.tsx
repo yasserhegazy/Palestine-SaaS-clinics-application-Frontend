@@ -42,15 +42,15 @@ export default function ConfirmModal({
       <div className="flex min-h-screen items-center justify-center p-4">
         {/* Backdrop */}
         <div
-          className="fixed inset-0 backdrop-blur-sm bg-gray-900/20 transition-all"
+          className="fixed inset-0 backdrop-blur-sm bg-gray-900/20 dark:bg-gray-900/50 transition-all"
           onClick={onClose}
         />
 
         {/* Modal */}
-        <div className="relative bg-white rounded-2xl shadow-xl max-w-md w-full p-6 z-10">
+        <div className="relative bg-white dark:bg-slate-800 rounded-2xl shadow-xl max-w-md w-full p-6 z-10 transition-colors duration-300">
           <div className="flex items-start gap-4">
             {/* Icon */}
-            <div className={`flex-shrink-0 w-12 h-12 rounded-full ${type === 'danger' ? 'bg-red-100' : type === 'warning' ? 'bg-amber-100' : 'bg-teal-100'} flex items-center justify-center`}>
+            <div className={`flex-shrink-0 w-12 h-12 rounded-full ${type === 'danger' ? 'bg-red-100 dark:bg-red-900/50' : type === 'warning' ? 'bg-amber-100 dark:bg-amber-900/50' : 'bg-teal-100 dark:bg-teal-900/50'} flex items-center justify-center`}>
               <svg
                 className={`w-6 h-6 ${iconColors[type]}`}
                 fill="none"
@@ -68,16 +68,16 @@ export default function ConfirmModal({
 
             {/* Content */}
             <div className="flex-1">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                 {title}
               </h3>
-              <p className="text-sm text-gray-600 mb-6">{message}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-6">{message}</p>
 
               {/* Actions */}
               <div className="flex gap-3 justify-end">
                 <button
                   onClick={onClose}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition"
+                  className="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-slate-700 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 transition"
                 >
                   {cancelText}
                 </button>
