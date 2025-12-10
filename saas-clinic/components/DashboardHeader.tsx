@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeToggle from "./ThemeToggle";
 import { Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { getClinicLogo } from "@/lib/api/clinicSettings";
@@ -113,22 +114,23 @@ export default function DashboardHeader({
     (isArabic ? `لوحة تحكم ${translatedRole}` : `Dashboard ${translatedRole}`);
 
   return (
-    <header className="bg-white shadow-sm border-b">
+    <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900">{headerTitle}</h1>
-          <p className="text-sm text-slate-600">
+          <h1 className="text-2xl font-bold text-slate-900 dark:text-white">{headerTitle}</h1>
+          <p className="text-sm text-slate-600 dark:text-slate-400">
             {(t.yourHealthRecords as string) ??
               (isArabic ? "سجلك الصحي" : "Your health records")}
           </p>
         </div>
 
         <div className="flex items-center gap-4">
+          <ThemeToggle />
           <LanguageSwitcher />
 
           <div className="text-right">
-            <p className="text-sm font-medium text-slate-900">{user.name}</p>
-            <p className="text-xs text-slate-500">{translatedRole}</p>
+            <p className="text-sm font-medium text-slate-900 dark:text-white">{user.name}</p>
+            <p className="text-xs text-slate-500 dark:text-slate-400">{translatedRole}</p>
           </div>
 
           {/* Clinic Logo - visible to all, clickable only for managers */}
@@ -142,7 +144,7 @@ export default function DashboardHeader({
                 <img
                   src={logoUrl}
                   alt="Clinic Logo"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-teal-500 shadow-md hover:shadow-lg transition-shadow"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-teal-500 dark:border-teal-400 shadow-md hover:shadow-lg transition-shadow"
                 />
               </button>
             ) : (
@@ -150,7 +152,7 @@ export default function DashboardHeader({
                 <img
                   src={logoUrl}
                   alt="Clinic Logo"
-                  className="w-10 h-10 rounded-full object-cover border-2 border-teal-500 shadow-md"
+                  className="w-10 h-10 rounded-full object-cover border-2 border-teal-500 dark:border-teal-400 shadow-md"
                 />
               </div>
             )
@@ -160,7 +162,7 @@ export default function DashboardHeader({
               className="flex items-center justify-center transition-all duration-200 hover:opacity-80"
               title={isArabic ? "إعدادات العيادة" : "Clinic Settings"}
             >
-              <div className="p-2 text-slate-600 hover:text-teal-600 hover:bg-teal-50 rounded-lg transition-colors">
+              <div className="p-2 text-slate-600 dark:text-slate-400 hover:text-teal-600 dark:hover:text-teal-400 hover:bg-teal-50 dark:hover:bg-teal-900/30 rounded-lg transition-colors">
                 <Settings className="w-5 h-5" />
               </div>
             </button>

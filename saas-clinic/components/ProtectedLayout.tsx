@@ -29,10 +29,10 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   // Show loading state while checking authentication
   if (isLoading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
+      <div className="min-h-screen flex items-center justify-center bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 mx-auto"></div>
-          <p className="mt-4 text-gray-600">{isArabic ? 'جاري التحميل...' : 'Loading...'}</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-teal-600 dark:border-teal-400 mx-auto"></div>
+          <p className="mt-4 text-gray-600 dark:text-gray-400">{isArabic ? 'جاري التحميل...' : 'Loading...'}</p>
         </div>
       </div>
     );
@@ -44,7 +44,7 @@ export default function ProtectedLayout({ children }: ProtectedLayoutProps) {
   }
 
   return (
-    <div dir={isArabic ? "rtl" : "ltr"} className="min-h-screen bg-slate-50">
+    <div dir={isArabic ? "rtl" : "ltr"} className="min-h-screen bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
       <DashboardHeader
         user={{ name: user.name, role: user.role }}
         logout={logout}
