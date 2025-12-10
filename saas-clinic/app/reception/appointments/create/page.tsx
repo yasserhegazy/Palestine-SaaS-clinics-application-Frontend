@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import { useRouter } from "next/navigation";
@@ -8,6 +8,8 @@ import AppointmentForm, { type AppointmentFormData } from "@/components/Appointm
 import PatientSearch, { LookupPatient } from "@/components/PatientSearch";
 import PreviousVisits from "@/components/PreviousVisits";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import PaymentForm from "@/components/PaymentForm";
+import { PaymentFormData } from "@/types/payment";
 import { toast } from "react-hot-toast";
 
 export default function CreateAppointmentPage() {
@@ -17,10 +19,16 @@ export default function CreateAppointmentPage() {
 
   const [selectedPatient, setSelectedPatient] = useState<LookupPatient | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [paymentData, setPaymentData] = useState<PaymentFormData | null>(null);
+  const [consultationFee, setConsultationFee] = useState<number>(0);
 
   const handlePatientSelect = (patient: LookupPatient) => {
     setSelectedPatient(patient);
   };
+
+  const handlePaymentDataChange = useCallback((data: PaymentFormData | null) => {
+    setPaymentData(data);
+  }, []);
 
   const handleFormSubmit = async (data: AppointmentFormData) => {
     if (!selectedPatient) {
@@ -31,39 +39,59 @@ export default function CreateAppointmentPage() {
     setIsSubmitting(true);
 
     try {
+      const requestBody: {
+        patientId: number;
+        doctorId: number;
+        date: string;
+        time: string;
+        notes: string;
+        payment?: PaymentFormData;
+      } = {
+        patientId: selectedPatient.patientId,
+        doctorId: data.doctorId,
+        date: data.appointmentDate,
+        time: data.appointmentTime,
+        notes: data.notes,
+      };
+
+      // Add payment data if provided
+      if (paymentData) {
+        requestBody.payment = paymentData;
+      }
+
       const response = await fetch("/api/clinic/appointments/create", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          patientId: selectedPatient.patientId,
-          doctorId: data.doctorId,
-          date: data.appointmentDate,
-          time: data.appointmentTime,
-          notes: data.notes,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
+      const responseData = await response.json();
+
       if (response.ok) {
-        toast.success(
-          language === "ar"
-            ? "تم إنشاء الموعد بنجاح"
-            : "Appointment created successfully"
-        );
+        let successMessage = language === "ar"
+          ? "تم إنشاء الموعد بنجاح"
+          : "Appointment created successfully";
+        
+        // If payment was collected, show receipt number
+        if (responseData.receipt_number) {
+          successMessage += language === "ar"
+            ? ` - رقم الإيصال: ${responseData.receipt_number}`
+            : ` - Receipt: ${responseData.receipt_number}`;
+        }
+        
+        toast.success(successMessage);
         router.push("/reception/dashboard");
       } else {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to create appointment");
+        throw new Error(responseData.message || "Failed to create appointment");
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error("Error creating appointment:", error);
-      toast.error(
-        error.message ||
-          (language === "ar"
-            ? "حدث خطأ أثناء إنشاء الموعد"
-            : "An error occurred while creating the appointment")
-      );
+      const errorMessage = error instanceof Error ? error.message : (language === "ar"
+        ? "حدث خطأ أثناء إنشاء الموعد"
+        : "An error occurred while creating the appointment");
+      toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -71,6 +99,7 @@ export default function CreateAppointmentPage() {
 
   const handleClearForm = () => {
     setSelectedPatient(null);
+    setPaymentData(null);
   };
 
   return (
@@ -170,20 +199,47 @@ export default function CreateAppointmentPage() {
 
         {/* Step 3: Appointment Details */}
         {selectedPatient && (
-          <div className="mt-8 max-w-4xl mx-auto">
-            <div className="mb-4 text-center">
-              <h2 className="text-lg font-semibold text-slate-900 mb-1">
-                {language === "ar" ? "3. تفاصيل الموعد" : "3. Appointment Details"}
-              </h2>
-              <p className="text-sm text-slate-500">
-                {language === "ar"
-                  ? "اختر الطبيب والتخصص والتاريخ والوقت وأي ملاحظات إضافية"
-                  : "Select doctor, specialty, date, time, and any additional notes"}
-              </p>
-            </div>
+          <div className="mt-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Appointment Form - Takes 2/3 of space */}
+              <div className="lg:col-span-2">
+                <div className="mb-4">
+                  <h2 className="text-lg font-semibold text-slate-900 mb-1">
+                    {language === "ar" ? "3. تفاصيل الموعد" : "3. Appointment Details"}
+                  </h2>
+                  <p className="text-sm text-slate-500">
+                    {language === "ar"
+                      ? "اختر الطبيب والتخصص والتاريخ والوقت وأي ملاحظات إضافية"
+                      : "Select doctor, specialty, date, time, and any additional notes"}
+                  </p>
+                </div>
 
-            <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
-              <AppointmentForm onSubmit={handleFormSubmit} onClear={handleClearForm} />
+                <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+                  <AppointmentForm onSubmit={handleFormSubmit} onClear={handleClearForm} />
+                </div>
+              </div>
+
+              {/* Payment Form - Takes 1/3 of space */}
+              <div>
+                <div className="mb-4">
+                  <h2 className="text-lg font-semibold text-slate-900 mb-1">
+                    {language === "ar" ? "4. الدفع" : "4. Payment"}
+                  </h2>
+                  <p className="text-sm text-slate-500">
+                    {language === "ar"
+                      ? "تحصيل الرسوم من المريض"
+                      : "Collect fee from patient"}
+                  </p>
+                </div>
+
+                <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+                  <PaymentForm
+                    consultationFee={consultationFee}
+                    onPaymentDataChange={handlePaymentDataChange}
+                    disabled={isSubmitting}
+                  />
+                </div>
+              </div>
             </div>
           </div>
         )}
