@@ -139,7 +139,7 @@ export default function NewAppointmentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 transition-colors duration-300">
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs />
 
@@ -152,15 +152,14 @@ export default function NewAppointmentPage() {
               : "View and manage your current and upcoming appointments."
           }
           backAction={() => router.push("/patient/dashboard")}
-          wrapperClass="border-b"
         />
 
-        <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
-          <form onSubmit={handleSubmit} className="p-6 md:p-7 space-y-4 border-slate-100">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">
+          <form onSubmit={handleSubmit} className="p-6 md:p-7 space-y-4">
 
             {/* Date */}
             <div>
-              <label className="block text-sm font-medium text-slate-800 mb-1">
+              <label className="block text-sm font-medium text-slate-800 dark:text-slate-200 mb-1">
                 {language === "ar" ? "تاريخ الموعد" : "Appointment date"}{" "}
                 <span className="text-red-500">*</span>
               </label>
@@ -170,13 +169,13 @@ export default function NewAppointmentPage() {
                 value={form.date}
                 onChange={handleChange}
                 min={new Date().toISOString().split("T")[0]}
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 bg-slate-50 text-sm"
+                className="w-full border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5 bg-slate-50 dark:bg-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
               />
             </div>
 
             {/* Time */}
             <div>
-              <label className="block text-sm font-medium text-slate-800 mb-1">
+              <label className="block text-sm font-medium text-slate-800 dark:text-slate-200 mb-1">
                 {language === "ar" ? "وقت الموعد" : "Appointment time"}{" "}
                 <span className="text-red-500">*</span>
               </label>
@@ -185,13 +184,13 @@ export default function NewAppointmentPage() {
                 name="time"
                 value={form.time}
                 onChange={handleChange}
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 bg-slate-50 text-sm"
+                className="w-full border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5 bg-slate-50 dark:bg-slate-700 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
               />
             </div>
 
             {/* Doctor */}
             <div>
-              <label className="block text-sm font-medium text-slate-800 mb-1">
+              <label className="block text-sm font-medium text-slate-800 dark:text-slate-200 mb-1">
                 {language === "ar" ? "الطبيب" : "Doctor"}{" "}
                 <span className="text-red-500">*</span>
               </label>
@@ -200,7 +199,7 @@ export default function NewAppointmentPage() {
                 value={form.doctor_id}
                 onChange={handleChange}
                 disabled={loadingDoctors}
-                className="w-full border border-slate-200 rounded-xl px-3 py-2.5 bg-slate-50 text-sm disabled:opacity-50"
+                className="w-full border border-slate-200 dark:border-slate-600 rounded-xl px-3 py-2.5 bg-slate-50 dark:bg-slate-700 text-sm text-slate-900 dark:text-white disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-teal-500/70 focus:border-teal-500 transition"
               >
                 <option value="">
                   {loadingDoctors
@@ -221,20 +220,20 @@ export default function NewAppointmentPage() {
               </select>
 
               {!loadingDoctors && doctors.length === 0 && (
-                <p className="mt-1 text-xs text-amber-600">
+                <p className="mt-1 text-xs text-amber-600 dark:text-amber-400">
                   {language === "ar" ? "لا يوجد أطباء متاحون حالياً" : "No doctors available"}
                 </p>
               )}
             </div>
 
             {message && (
-              <p className="text-sm text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-xl px-3 py-2">
+              <p className="text-sm text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/30 border border-emerald-200 dark:border-emerald-800 rounded-xl px-3 py-2">
                 {message}
               </p>
             )}
 
             {error && (
-              <p className="text-sm text-red-700 bg-red-50 border border-red-200 rounded-xl px-3 py-2">
+              <p className="text-sm text-red-700 dark:text-red-400 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-xl px-3 py-2">
                 {error}
               </p>
             )}
@@ -244,7 +243,7 @@ export default function NewAppointmentPage() {
               <button
                 type="button"
                 onClick={() => setForm({ date: "", time: "", doctor_id: "" })}
-                className="px-3 py-2 text-sm rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50"
+                className="px-3 py-2 text-sm rounded-xl border border-slate-200 dark:border-slate-600 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 transition"
               >
                 {language === "ar" ? "مسح الحقول" : "Clear"}
               </button>
@@ -252,7 +251,7 @@ export default function NewAppointmentPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="px-4 py-2.5 bg-teal-600 text-white text-sm rounded-xl hover:bg-teal-700 disabled:opacity-50"
+                className="px-4 py-2.5 bg-teal-600 dark:bg-teal-500 text-white text-sm rounded-xl hover:bg-teal-700 dark:hover:bg-teal-600 disabled:opacity-50 transition"
               >
                 {loading
                   ? language === "ar"

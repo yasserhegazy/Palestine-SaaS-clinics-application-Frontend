@@ -146,17 +146,17 @@ finally {
 
   const getStatusClass = (status: Appointment["status"]) => {
     if (status === "confirmed")
-      return "bg-emerald-50 text-emerald-700 border-emerald-200";
+      return "bg-emerald-50 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-400";
     if (status === "pending")
-      return "bg-amber-50 text-amber-700 border-amber-200";
-    if (status === "cancelled") return "bg-red-50 text-red-700 border-red-200";
+      return "bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-400";
+    if (status === "cancelled") return "bg-red-50 dark:bg-red-900/40 text-red-700 dark:text-red-400";
     if (status === "completed")
-      return "bg-slate-50 text-slate-700 border-slate-200";
+      return "bg-slate-100 dark:bg-slate-600 text-slate-700 dark:text-slate-300";
     return "";
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 transition-colors duration-300">
       <div className="max-w-3xl mx-auto">
         <Breadcrumbs />
 
@@ -169,38 +169,37 @@ finally {
               : "View and manage your current and upcoming appointments."
           }
           backAction={() => router.push("/patient/dashboard")}
-          wrapperClass="border-b"
         />
 
         <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 transition-colors duration-300">
             <div className="flex gap-2">
               <button
                 onClick={() => setFilter("all")}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   filter === "all"
-                    ? "bg-teal-600 text-white border-teal-600"
-                    : "bg-white text-slate-700 border-slate-200"
+                    ? "bg-teal-600 text-white"
+                    : "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
                 }`}
               >
                 {language === "ar" ? "الكل" : "All"}
               </button>
               <button
                 onClick={() => setFilter("upcoming")}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   filter === "upcoming"
-                    ? "bg-teal-600 text-white border-teal-600"
-                    : "bg-white text-slate-700 border-slate-200"
+                    ? "bg-teal-600 text-white"
+                    : "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
                 }`}
               >
                 {language === "ar" ? "المواعيد القادمة" : "Upcoming"}
               </button>
               <button
                 onClick={() => setFilter("past")}
-                className={`px-3 py-1.5 rounded-full text-xs font-medium border ${
+                className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors ${
                   filter === "past"
-                    ? "bg-teal-600 text-white border-teal-600"
-                    : "bg-white text-slate-700 border-slate-200"
+                    ? "bg-teal-600 text-white"
+                    : "bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-600"
                 }`}
               >
                 {language === "ar" ? "المواعيد السابقة" : "Past"}
@@ -209,44 +208,44 @@ finally {
 
             <button
               onClick={() => router.push("/patient/appointments/new")}
-              className="text-xs px-4 py-2 rounded-xl bg-teal-600 text-white font-medium hover:bg-teal-700"
+              className="text-xs px-4 py-2 rounded-xl bg-teal-600 dark:bg-teal-500 text-white font-medium hover:bg-teal-700 dark:hover:bg-teal-600 transition-colors"
             >
               {language === "ar" ? "طلب موعد جديد" : "Request new appointment"}
             </button>
           </div>
 
-          <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+          <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">
             {isLoadingAppointments ? (
               <div className="p-8 flex items-center justify-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600"></div>
               </div>
             ) : error ? (
               <div className="p-6">
-                <p className="text-sm text-red-600">{error}</p>
+                <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
                 <button
                   onClick={() => window.location.reload()}
-                  className="mt-2 text-xs text-teal-700 hover:underline"
+                  className="mt-2 text-xs text-teal-700 dark:text-teal-400 hover:underline"
                 >
                   {language === "ar" ? "إعادة المحاولة" : "Retry"}
                 </button>
               </div>
             ) : filteredAppointments.length === 0 ? (
               <div className="p-6">
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   {language === "ar"
                     ? "لا توجد مواعيد مطابقة للفلتر الحالي."
                     : "No appointments match the current filter."}
                 </p>
               </div>
             ) : (
-              <div className="divide-y">
+              <div className="divide-y divide-slate-100 dark:divide-slate-700">
                 {filteredAppointments.map((app) => (
                   <div
                     key={app.id}
-                    className="px-4 sm:px-5 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 hover:bg-slate-50 transition"
+                    className="px-4 sm:px-5 py-3 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 hover:bg-slate-50 dark:hover:bg-slate-700 transition"
                   >
                     <div className="flex items-center gap-3">
-                      <div className="flex flex-col items-center justify-center rounded-xl bg-slate-900 text-white px-3 py-2 text-center">
+                      <div className="flex flex-col items-center justify-center rounded-xl bg-slate-900 dark:bg-slate-600 text-white px-3 py-2 text-center">
                         <span className="text-xs font-semibold">
                           {app.date}
                         </span>
@@ -255,10 +254,10 @@ finally {
                         </span>
                       </div>
                       <div>
-                        <p className="text-sm font-semibold text-slate-900">
+                        <p className="text-sm font-semibold text-slate-900 dark:text-white">
                           {app.clinic}
                         </p>
-                        <p className="text-xs text-slate-500 mt-0.5">
+                        <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                           {language === "ar"
                             ? `مع ${app.doctor}`
                             : `With ${app.doctor}`}
@@ -267,13 +266,13 @@ finally {
                     </div>
                     <div className="flex flex-col items-end gap-1">
                       <span
-                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium border ${getStatusClass(
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-[11px] font-medium ${getStatusClass(
                           app.status
                         )}`}
                       >
                         {getStatusLabel(app.status)}
                       </span>
-                      <button className="text-[11px] text-teal-700 hover:underline">
+                      <button className="text-[11px] text-teal-700 dark:text-teal-400 hover:underline">
                         {language === "ar"
                           ? "عرض تفاصيل الموعد"
                           : "View details"}
