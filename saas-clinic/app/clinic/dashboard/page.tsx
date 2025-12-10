@@ -11,17 +11,20 @@ import DashboardHero from '@/components/DashboardHero';
 import StatCard from '@/components/StatCard';
 import QuickActionCard from '@/components/QuickActionCard';
 import Breadcrumbs from '@/components/Breadcrumbs';
+import { getClinicStats, type ClinicStats } from '@/lib/api/clinicDashboard';
 import { getClinicSettings, type ClinicSettings } from '@/lib/api/clinicSettings';
 
 export default function ClinicDashboard() {
-  const { user, clinic, isAuthenticated, isLoading } = useAuth();
+  const { user, clinic, token, isAuthenticated, isLoading } = useAuth();
   const { language } = useLanguage();
   const router = useRouter();
   const searchParams = useSearchParams();
   const successMessage = searchParams.get('success');
   const [flashMessage, setFlashMessage] = useState<string>(successMessage || '');
   const [clinicData, setClinicData] = useState<ClinicSettings | null>(null);
+  const [stats, setStats] = useState<ClinicStats | null>(null);
   const [isLoadingClinic, setIsLoadingClinic] = useState(true);
+  const [isLoadingStats, setIsLoadingStats] = useState(true);
   const t = translations[language];
 
   // Protect route - only clinic managers can access
@@ -44,23 +47,41 @@ export default function ClinicDashboard() {
     }
   }, [successMessage, router]);
 
-  // Fetch fresh clinic settings on mount
+  // Fetch fresh clinic settings and stats on mount
   useEffect(() => {
-    const fetchClinicData = async () => {
+    const fetchData = async () => {
       try {
         setIsLoadingClinic(true);
-        const data = await getClinicSettings();
-        setClinicData(data);
+        setIsLoadingStats(true);
+        
+        // Fetch settings
+        try {
+            const data = await getClinicSettings();
+            setClinicData(data);
+        } catch (error) {
+            console.error('Failed to fetch clinic settings:', error);
+        }
+
+        // Fetch stats
+        if (token) {
+            try {
+                const statsData = await getClinicStats(token);
+                setStats(statsData);
+            } catch (error) {
+                console.error('Failed to fetch clinic stats:', error);
+            }
+        }
+
       } catch (error) {
-        console.error('Failed to fetch clinic settings:', error);
-        // Fallback to clinic from AuthContext if fetch fails
+        console.error('General error fetching dashboard data:', error);
       } finally {
         setIsLoadingClinic(false);
+        setIsLoadingStats(false);
       }
     };
 
     if (isAuthenticated && user) {
-      fetchClinicData();
+      fetchData();
     }
   }, [isAuthenticated, user]);
 
@@ -140,22 +161,22 @@ export default function ClinicDashboard() {
         <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <StatCard
              label={t.todaysAppointments || (language === 'ar' ? 'مواعيد اليوم' : "Today's Appointments")}
-             value={28}
+             value={isLoadingStats ? '...' : (stats?.today_appointments_count || 0)}
              sub={language === 'ar' ? 'موعد مسجل' : 'Registered appointments'}
           />
           <StatCard
              label={t.activeDoctors || (language === 'ar' ? 'الأطباء النشطين' : 'Active Doctors')}
-             value={8}
+             value={isLoadingStats ? '...' : (stats?.active_doctors_count || 0)}
              sub={language === 'ar' ? 'طبيب متاح' : 'Available doctors'}
           />
           <StatCard
              label={t.totalPatients || (language === 'ar' ? 'إجمالي المرضى' : 'Total Patients')}
-             value={542}
+             value={isLoadingStats ? '...' : (stats?.total_patients_count || 0)}
              sub={language === 'ar' ? 'ملف طبي' : 'Medical records'}
           />
           <StatCard
              label={t.thisMonth || (language === 'ar' ? 'هذا الشهر' : 'This Month')}
-             value={'₪12K'}
+             value={isLoadingStats ? '...' : `₪${stats?.monthly_revenue || 0}`}
              sub={language === 'ar' ? 'إيرادات' : 'Revenue'}
           />
         </section>
