@@ -196,7 +196,7 @@ useEffect(() => {
             <div className="space-y-1">
               <h3 className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                 {isArabic ? "مواعيد اليوم" : "Today's Appointments"}
-                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-700">
+                <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                   {countLabel}
                 </span>
               </h3>
@@ -275,11 +275,11 @@ useEffect(() => {
                     return (
                       <tr
                         key={appt.id}
-                        className={
-                          isNext
-                            ? "bg-teal-50/40"
-                            : "hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
-                        }
+                          className={
+                            isNext
+                              ? "bg-teal-50/40 dark:bg-teal-900/20"
+                              : "hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+                          }
                       >
                         <td className="px-4 py-3 align-middle text-slate-800 dark:text-slate-200">
                           <div className="font-medium">{timeLabel}</div>
@@ -311,7 +311,7 @@ useEffect(() => {
                         </td>
 
                         <td className="px-4 py-3 align-middle">
-                          <span className="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-700">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-[11px] font-semibold bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300">
                             {appt.status}
                           </span>
                         </td>

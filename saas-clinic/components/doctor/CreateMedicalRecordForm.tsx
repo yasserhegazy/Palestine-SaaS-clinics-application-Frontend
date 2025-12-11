@@ -193,7 +193,7 @@ export default function CreateMedicalRecordForm({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/45 p-4"
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-2xl border border-slate-200 overflow-hidden">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-slate-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-700 overflow-hidden">
         {/* Top accent bar */}
         <div className="h-1.5 bg-gradient-to-l from-teal-500 via-emerald-500 to-sky-500" />
 
@@ -207,32 +207,32 @@ export default function CreateMedicalRecordForm({
         </button>
 
         {/* Header */}
-        <div className="px-6 pt-5 pb-4 border-b border-slate-100 bg-slate-50/70">
+        <div className="px-6 pt-5 pb-4 border-b border-slate-100 dark:border-slate-700 bg-slate-50/70 dark:bg-slate-800">
           <div className="flex flex-col gap-1">
             <p className="text-[11px] uppercase tracking-[0.15em] text-teal-600 font-semibold">
               {isArabic ? "إنشاء سجل طبي" : "Create Medical Record"}
             </p>
             <div className="flex flex-wrap items-center justify-between gap-2">
               <div>
-                <h2 className="text-lg font-semibold text-slate-900">
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                   {patientName}
                 </h2>
-                <p className="text-[11px] text-slate-500 mt-0.5">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
                   {isArabic ? "تاريخ الزيارة: " : "Visit date: "}
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-slate-700 dark:text-slate-300">
                     {todayLabel}
                   </span>
                 </p>
               </div>
 
               <div className="flex flex-col items-start sm:items-end gap-1 text-[11px]">
-                <span className="inline-flex items-center rounded-full bg-teal-50 text-teal-700 px-2 py-0.5 font-semibold border border-teal-100">
+                <span className="inline-flex items-center rounded-full bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 px-2 py-0.5 font-semibold border border-teal-100 dark:border-teal-800">
                   {isArabic ? "موعد #" : "Appointment #"} {appointment.id}
                 </span>
                 {appointment.dateTime && (
-                  <span className="text-slate-500">
+                  <span className="text-slate-500 dark:text-slate-400">
                     {isArabic ? "وقت الموعد: " : "Appointment time: "}
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-slate-700 dark:text-slate-300">
                       {format(new Date(appointment.dateTime), "HH:mm")}
                     </span>
                   </span>
@@ -247,13 +247,13 @@ export default function CreateMedicalRecordForm({
           {/* Symptoms & Diagnosis */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Symptoms */}
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/60 px-3.5 py-3">
+            <div className="rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800 px-3.5 py-3">
               <div className="flex items-center justify-between gap-2 mb-1.5">
                 <div>
-                  <p className="text-xs font-semibold text-slate-800">
+                  <p className="text-xs font-semibold text-slate-800 dark:text-white">
                     {isArabic ? "الأعراض *" : "Symptoms *"}
                   </p>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     {isArabic
                       ? "صف شكوى المريض والأعراض الرئيسية بالتفصيل."
                       : "Describe the patient's main complaints and symptoms."}
@@ -270,7 +270,7 @@ export default function CreateMedicalRecordForm({
                 value={symptoms}
                 onChange={(e) => setSymptoms(e.target.value)}
                 rows={4}
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500 resize-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-3 py-2 text-xs bg-white dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500 resize-none"
                 placeholder={
                   isArabic
                     ? "مثال: ألم في الصدر منذ ٣ أيام مع ضيق في التنفس عند المجهود..."
@@ -285,13 +285,13 @@ export default function CreateMedicalRecordForm({
             </div>
 
             {/* Diagnosis */}
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/60 px-3.5 py-3">
+            <div className="rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/60 dark:bg-slate-800 px-3.5 py-3">
               <div className="flex items-center justify-between gap-2 mb-1.5">
                 <div>
-                  <p className="text-xs font-semibold text-slate-800">
+                  <p className="text-xs font-semibold text-slate-800 dark:text-white">
                     {isArabic ? "التشخيص *" : "Diagnosis *"}
                   </p>
-                  <p className="text-[11px] text-slate-500">
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     {isArabic
                       ? "اكتب التقييم الطبي والتشخيص النهائي أو المبدئي."
                       : "Write your medical assessment and final or provisional diagnosis."}
@@ -308,7 +308,7 @@ export default function CreateMedicalRecordForm({
                 value={diagnosis}
                 onChange={(e) => setDiagnosis(e.target.value)}
                 rows={4}
-                className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500 resize-none"
+                className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-3 py-2 text-xs bg-white dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500 resize-none"
                 placeholder={
                   isArabic
                     ? "مثال: متلازمة الشريان التاجي الحادة - يلزم تقييم عاجل..."
@@ -323,13 +323,13 @@ export default function CreateMedicalRecordForm({
             </div>
           </div>
 
-          <div className="rounded-2xl border border-slate-100 bg-slate-50/80 px-3.5 py-3">
+          <div className="rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800 px-3.5 py-3">
             <div className="flex items-center justify-between gap-2 mb-1.5">
               <div>
-                <p className="text-xs font-semibold text-slate-800">
+                <p className="text-xs font-semibold text-slate-800 dark:text-white">
                   {isArabic ? "الوصفة الطبية *" : "Prescription *"}
                 </p>
-                <p className="text-[11px] text-slate-500">
+                <p className="text-[11px] text-slate-500 dark:text-slate-400">
                   {isArabic
                     ? "الأدوية، الجرعات، فترة العلاج وأي تعليمات إضافية."
                     : "Medications, dosages, duration, and any extra instructions."}
@@ -346,7 +346,7 @@ export default function CreateMedicalRecordForm({
               value={prescription}
               onChange={(e) => setPrescription(e.target.value)}
               rows={5}
-              className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500 resize-none"
+              className="mt-1 w-full rounded-xl border border-slate-200 dark:border-slate-600 px-3 py-2 text-xs bg-white dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500 resize-none"
               placeholder={
                 isArabic
                   ? "مثال: Aspirin 81mg مرة يومياً بعد الأكل لمدة شهر...\n+ تعليمات: الراحة، تجنب المجهود، المتابعة بعد أسبوع."
@@ -361,8 +361,8 @@ export default function CreateMedicalRecordForm({
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 items-end">
-            <div className="rounded-2xl border border-slate-100 bg-slate-50/80 px-3.5 py-3">
-              <label className="block text-xs font-semibold text-slate-800 mb-1.5">
+            <div className="rounded-2xl border border-slate-100 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-800 px-3.5 py-3">
+              <label className="block text-xs font-semibold text-slate-800 dark:text-white mb-1.5">
                 {isArabic
                   ? "موعد الزيارة القادمة (اختياري)"
                   : "Next visit date (optional)"}
@@ -371,22 +371,22 @@ export default function CreateMedicalRecordForm({
                 type="date"
                 value={nextVisit}
                 onChange={(e) => setNextVisit(e.target.value)}
-                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-xs bg-white focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-600 px-3 py-2 text-xs bg-white dark:bg-slate-700 dark:text-white dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-teal-500/25 focus:border-teal-500"
               />
               {errors.next_visit && (
                 <p className="mt-1 text-[11px] text-rose-600">
                   {errors.next_visit}
                 </p>
               )}
-              <p className="mt-1 text-[11px] text-slate-500">
+              <p className="mt-1 text-[11px] text-slate-500 dark:text-slate-400">
                 {isArabic
                   ? "اتركه فارغاً إذا لم يتم تحديد موعد متابعة."
                   : "Leave empty if no follow-up date is scheduled."}
               </p>
             </div>
 
-            <div className="hidden sm:flex flex-col text-[11px] text-slate-500">
-              <p className="font-semibold text-slate-700 mb-1">
+            <div className="hidden sm:flex flex-col text-[11px] text-slate-500 dark:text-slate-400">
+              <p className="font-semibold text-slate-700 dark:text-slate-300 mb-1">
                 {isArabic ? "ملاحظات:" : "Notes:"}
               </p>
               <p>
@@ -398,7 +398,7 @@ export default function CreateMedicalRecordForm({
           </div>
 
           {/* Auto-schedule next appointment checkbox */}
-          <div className="rounded-2xl border border-teal-100 bg-teal-50/30 px-3.5 py-3">
+          <div className="rounded-2xl border border-teal-100 dark:border-teal-800 bg-teal-50/30 dark:bg-teal-900/20 px-3.5 py-3">
             <label className="flex items-start gap-3 cursor-pointer">
               <input
                 type="checkbox"
@@ -407,12 +407,12 @@ export default function CreateMedicalRecordForm({
                 className="mt-0.5 w-4 h-4 rounded border-teal-300 text-teal-600 focus:ring-2 focus:ring-teal-500/25"
               />
               <div className="flex-1">
-                <p className="text-xs font-semibold text-teal-900">
+                <p className="text-xs font-semibold text-teal-900 dark:text-teal-100">
                   {isArabic
                     ? "جدولة موعد المتابعة تلقائياً"
                     : "Auto-schedule follow-up appointment"}
                 </p>
-                <p className="text-[11px] text-teal-700 mt-0.5">
+                <p className="text-[11px] text-teal-700 dark:text-teal-300 mt-0.5">
                   {isArabic
                     ? "سيتم إنشاء موعد جديد تلقائياً في أول وقت متاح في جدولك. سيظهر الموعد للمريض في صفحته."
                     : "A new appointment will be automatically created at the first available slot in your schedule. The patient will see it on their page."}
@@ -423,12 +423,12 @@ export default function CreateMedicalRecordForm({
         </form>
 
         {/* Footer Buttons */}
-        <div className="px-6 pb-4 pt-3 border-t border-slate-100 flex items-center justify-between gap-3 bg-slate-50/80">
+        <div className="px-6 pb-4 pt-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-3 bg-slate-50/80 dark:bg-slate-800">
           <button
             type="button"
             onClick={onClose}
             disabled={submitting}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-white disabled:opacity-60"
+            className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-700 disabled:opacity-60"
           >
             {isArabic ? "إلغاء" : "Cancel"}
           </button>
