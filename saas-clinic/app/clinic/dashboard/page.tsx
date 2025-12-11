@@ -182,10 +182,10 @@ export default function ClinicDashboard() {
         </section>
 
         {/* Quick Actions */}
-        <section className="bg-white rounded-2xl border border-gray-100 shadow-sm">
-          <div className="px-4 sm:px-5 py-3 border-b flex items-center justify-between">
+        <section className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm">
+          <div className="px-4 sm:px-5 py-3 border-b dark:border-slate-700 flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold text-gray-900">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 {t.clinicManagement || (language === 'ar' ? 'إدارة العيادة' : 'Clinic Management')}
               </h3>
             </div>

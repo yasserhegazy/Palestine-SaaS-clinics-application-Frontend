@@ -188,7 +188,7 @@ export default function AppointmentDetailsModal({
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
       dir={isArabic ? "rtl" : "ltr"}
     >
-      <div className="relative w-full max-w-3xl bg-white rounded-2xl shadow-xl border border-slate-200">
+      <div className="relative w-full max-w-3xl bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-200 dark:border-slate-700">
         {/* Close button */}
         <button
           onClick={onClose}
@@ -199,15 +199,15 @@ export default function AppointmentDetailsModal({
         </button>
 
         {/* Header: title + name */}
-        <div className="px-5 pt-5 pb-4 border-b border-slate-100">
+        <div className="px-5 pt-5 pb-4 border-b border-slate-100 dark:border-slate-700">
           <p className="text-[11px] uppercase tracking-wide text-teal-600 font-semibold">
             {isArabic ? "تفاصيل الموعد" : "Appointment Details"}
           </p>
-          <h2 className="mt-1 text-lg font-semibold text-slate-900">
+          <h2 className="mt-1 text-lg font-semibold text-slate-900 dark:text-white">
             {displayName}
           </h2>
           {appointment.clinicName && (
-            <p className="text-[11px] text-slate-500 mt-0.5">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               {isArabic ? "العيادة: " : "Clinic: "} {appointment.clinicName}
             </p>
           )}
@@ -226,33 +226,33 @@ export default function AppointmentDetailsModal({
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {/* Appointment Info */}
             <div className="space-y-2">
-              <h3 className="text-[11px] text-slate-500 font-semibold">
+              <h3 className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
                 {isArabic ? "معلومات الموعد" : "Appointment Info"}
               </h3>
-              <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs space-y-1.5">
+              <div className="rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 px-3 py-2 text-xs space-y-1.5 text-slate-600 dark:text-slate-300">
                 <p>
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
                     {isArabic ? "التاريخ: " : "Date: "}
                   </span>
                   {formattedDate}
                 </p>
                 <p>
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
                     {isArabic ? "الوقت: " : "Time: "}
                   </span>
                   {formattedTime}
                 </p>
                 <p>
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
                     {isArabic ? "الحالة: " : "Status: "}
                   </span>
-                  <span className="inline-flex items-center ms-1 px-2 py-0.5 rounded-full bg-slate-100 text-[11px]">
+                  <span className="inline-flex items-center ms-1 px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-600 dark:text-white text-[11px]">
                     {appointment.status}
                   </span>
                 </p>
                 {appointment.notes && (
                   <p>
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-slate-700 dark:text-slate-200">
                       {isArabic ? "ملاحظات: " : "Notes: "}
                     </span>
                     {appointment.notes}
@@ -263,25 +263,25 @@ export default function AppointmentDetailsModal({
 
             {/* Patient Info */}
             <div className="space-y-2">
-              <h3 className="text-[11px] text-slate-500 font-semibold">
+              <h3 className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
                 {isArabic ? "بيانات المريض" : "Patient Information"}
               </h3>
-              <div className="rounded-xl border border-slate-100 bg-slate-50 px-3 py-2 text-xs space-y-1.5">
+              <div className="rounded-xl border border-slate-100 dark:border-slate-700 bg-slate-50 dark:bg-slate-700/50 px-3 py-2 text-xs space-y-1.5 text-slate-600 dark:text-slate-300">
                 <p>
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
                     {isArabic ? "الاسم: " : "Name: "}
                   </span>
                   {displayName}
                 </p>
                 <p>
-                  <span className="font-medium text-slate-700">
+                  <span className="font-medium text-slate-700 dark:text-slate-200">
                     {isArabic ? "رقم الهاتف: " : "Phone: "}
                   </span>
                   {displayPhone}
                 </p>
                 {age !== null && (
                   <p>
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-slate-700 dark:text-slate-200">
                       {isArabic ? "العمر: " : "Age: "}
                     </span>
                     {age} {isArabic ? "سنة" : "years"}
@@ -289,7 +289,7 @@ export default function AppointmentDetailsModal({
                 )}
                 {patient?.gender && (
                   <p>
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-slate-700 dark:text-slate-200">
                       {isArabic ? "الجنس: " : "Gender: "}
                     </span>
                     {patient.gender}
@@ -297,7 +297,7 @@ export default function AppointmentDetailsModal({
                 )}
                 {patient?.blood_type && (
                   <p>
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-slate-700 dark:text-slate-200">
                       {isArabic ? "فصيلة الدم: " : "Blood Type: "}
                     </span>
                     {patient.blood_type}
@@ -305,7 +305,7 @@ export default function AppointmentDetailsModal({
                 )}
                 {patient?.allergies && (
                   <p>
-                    <span className="font-medium text-slate-700">
+                    <span className="font-medium text-slate-700 dark:text-slate-200">
                       {isArabic ? "الحساسية: " : "Allergies: "}
                     </span>
                     {patient.allergies}
@@ -318,7 +318,7 @@ export default function AppointmentDetailsModal({
           {/* Medical History */}
           <div className="space-y-2">
             <div className="flex items-center justify-between gap-2">
-              <h3 className="text-[11px] text-slate-500 font-semibold">
+              <h3 className="text-[11px] text-slate-500 dark:text-slate-400 font-semibold">
                 {isArabic
                   ? "السجل الطبي السابق (آخر 5 زيارات)"
                   : "Previous Medical History (last 5 visits)"}
@@ -348,25 +348,25 @@ export default function AppointmentDetailsModal({
                 {sortedHistory.map((record) => (
                   <div
                     key={record.id}
-                    className="rounded-xl border border-slate-100 bg-white px-3 py-2 text-xs shadow-sm"
+                    className="rounded-xl border border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800 px-3 py-2 text-xs shadow-sm"
                   >
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <p className="font-semibold text-slate-800">
+                      <p className="font-semibold text-slate-800 dark:text-white">
                         {record.visit_date}
                       </p>
                       {record.doctor_name && (
-                        <p className="text-[11px] text-slate-500">
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">
                           {isArabic ? "د." : "Dr."} {record.doctor_name}
                         </p>
                       )}
                     </div>
-                    <p className="text-[11px] text-slate-600">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300">
                       <span className="font-semibold">
                         {isArabic ? "التشخيص: " : "Diagnosis: "}
                       </span>
                       {record.diagnosis}
                     </p>
-                    <p className="text-[11px] text-slate-600 mt-0.5">
+                    <p className="text-[11px] text-slate-600 dark:text-slate-300 mt-0.5">
                       <span className="font-semibold">
                         {isArabic ? "الوصفة: " : "Prescription: "}
                       </span>
@@ -380,11 +380,11 @@ export default function AppointmentDetailsModal({
         </div>
 
         {/* Footer actions */}
-        <div className="px-5 py-3 border-t border-slate-100 flex items-center justify-between gap-3">
+        <div className="px-5 py-3 border-t border-slate-100 dark:border-slate-700 flex items-center justify-between gap-3">
           <button
             type="button"
             onClick={onClose}
-            className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold text-slate-700 hover:bg-slate-50"
+            className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700"
           >
             {isArabic ? "إغلاق" : "Close"}
           </button>

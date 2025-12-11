@@ -193,7 +193,7 @@ export default function ClinicAnalytics() {
   const { clinic, users, user_counts, appointment_stats, subscription } = analytics;
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Breadcrumbs
           customItems={[
@@ -203,7 +203,7 @@ export default function ClinicAnalytics() {
           ]}
         />
         {/* Header with Clinic Info */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-6">
           <div className="flex items-start justify-between">
             <div className="flex items-center gap-4">
               {clinic.logo_url && (
@@ -215,7 +215,7 @@ export default function ClinicAnalytics() {
               )}
               <div>
                 <div className="flex items-center gap-3">
-                  <h1 className="text-2xl font-bold text-gray-900">{clinic.name}</h1>
+                  <h1 className="text-2xl font-bold text-gray-900 dark:text-white">{clinic.name}</h1>
                   <span
                     className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-medium ${
                       clinic.status === 'Active'
@@ -229,8 +229,8 @@ export default function ClinicAnalytics() {
                     {clinic.subscription_plan}
                   </span>
                 </div>
-                <p className="text-sm text-gray-600 mt-1">{clinic.address}</p>
-                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
+                <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">{clinic.address}</p>
+                <div className="flex items-center gap-4 mt-2 text-xs text-gray-500 dark:text-gray-400">
                   <span>{clinic.email}</span>
                   <span>•</span>
                   <span>{clinic.phone}</span>
@@ -249,16 +249,16 @@ export default function ClinicAnalytics() {
         {/* Statistics Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Total Users */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                   {language === 'ar' ? 'إجمالي المستخدمين' : 'Total Users'}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                   {user_counts.total}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   {user_counts.active} {language === 'ar' ? 'نشط' : 'active'}
                 </p>
               </div>
@@ -271,16 +271,16 @@ export default function ClinicAnalytics() {
           </div>
 
           {/* Total Appointments */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                   {language === 'ar' ? 'إجمالي المواعيد' : 'Total Appointments'}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                   {appointment_stats.total}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                   {appointment_stats.completed} {language === 'ar' ? 'مكتمل' : 'completed'}
                 </p>
               </div>
@@ -293,13 +293,13 @@ export default function ClinicAnalytics() {
           </div>
 
           {/* Doctors */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                   {language === 'ar' ? 'الأطباء' : 'Doctors'}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                   {user_counts.doctors}
                 </p>
               </div>
@@ -312,13 +312,13 @@ export default function ClinicAnalytics() {
           </div>
 
           {/* Patients */}
-          <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700 shadow-sm p-5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-medium text-gray-500 uppercase">
+                <p className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase">
                   {language === 'ar' ? 'المرضى' : 'Patients'}
                 </p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-2xl font-bold text-gray-900 dark:text-white mt-1">
                   {user_counts.patients}
                 </p>
               </div>
@@ -386,14 +386,14 @@ export default function ClinicAnalytics() {
         )}
 
         {/* Appointment Statistics */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h2 className="text-lg font-bold text-gray-900 mb-4">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-6">
+          <h2 className="text-lg font-bold text-gray-900 dark:text-white mb-4">
             {language === 'ar' ? 'إحصائيات المواعيد' : 'Appointment Statistics'}
           </h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-4">
-            <div className="text-center p-4 bg-gray-50 rounded-lg">
-              <p className="text-2xl font-bold text-gray-900">{appointment_stats.total}</p>
-              <p className="text-xs text-gray-600 mt-1">
+            <div className="text-center p-4 bg-gray-50 dark:bg-slate-700 rounded-lg">
+              <p className="text-2xl font-bold text-gray-900 dark:text-white">{appointment_stats.total}</p>
+              <p className="text-xs text-gray-600 dark:text-gray-300 mt-1">
                 {language === 'ar' ? 'الإجمالي' : 'Total'}
               </p>
             </div>
@@ -437,15 +437,15 @@ export default function ClinicAnalytics() {
         </div>
 
         {/* Users Section */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
-          <div className="p-6 border-b border-gray-100">
-            <h2 className="text-lg font-bold text-gray-900">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm overflow-hidden">
+          <div className="p-6 border-b border-gray-100 dark:border-slate-700">
+            <h2 className="text-lg font-bold text-gray-900 dark:text-white">
               {language === 'ar' ? 'المستخدمون' : 'Users'}
             </h2>
           </div>
 
           {/* Tabs */}
-          <div className="border-b border-gray-200">
+          <div className="border-b border-gray-200 dark:border-slate-700">
             <div className="flex overflow-x-auto">
               {(['doctors', 'patients', 'secretaries', 'managers'] as UserRole[]).map((role) => (
                 <button
@@ -454,7 +454,7 @@ export default function ClinicAnalytics() {
                   className={`px-6 py-3 text-sm font-medium border-b-2 transition whitespace-nowrap ${
                     activeTab === role
                       ? 'border-teal-600 text-teal-600'
-                      : 'border-transparent text-gray-500 hover:text-gray-700'
+                      : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200'
                   }`}
                 >
                   {language === 'ar'
@@ -473,49 +473,49 @@ export default function ClinicAnalytics() {
           </div>
 
           {/* Search */}
-          <div className="p-4 bg-gray-50">
+          <div className="p-4 bg-gray-50 dark:bg-slate-700">
             <input
               type="text"
               placeholder={language === 'ar' ? 'بحث...' : 'Search...'}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-slate-600 dark:text-white dark:placeholder-gray-400"
             />
           </div>
 
           {/* Users Table */}
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 dark:bg-slate-700">
                 <tr>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                     {language === 'ar' ? 'الاسم' : 'Name'}
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                     {language === 'ar' ? 'البريد الإلكتروني' : 'Email'}
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                     {language === 'ar' ? 'الهاتف' : 'Phone'}
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                     {language === 'ar' ? 'الحالة' : 'Status'}
                   </th>
-                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 uppercase">
+                  <th className="px-6 py-3 text-center text-xs font-medium text-gray-500 dark:text-gray-300 uppercase">
                     {language === 'ar' ? 'تاريخ التسجيل' : 'Joined'}
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
                 {getFilteredUsers(users[activeTab]).length > 0 ? (
                   getFilteredUsers(users[activeTab]).map((user) => (
-                    <tr key={user.user_id} className="hover:bg-gray-50 transition">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 text-center">
+                    <tr key={user.user_id} className="hover:bg-gray-50 dark:hover:bg-slate-700 transition">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white text-center">
                         {user.name}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center">
                         {user.email}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center">
                         {user.phone || '-'}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-center">
@@ -529,7 +529,7 @@ export default function ClinicAnalytics() {
                           {user.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 text-center">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 text-center">
                         {formatDate(user.created_at)}
                       </td>
                     </tr>

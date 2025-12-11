@@ -211,16 +211,16 @@ export default function ClinicsManagement() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900">
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Breadcrumbs />
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
               {language === 'ar' ? 'إدارة العيادات' : 'Manage Clinics'}
             </h1>
-            <p className="text-sm text-gray-600 mt-1">
+            <p className="text-sm text-gray-600 dark:text-gray-300 mt-1">
               {language === 'ar'
                 ? 'عرض وإدارة جميع العيادات المسجلة في المنصة'
                 : 'View and manage all registered clinics on the platform'}
@@ -248,11 +248,11 @@ export default function ClinicsManagement() {
         </div>
 
         {/* Filters */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm p-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-2">
+              <label className="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-2">
                 {language === 'ar' ? 'البحث' : 'Search'}
               </label>
               <input
@@ -262,7 +262,7 @@ export default function ClinicsManagement() {
                 }
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-slate-700 dark:text-white dark:placeholder-gray-400"
               />
             </div>
 
@@ -274,7 +274,7 @@ export default function ClinicsManagement() {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full px-3 py-2 border border-gray-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-teal-500 dark:bg-slate-700 dark:text-white"
               >
                 <option value="all">{language === 'ar' ? 'الكل' : 'All'}</option>
                 <option value="Active">{language === 'ar' ? 'نشط' : 'Active'}</option>
@@ -287,32 +287,32 @@ export default function ClinicsManagement() {
         </div>
 
         {/* Clinics Table */}
-        <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mx-auto">
+        <div className="bg-white dark:bg-slate-800 rounded-2xl border border-gray-100 dark:border-slate-700 shadow-sm overflow-hidden mx-auto">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50">
+              <thead className="bg-gray-50 dark:bg-slate-700">
                 <tr>
-                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     {language === 'ar' ? 'اسم العيادة' : 'Clinic Name'}
                   </th>
-                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     {language === 'ar' ? 'الموقع' : 'Location'}
                   </th>
-                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     {language === 'ar' ? 'الخطة' : 'Plan'}
                   </th>
-                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     {language === 'ar' ? 'المستخدمين' : 'Users'}
                   </th>
-                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     {language === 'ar' ? 'الحالة' : 'Status'}
                   </th>
-                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-4 sm:px-5 py-3 text-center text-[11px] font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
                     {language === 'ar' ? 'الإجراءات' : 'Actions'}
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
                 {loading ? (
                   <tr key="loading">
                     <td
@@ -324,16 +324,16 @@ export default function ClinicsManagement() {
                   </tr>
                 ) : clinics.length > 0 ? (
                   clinics.map((clinic, index) => (
-                    <tr key={`clinic-${clinic.clinic_id || index}`} className="hover:bg-gray-50 transition">
+                    <tr key={`clinic-${clinic.clinic_id || index}`} className="hover:bg-gray-50 dark:hover:bg-slate-700 transition">
                       <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-center">
                         <div>
-                          <div className="text-sm font-semibold text-gray-900">
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">
                             {clinic.name}
                           </div>
-                          <div className="text-xs text-gray-500">{clinic.email}</div>
+                          <div className="text-xs text-gray-500 dark:text-gray-400">{clinic.email}</div>
                         </div>
                       </td>
-                      <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-xs text-gray-500 text-center">
+                      <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-xs text-gray-500 dark:text-gray-400 text-center">
                         {clinic.address}
                       </td>
                       <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-center">
@@ -341,7 +341,7 @@ export default function ClinicsManagement() {
                           {clinic.subscription_plan}
                         </span>
                       </td>
-                      <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-xs text-gray-500 text-center">
+                      <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-xs text-gray-500 dark:text-gray-400 text-center">
                         {clinic.users_count}
                       </td>
                       <td className="px-4 sm:px-5 py-3 whitespace-nowrap text-center">
@@ -399,8 +399,8 @@ export default function ClinicsManagement() {
 
           {/* Pagination */}
           {pagination.last_page > 1 && (
-            <div className="px-4 sm:px-5 py-3 border-t border-gray-200 flex items-center justify-between">
-              <div className="text-xs text-gray-500">
+            <div className="px-4 sm:px-5 py-3 border-t border-gray-200 dark:border-slate-700 flex items-center justify-between">
+              <div className="text-xs text-gray-500 dark:text-gray-400">
                 {language === 'ar'
                   ? `عرض ${(pagination.current_page - 1) * pagination.per_page + 1} إلى ${Math.min(
                       pagination.current_page * pagination.per_page,
@@ -415,14 +415,14 @@ export default function ClinicsManagement() {
                 <button
                   onClick={() => fetchClinics(pagination.current_page - 1)}
                   disabled={pagination.current_page === 1}
-                  className="px-3 py-1 text-xs font-medium rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1 text-xs font-medium rounded-lg border border-gray-200 dark:border-slate-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {language === 'ar' ? 'السابق' : 'Previous'}
                 </button>
                 <button
                   onClick={() => fetchClinics(pagination.current_page + 1)}
                   disabled={pagination.current_page === pagination.last_page}
-                  className="px-3 py-1 text-xs font-medium rounded-lg border border-gray-200 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-3 py-1 text-xs font-medium rounded-lg border border-gray-200 dark:border-slate-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {language === 'ar' ? 'التالي' : 'Next'}
                 </button>

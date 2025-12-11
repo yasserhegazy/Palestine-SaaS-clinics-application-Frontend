@@ -53,31 +53,31 @@ export default function StaffManagementPage() {
 
   // ----- JSX -----
   return (
-    <div className="min-h-screen bg-gray-50 font-sans text-gray-900">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 font-sans text-gray-900 dark:text-white">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Breadcrumbs />
 
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 tracking-tight">{t.staffManagementTitle}</h1>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{t.staffManagementTitle}</h1>
             <p className="text-sm text-gray-500 mt-1">{clinic?.name} - Staff Directory</p>
           </div>
           <button
             onClick={() => window.history.back()}
-            className="px-4 py-2 bg-gray-100 text-gray-600 rounded-lg hover:bg-gray-200 transition-all duration-200 text-sm font-medium flex items-center gap-2"
+            className="px-4 py-2 bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-200 text-sm font-medium flex items-center gap-2"
           >
             {t.btnBack}
           </button>
         </div>
 
-        <div className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-100">
+        <div className="bg-white dark:bg-slate-800 shadow-lg rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-700">
 
           {/* Table Header / Controls */}
-          <div className="p-6 border-b border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4 bg-white">
+          <div className="p-6 border-b border-gray-100 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-800">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-gray-800">{t.staffDetailsTitle || "Staff Details"}</h2>
-              <span className="px-3 py-1 bg-teal-50 text-teal-700 text-xs font-semibold rounded-full border border-teal-100">
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white">{t.staffDetailsTitle || "Staff Details"}</h2>
+              <span className="px-3 py-1 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 text-xs font-semibold rounded-full border border-teal-100 dark:border-teal-800">
                 {filteredCount} Members
               </span>
             </div>
@@ -93,7 +93,7 @@ export default function StaffManagementPage() {
                   placeholder={t.searchPlaceholder || "Search..."}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="pl-10 pr-4 py-2.5 w-full sm:w-64 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all outline-none bg-gray-50 focus:bg-white"
+                  className="pl-10 pr-4 py-2.5 w-full sm:w-64 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all outline-none bg-gray-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-600 dark:text-white dark:placeholder-gray-400"
                 />
               </div>
 
@@ -105,7 +105,7 @@ export default function StaffManagementPage() {
                 <select
                   value={filterRole}
                   onChange={(e) => setFilterRole(e.target.value as any)}
-                  className="pl-10 pr-8 py-2.5 w-full sm:w-40 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all outline-none bg-gray-50 focus:bg-white appearance-none cursor-pointer"
+                  className="pl-10 pr-8 py-2.5 w-full sm:w-40 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all outline-none bg-gray-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-600 dark:text-white appearance-none cursor-pointer"
                 >
                   <option value="All">{t.filterAll || "All Roles"}</option>
                   <option value="Doctor">{t.filterDoctor || "Doctors"}</option>
@@ -120,9 +120,9 @@ export default function StaffManagementPage() {
 
           {/* Table */}
           <div className="overflow-x-auto">
-            <table className="min-w-full divide-y divide-gray-100">
+            <table className="min-w-full divide-y divide-gray-100 dark:divide-slate-700">
              <thead>
-  <tr className="bg-gray-50/50">
+  <tr className="bg-gray-50/50 dark:bg-slate-700/50">
     <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-12">#</th>
     <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colName || "Name"}</th>
     <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colEmail || "Email"}</th>
@@ -136,16 +136,16 @@ export default function StaffManagementPage() {
   </tr>
 </thead>
 
-              <tbody className="bg-white divide-y divide-gray-100">
+              <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-100 dark:divide-slate-700">
                 {loading ? (
                   <tr>
-                    <td colSpan={9} className="px-4 py-12 text-center text-gray-500">
+                    <td colSpan={9} className="px-4 py-12 text-center text-gray-500 dark:text-gray-400">
                       Loading...
                     </td>
                   </tr>
                 ) : currentStaff.length === 0 ? (
                   <tr>
-                    <td colSpan={9} className="px-4 py-12 text-center text-gray-500">
+                    <td colSpan={9} className="px-4 py-12 text-center text-gray-500 dark:text-gray-400">
                       <div className="flex flex-col items-center justify-center gap-2">
                         <MagnifyingGlassIcon className="h-8 w-8 text-gray-300" />
                         <p>{t.noRecordsMessage || "No staff members found matching your criteria."}</p>
@@ -154,20 +154,20 @@ export default function StaffManagementPage() {
                   </tr>
                 ) : (
                   currentStaff.map((staff, idx) => (
-                    <tr key={staff.user_id} className="group hover:bg-teal-50/30 transition-colors duration-200">
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 font-mono">
+                    <tr key={staff.user_id} className="group hover:bg-teal-50/30 dark:hover:bg-teal-900/20 transition-colors duration-200">
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400 font-mono">
                         {(currentPage - 1) * 5 + idx + 1}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <div className="flex items-center">
-                          <div className="h-8 w-8 rounded-full bg-teal-100 flex items-center justify-center text-teal-700 font-bold mr-2 text-xs">
+                          <div className="h-8 w-8 rounded-full bg-teal-100 dark:bg-teal-900/50 flex items-center justify-center text-teal-700 dark:text-teal-400 font-bold mr-2 text-xs">
                             {staff.name.charAt(0)}
                           </div>
-                          <div className="text-sm font-semibold text-gray-900">{staff.name}</div>
+                          <div className="text-sm font-semibold text-gray-900 dark:text-white">{staff.name}</div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 max-w-[150px] truncate" title={staff.email}>{staff.email}</td>
-                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600">{staff.phone}</td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300 max-w-[150px] truncate" title={staff.email}>{staff.email}</td>
+                      <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-300">{staff.phone}</td>
                       <td className="px-4 py-3 whitespace-nowrap">
                         <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium border ${staff.role === 'Doctor'
                           ? 'bg-blue-50 text-blue-700 border-blue-100'
@@ -176,10 +176,10 @@ export default function StaffManagementPage() {
                           {staff.role}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600 min-w-[120px]">
+                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300 min-w-[120px]">
                         {staff.role === 'Doctor' ? staff.specialization || '-' : '-----'}
                       </td>
-                      <td className="px-4 py-3 text-sm text-gray-600 min-w-[150px]">
+                      <td className="px-4 py-3 text-sm text-gray-600 dark:text-gray-300 min-w-[150px]">
                         {staff.role === 'Doctor' ? staff.available_days || '-' : '-----'}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
@@ -217,15 +217,15 @@ export default function StaffManagementPage() {
           </div>
 
           {/* Pagination */}
-          <div className="bg-white px-6 py-4 border-t border-gray-100 flex items-center justify-between">
-            <div className="text-sm text-gray-500">
-              Showing <span className="font-medium text-gray-900">{filteredCount > 0 ? (currentPage - 1) * 5 + 1 : 0}</span> to <span className="font-medium text-gray-900">{Math.min(currentPage * 5, filteredCount)}</span> of <span className="font-medium text-gray-900">{filteredCount}</span> entries
+          <div className="bg-white dark:bg-slate-800 px-6 py-4 border-t border-gray-100 dark:border-slate-700 flex items-center justify-between">
+            <div className="text-sm text-gray-500 dark:text-gray-400">
+              Showing <span className="font-medium text-gray-900 dark:text-white">{filteredCount > 0 ? (currentPage - 1) * 5 + 1 : 0}</span> to <span className="font-medium text-gray-900 dark:text-white">{Math.min(currentPage * 5, filteredCount)}</span> of <span className="font-medium text-gray-900 dark:text-white">{filteredCount}</span> entries
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
-                className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 &lt;
               </button>
@@ -236,7 +236,7 @@ export default function StaffManagementPage() {
                   onClick={() => handlePageChange(page)}
                   className={`w-8 h-8 rounded-lg text-sm font-medium transition-colors ${currentPage === page
                     ? 'bg-teal-600 text-white shadow-sm'
-                    : 'text-gray-600 hover:bg-gray-100'
+                    : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-slate-700'
                     }`}
                 >
                   {page}
@@ -246,7 +246,7 @@ export default function StaffManagementPage() {
               <button
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                className="p-2 rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="p-2 rounded-lg border border-gray-200 dark:border-slate-600 text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 &gt;
               </button>
