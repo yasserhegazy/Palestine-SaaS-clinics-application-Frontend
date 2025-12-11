@@ -172,7 +172,7 @@ useEffect(() => {
 
   return (
     <div
-      className="min-h-screen bg-slate-50 text-black"
+      className="min-h-screen bg-slate-50 dark:bg-slate-900 text-black dark:text-white"
       dir={isArabic ? "rtl" : "ltr"}
     >
       <main className="max-w-7xl mx-auto px-4 py-8 space-y-6">
@@ -191,16 +191,16 @@ useEffect(() => {
           backAction={() => router.push("/doctor/dashboard")}
         />
 
-        <section className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm">
+        <section className="bg-white dark:bg-slate-800 rounded-2xl p-5 border border-slate-100 dark:border-slate-700 shadow-sm">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
             <div className="space-y-1">
-              <h3 className="text-sm font-semibold text-slate-900 flex items-center gap-2">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white flex items-center gap-2">
                 {isArabic ? "مواعيد اليوم" : "Today's Appointments"}
                 <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] bg-slate-100 text-slate-700">
                   {countLabel}
                 </span>
               </h3>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 {isArabic
                   ? "ابحث باسم المريض (يتم التصفية مباشرة أثناء الكتابة)."
                   : "Search by patient name (filters in real time)."}
@@ -216,28 +216,28 @@ useEffect(() => {
                 placeholder={
                   isArabic ? "ابحث عن مريض بالاسم..." : "Search for a patient…"
                 }
-                className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
+                className="w-full rounded-xl border border-slate-200 dark:border-slate-600 px-3 py-2 text-sm bg-slate-50 dark:bg-slate-700 dark:text-white focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all"
               />
             </div>
           </div>
 
-          <div className="overflow-x-auto border rounded-2xl border-slate-100">
+          <div className="overflow-x-auto border rounded-2xl border-slate-100 dark:border-slate-700">
             {loadingAppointments ? (
-              <p className="p-5 text-sm text-slate-500">
+              <p className="p-5 text-sm text-slate-500 dark:text-slate-400">
                 {isArabic
                   ? "جاري تحميل المواعيد..."
                   : "Loading appointments..."}
               </p>
             ) : filteredAppointments.length === 0 ? (
-              <p className="p-5 text-sm text-slate-500">
+              <p className="p-5 text-sm text-slate-500 dark:text-slate-400">
                 {isArabic
                   ? "لا يوجد مواعيد لليوم."
                   : "No appointments for today."}
               </p>
             ) : (
               <table className="w-full text-sm">
-                <thead className="bg-slate-50/80">
-                  <tr className="text-xs text-slate-500 font-semibold">
+                <thead className="bg-slate-50/80 dark:bg-slate-700/80">
+                  <tr className="text-xs text-slate-500 dark:text-slate-300 font-semibold">
                     <th className="px-4 py-3 text-start">
                       {isArabic ? "الوقت" : "Time"}
                     </th>
@@ -253,7 +253,7 @@ useEffect(() => {
                   </tr>
                 </thead>
 
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-700">
                   {filteredAppointments.map((appt) => {
                     const dateObj = appt.dateTime
                       ? new Date(appt.dateTime)
@@ -278,20 +278,20 @@ useEffect(() => {
                         className={
                           isNext
                             ? "bg-teal-50/40"
-                            : "hover:bg-slate-50 transition-colors"
+                            : "hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
                         }
                       >
-                        <td className="px-4 py-3 align-middle text-slate-800">
+                        <td className="px-4 py-3 align-middle text-slate-800 dark:text-slate-200">
                           <div className="font-medium">{timeLabel}</div>
                         </td>
 
                         <td className="px-4 py-3 align-middle">
                           <div className="flex flex-col gap-0.5">
-                            <span className="font-medium text-slate-900">
+                            <span className="font-medium text-slate-900 dark:text-white">
                               {patientName}
                             </span>
                             {(appt.patientPhone || appt.clinicName) && (
-                              <span className="text-[11px] text-slate-500">
+                              <span className="text-[11px] text-slate-500 dark:text-slate-400">
                                 {appt.patientPhone && (
                                   <>
                                     {isArabic ? "جوال: " : "Phone: "}
@@ -319,7 +319,7 @@ useEffect(() => {
                         <td className="px-4 py-3 align-middle">
                           <button
                             onClick={() => setSelectedAppointment(appt)}
-                            className="px-3 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold hover:bg-slate-50 text-slate-700 shadow-sm hover:shadow transition-all"
+                            className="px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-600 text-xs font-semibold hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 shadow-sm hover:shadow transition-all"
                           >
                             {isArabic ? "عرض التفاصيل" : "View details"}
                           </button>

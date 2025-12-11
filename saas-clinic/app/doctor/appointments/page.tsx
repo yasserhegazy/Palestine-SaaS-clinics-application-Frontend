@@ -291,7 +291,7 @@ export default function DoctorAppointmentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900" dir={isArabic ? "rtl" : "ltr"}>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Breadcrumbs />
 
@@ -310,13 +310,13 @@ export default function DoctorAppointmentsPage() {
           backAction={() => router.push("/doctor/dashboard")}
         />
 
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-100">
-          <div className="px-4 sm:px-6 py-4 border-b border-slate-100 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <section className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700">
+          <div className="px-4 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
                 {isArabic ? "طلبات المواعيد" : "Appointment requests"}
               </h3>
-              <p className="text-[11px] text-slate-500">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
                 {isArabic
                   ? "جميع الطلبات المعلقة والمقبولة من المرضى."
                   : "Pending and approved appointment requests from your patients."}

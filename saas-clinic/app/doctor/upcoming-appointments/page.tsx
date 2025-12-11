@@ -128,7 +128,7 @@ export default function DoctorUpcomingAppointmentsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50" dir={isArabic ? "rtl" : "ltr"}>
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900" dir={isArabic ? "rtl" : "ltr"}>
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Breadcrumbs
           customItems={[
@@ -158,12 +158,12 @@ export default function DoctorUpcomingAppointmentsPage() {
           backAction={() => router.push("/doctor/dashboard")}
         />
 
-        <section className="bg-white rounded-2xl shadow-sm border border-slate-100 mt-6">
-          <div className="px-4 sm:px-6 py-4 border-b border-slate-100">
-            <h3 className="text-sm font-semibold text-slate-900">
+        <section className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 mt-6">
+          <div className="px-4 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-700">
+            <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
               {isArabic ? "المواعيد القادمة" : "Upcoming appointments"}
             </h3>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-slate-500 dark:text-slate-400">
               {isArabic
                 ? "هذه الصفحة تعرض المواعيد المستقبلية الموافق عليها أو المحجوزة من قبل الطبيب."
                 : "This page shows future appointments that are approved or created by the doctor."}
@@ -188,8 +188,8 @@ export default function DoctorUpcomingAppointmentsPage() {
               </p>
             ) : (
               <div className="overflow-x-auto">
-                <table className="min-w-full border border-slate-200 text-black rounded-xl overflow-hidden">
-                  <thead className="bg-slate-100 text-slate-700 text-sm">
+                <table className="min-w-full border border-slate-200 dark:border-slate-700 text-black dark:text-white rounded-xl overflow-hidden">
+                  <thead className="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm">
                     <tr>
                       <th className="px-4 py-2 text-start">
                         {isArabic ? "المريض" : "Patient"}
@@ -222,11 +222,11 @@ export default function DoctorUpcomingAppointmentsPage() {
                         : "-";
 
                       return (
-                        <tr key={appt.id} className="hover:bg-slate-50">
+                        <tr key={appt.id} className="hover:bg-slate-50 dark:hover:bg-slate-700">
                           <td className="px-4 py-2 font-medium">
                             {appt.patientName}
                           </td>
-                          <td className="px-4 py-2 text-sm text-slate-600">
+                          <td className="px-4 py-2 text-sm text-slate-600 dark:text-slate-300">
                             {appt.patientPhone || "-"}
                           </td>
                           <td className="px-4 py-2 text-sm">{date}</td>
