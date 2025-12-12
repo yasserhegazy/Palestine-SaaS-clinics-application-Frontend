@@ -6,7 +6,7 @@
 }
 
 .pricing-section.night-mode {
-  background-color: #000000;
+  background-color:var(--color-slate-800);
   color: #f9fafb;
 }
 
@@ -54,7 +54,7 @@
 }
 
 .pricing-section.night-mode .price-card {
-  background-color: #1E2228;
+  background-color: #162034;
 }
 
 .price-card:hover {

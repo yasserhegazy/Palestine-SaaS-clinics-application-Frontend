@@ -18,12 +18,12 @@
   transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
   font-family: "Inter", Arial, sans-serif;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  height: 100px;
+  height: 80px;
 }
 
 .landing-header.dark {
-  background-color: #1E2228;
-  color: var(--color-gray-50);
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
 }
 
 .landing-header__inner {
@@ -34,6 +34,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 1rem;
+  height: 100%;
 }
 
 .landing-header .logo {
@@ -70,7 +71,7 @@
 .landing-header .nav-links a {
   position: relative;
   text-decoration: none;
-  color: var(--color-gray-900);
+  color: inherit;
   font-weight: 600;
   font-size: 1rem;
   transition: color 0.2s;
@@ -156,8 +157,8 @@
 }
 
 .landing-header.dark .mobile-menu {
-  background-color: var(--color-gray-900);
-  border-top: 1px solid var(--color-gray-700);
+  background-color: var(--bg-primary);
+  border-top: 1px solid var(--border-color);
 }
 
 .landing-header.dark .mobile-menu a {

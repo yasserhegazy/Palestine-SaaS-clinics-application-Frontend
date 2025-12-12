@@ -111,7 +111,7 @@ export default function AddStaffPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Main Content */}
-      <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+      <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <Breadcrumbs />
 
         <div className="flex items-start justify-between gap-3">
@@ -119,12 +119,7 @@ export default function AddStaffPage() {
             <h1 className="text-2xl font-bold text-gray-900">{t.addStaffMember}</h1>
             <p className="text-sm text-gray-600">{clinic?.name}</p>
           </div>
-          <button
-            onClick={() => router.back()}
-            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors text-sm font-medium"
-          >
-            {t.back}
-          </button>
+     
         </div>
 
         <div className="bg-white shadow-lg rounded-2xl overflow-hidden">

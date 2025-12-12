@@ -3,7 +3,7 @@
 import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
-import "./how.css";
+import "./how.modules.css";
 
 export default function EasyStepsParallaxSection() {
   const { isDark } = useTheme();

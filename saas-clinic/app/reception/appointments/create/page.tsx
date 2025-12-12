@@ -139,15 +139,9 @@ export default function CreateAppointmentPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => router.back()}
-            className="text-sm text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 hover:underline"
-          >
-            {t.back || "Back"}
-          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className=" grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Patient Search Section */}
           <div>
             <div className="mb-4">

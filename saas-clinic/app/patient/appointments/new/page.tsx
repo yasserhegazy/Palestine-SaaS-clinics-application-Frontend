@@ -140,7 +140,7 @@ export default function NewAppointmentPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 transition-colors duration-300">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <Breadcrumbs />
 
         <PageHeader
@@ -151,7 +151,6 @@ export default function NewAppointmentPage() {
               ? "طلب موعد جديد وإعطاؤك التفاصيل اللازمة"
               : "View and manage your current and upcoming appointments."
           }
-          backAction={() => router.push("/patient/dashboard")}
         />
 
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden transition-colors duration-300">

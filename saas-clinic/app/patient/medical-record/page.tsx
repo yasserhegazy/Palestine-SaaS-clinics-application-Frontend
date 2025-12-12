@@ -49,12 +49,7 @@ export default function MedicalRecordPage() {
                 : "Here you can view a summary of your previous visits and diagnoses."}
             </p>
           </div>
-          <button
-            onClick={() => router.push("/patient/dashboard")}
-            className="text-sm text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 hover:underline"
-          >
-            {language === "ar" ? "عودة" : "Back"}
-          </button>
+      
         </div>
 
         <PreviousVisits showSummary />

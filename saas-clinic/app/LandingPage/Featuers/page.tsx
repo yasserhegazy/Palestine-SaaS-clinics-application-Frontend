@@ -31,16 +31,22 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section id="features" className={`features-section ${isDark ? "dark-mode" : ""}`}>
+    <section
+      id="features"
+      className={`features-section ${isDark ? "dark-mode" : ""}`}
+    >
       <div className="features-container">
         <div className="features-header">
           <h2 className="features-title">{t.feature}</h2>
           <p className="features-subtitle">{t.featuresSubtitle}</p>
         </div>
 
-        <div className="features-grid">
+        <div className="features-grid ">
           {features.map((feature, idx) => (
-            <div key={idx} className="feature-item">
+            <div
+              key={idx}
+              className={`feature-item ${isDark ? "dark-mode" : ""}`}
+            >
               <div className="feature-icon">{feature.icon}</div>
               <h3 className="feature-item-title">{feature.title}</h3>
               <p className="feature-item-desc">{feature.desc}</p>

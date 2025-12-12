@@ -4,7 +4,7 @@ import { useTheme } from "@/context/ThemeContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import { FiClock, FiUserCheck, FiTrendingUp, FiHeadphones } from "react-icons/fi";
-import "./why.css";
+import "./why.modules.css";
 
 export default function WhyUsSection() {
   const { isDark } = useTheme();

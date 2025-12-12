@@ -135,12 +135,7 @@ export default function AppointmentRequestsPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => router.back()}
-            className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
-          >
-            {t.back || (language === "ar" ? "رجوع" : "Back")}
-          </button>
+ 
         </div>
 
         <div className="flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
