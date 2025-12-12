@@ -112,7 +112,11 @@ export async function getClinicLogo(): Promise<{ logo_path: string | null; logo_
   });
 
   if (!response.ok) {
-    const error = await response.json();
+    if (response.status === 429) {
+      console.warn('Rate limited while fetching clinic logo; using null logo to avoid UI break.');
+      return { logo_path: null, logo_url: null };
+    }
+    const error = await response.json().catch(() => ({}));
     throw new Error(error.message || 'Failed to fetch clinic logo');
   }
 
