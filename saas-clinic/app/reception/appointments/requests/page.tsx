@@ -117,7 +117,7 @@ export default function AppointmentRequestsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 transition-colors duration-300">
       <div className="max-w-5xl mx-auto space-y-6">
         <Breadcrumbs />
 
@@ -126,10 +126,10 @@ export default function AppointmentRequestsPage() {
             <p className="text-xs text-slate-500 mb-1">
               {t.patientsManagement || (language === "ar" ? "إدارة المرضى" : "Patients management")}
             </p>
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
               {t.appointmentRequestsTitle || (language === "ar" ? "طلبات المواعيد" : "Appointment Requests")}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               {t.appointmentRequestsSubtitle ||
                 (language === "ar" ? "مراجعة الطلبات الواردة من البوابة الإلكترونية، تدقيق التفاصيل وتحويلها للطبيب المناسب للموافقة من الادمن." : "Review requests from the online portal, verify details and forward to the appropriate doctor for admin approval.")}
             </p>
@@ -148,7 +148,7 @@ export default function AppointmentRequestsPage() {
               }
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full rounded-lg border border-gray-500 px-3 py-2 text-black text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+              className="w-full rounded-lg border border-gray-500 dark:border-slate-600 px-3 py-2 text-black dark:text-white dark:bg-slate-700 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             />
           </div>
 
@@ -169,7 +169,7 @@ export default function AppointmentRequestsPage() {
                 className={`px-3 py-1 text-xs rounded-full border ${
                   statusFilter === item.value
                     ? "bg-emerald-600 text-white border-emerald-600"
-                    : "bg-white text-gray-700 border-gray-200 hover:bg-gray-50"
+                    : "bg-white dark:bg-slate-700 text-gray-700 dark:text-slate-300 border-gray-200 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-600"
                 }`}
               >
                 {item.label}
@@ -180,14 +180,14 @@ export default function AppointmentRequestsPage() {
 
         <div className="text-sm text-gray-500">
           {(t.appointmentRequestsCountLabel || (language === "ar" ? "عدد الطلبات" : "Number of requests")) + ": "}
-          <span className="font-semibold text-gray-800">{filteredRequests.length}</span>
+          <span className="font-semibold text-gray-800 dark:text-slate-200">{filteredRequests.length}</span>
         </div>
 
-        <div className="overflow-hidden rounded-2xl border border-slate-100 bg-white">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800">
           <div className="p-4 md:p-6">
-            <div className="overflow-x-auto rounded-xl border border-gray-200">
+            <div className="overflow-x-auto rounded-xl border border-gray-200 dark:border-slate-600">
               <table className="min-w-full text-sm text-right">
-                <thead className="bg-gray-50 text-xs text-gray-500">
+                <thead className="bg-gray-50 dark:bg-slate-700/50 text-xs text-gray-500 dark:text-slate-400">
                   <tr>
                     <th className="px-4 py-3">{t.appointmentRequestNumber || (language === "ar" ? "رقم الطلب" : "Request ID")}</th>
                     <th className="px-4 py-3">
@@ -206,7 +206,7 @@ export default function AppointmentRequestsPage() {
                 <tbody>
                   {filteredRequests.length === 0 && (
                     <tr>
-                      <td colSpan={8} className="px-4 py-6 text-center text-gray-400 text-sm">
+                      <td colSpan={8} className="px-4 py-6 text-center text-gray-400 dark:text-slate-500 text-sm">
                         {t.appointmentRequestsNoResults ||
                           (language === "ar" ? "لا توجد طلبات مطابقة للبحث من الفلتر الحالي." : "No matching requests found for current filter.")}
                       </td>
@@ -214,13 +214,13 @@ export default function AppointmentRequestsPage() {
                   )}
 
                   {filteredRequests.map((req) => (
-                    <tr key={req.id} className="border-t border-gray-100 hover:bg-gray-50">
-                      <td className="px-4 py-3 font-mono text-xs text-gray-600">{req.id}</td>
-                      <td className="px-4 py-3 text-gray-900">{req.patientName}</td>
-                      <td className="px-4 py-3 text-gray-700">{req.phone}</td>
-                      <td className="px-4 py-3 text-gray-700">{req.specialty}</td>
-                      <td className="px-4 py-3 text-gray-700">{req.doctorName ?? "-"}</td>
-                      <td className="px-4 py-3 text-gray-700">
+                    <tr key={req.id} className="border-t border-gray-100 dark:border-slate-600 hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                      <td className="px-4 py-3 font-mono text-xs text-gray-600 dark:text-slate-400">{req.id}</td>
+                      <td className="px-4 py-3 text-gray-900 dark:text-white">{req.patientName}</td>
+                      <td className="px-4 py-3 text-gray-700 dark:text-slate-300">{req.phone}</td>
+                      <td className="px-4 py-3 text-gray-700 dark:text-slate-300">{req.specialty}</td>
+                      <td className="px-4 py-3 text-gray-700 dark:text-slate-300">{req.doctorName ?? "-"}</td>
+                      <td className="px-4 py-3 text-gray-700 dark:text-slate-300">
                         {req.preferredDate} - {req.preferredTime}
                       </td>
                       <td className="px-4 py-3">
@@ -244,13 +244,13 @@ export default function AppointmentRequestsPage() {
 
         {selectedRequest && (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-            <div className="bg-white rounded-2xl text-gray-600 shadow-lg max-w-xl w-full mx-4 p-6 space-y-4">
+            <div className="bg-white dark:bg-slate-800 rounded-2xl text-gray-600 dark:text-slate-300 shadow-lg max-w-xl w-full mx-4 p-6 space-y-4">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <h2 className="text-lg font-semibold text-gray-900 mb-1">
+                  <h2 className="text-lg font-semibold text-gray-900 dark:text-white mb-1">
                     {t.appointmentDetailsTitle || (language === "ar" ? "تفاصيل طلب الموعد" : "Appointment Request Details")}
                   </h2>
-                  <p className="text-xs text-gray">
+                  <p className="text-xs text-gray-500 dark:text-slate-400">
                     {(t.appointmentDetailsRequestNumber || (language === "ar" ? "رقم الطلب" : "Request Number")) +
                       `: ${selectedRequest.id}`}{" "}
                     •{" "}
@@ -261,7 +261,7 @@ export default function AppointmentRequestsPage() {
                 </div>
                 <button
                   onClick={closeDetails}
-                  className="text-gray-400 hover:text-gray-600 text-xl leading-none"
+                  className="text-gray-400 dark:text-slate-500 hover:text-gray-600 dark:hover:text-slate-300 text-xl leading-none"
                   aria-label={t.close || (language === "ar" ? "إغلاق" : "Close")}
                 >
                   ×
@@ -296,7 +296,7 @@ export default function AppointmentRequestsPage() {
                   <div className="text-xs font-semibold text-gray-600 mb-1">
                     {t.appointmentDetailsComplaint || (language === "ar" ? "وصف الحالة / الشكوى" : "Complaint / Description")}
                   </div>
-                  <p className="text-sm text-gray-800 bg-gray-50 rounded-lg px-3 py-2">{selectedRequest.complaint}</p>
+                  <p className="text-sm text-gray-800 dark:text-slate-200 bg-gray-50 dark:bg-slate-700 rounded-lg px-3 py-2">{selectedRequest.complaint}</p>
                 </div>
               )}
 
@@ -309,7 +309,7 @@ export default function AppointmentRequestsPage() {
                     type="date"
                     value={newDate}
                     onChange={(e) => setNewDate(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -320,7 +320,7 @@ export default function AppointmentRequestsPage() {
                     type="time"
                     value={newTime}
                     onChange={(e) => setNewTime(e.target.value)}
-                    className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                    className="w-full rounded-lg border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -334,7 +334,7 @@ export default function AppointmentRequestsPage() {
                   rows={3}
                   value={actionNote}
                   onChange={(e) => setActionNote(e.target.value)}
-                  className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
+                  className="w-full rounded-lg border border-gray-200 dark:border-slate-600 dark:bg-slate-700 dark:text-white px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
                   placeholder={
                     t.appointmentNotePlaceholder || (language === "ar"
                       ? "مثال: تم تأكيد الموعد، يُرجى الحضور قبل 10 دقائق..."
@@ -391,7 +391,7 @@ export default function AppointmentRequestsPage() {
 
                 <button
                   onClick={closeDetails}
-                  className="px-4 py-2 rounded-lg border border-gray-300 text-sm text-gray-700 hover:bg-gray-50"
+                  className="px-4 py-2 rounded-lg border border-gray-300 dark:border-slate-600 text-sm text-gray-700 dark:text-slate-300 hover:bg-gray-50 dark:hover:bg-slate-700"
                 >
                   {t.appointmentActionClose || (language === "ar" ? "الغاء / إغلاق" : "Cancel / Close")}
                 </button>

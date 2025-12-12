@@ -37,6 +37,7 @@ type Appointment = {
   time: string;
   clinic: string;
   doctor: string;
+  doctorId?: number;
   status: "confirmed" | "pending" | "cancelled" | "completed";
   notes?: string;
 };
@@ -51,6 +52,12 @@ export default function MyAppointmentsPage() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [isLoadingAppointments, setIsLoadingAppointments] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingAppointment, setEditingAppointment] = useState<Appointment | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [doctors, setDoctors] = useState<Array<{ doctor_id: number; name: string; specialization: string }>>([]);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [appointmentToDelete, setAppointmentToDelete] = useState<string | null>(null);
+  const [flashMessage, setFlashMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
     if (!isLoading && !isAuthenticated) {
@@ -91,6 +98,7 @@ export default function MyAppointmentsPage() {
               time,
               clinic: apt.clinic.name,
               doctor: apt.doctor.user.name,
+              doctorId: apt.doctor.doctor_id,
               status,
               notes: apt.notes,
             };
@@ -115,6 +123,79 @@ finally {
 
     fetchAppointments();
   }, [isAuthenticated, user]);
+
+  useEffect(() => {
+    const fetchDoctors = async () => {
+      if (!isAuthenticated || !user) return;
+      try {
+        const response = await apiClient.get<{ doctors: Array<{ doctor_id: number; name: string; specialization: string }> }>('/patient/doctors');
+        setDoctors(response.data.doctors);
+      } catch (err) {
+        console.error('Error fetching doctors:', err);
+      }
+    };
+    fetchDoctors();
+  }, [isAuthenticated, user]);
+
+  const handleDelete = async () => {
+    if (!appointmentToDelete) return;
+    
+    try {
+      setDeletingId(appointmentToDelete);
+      await apiClient.post(`/patient/appointments/${appointmentToDelete}/cancel`);
+      setAppointments(prev => prev.filter(apt => apt.id !== appointmentToDelete));
+      setFlashMessage({ type: 'success', message: language === "ar" ? "تم إلغاء الموعد بنجاح" : "Appointment cancelled successfully" });
+      setTimeout(() => setFlashMessage(null), 3000);
+    } catch (err) {
+      setFlashMessage({ type: 'error', message: language === "ar" ? "فشل إلغاء الموعد" : "Failed to cancel appointment" });
+      setTimeout(() => setFlashMessage(null), 3000);
+    } finally {
+      setDeletingId(null);
+      setShowDeleteModal(false);
+      setAppointmentToDelete(null);
+    }
+  };
+
+  const handleEdit = (appointment: Appointment) => {
+    setEditingAppointment(appointment);
+  };
+
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!editingAppointment) return;
+
+    const formData = new FormData(e.currentTarget);
+    const appointmentDate = `${formData.get('date')}T${formData.get('time')}:00`;
+
+    try {
+      await apiClient.put(`/patient/appointments/${editingAppointment.id}`, {
+        doctor_id: parseInt(formData.get('doctor_id') as string),
+        appointment_date: appointmentDate,
+        notes: formData.get('notes'),
+      });
+      
+      setEditingAppointment(null);
+      
+      const response = await apiClient.get<{ appointments: BackendAppointment[] }>('/patient/appointments');
+      const mappedAppointments: Appointment[] = response.data.appointments.map((apt) => {
+        const appointmentDateTime = new Date(apt.appointment_date);
+        const date = appointmentDateTime.toISOString().split("T")[0];
+        const time = appointmentDateTime.toTimeString().slice(0, 5);
+        let status: Appointment["status"] = "pending";
+        if (apt.status === "Approved") status = "confirmed";
+        else if (apt.status === "Requested" || apt.status === "Pending Doctor Approval") status = "pending";
+        else if (apt.status === "Cancelled") status = "cancelled";
+        else if (apt.status === "Completed") status = "completed";
+        return { id: apt.appointment_id.toString(), date, time, clinic: apt.clinic.name, doctor: apt.doctor.user.name, doctorId: apt.doctor.doctor_id, status, notes: apt.notes };
+      });
+      setAppointments(mappedAppointments);
+      setFlashMessage({ type: 'success', message: language === "ar" ? "تم تحديث الموعد بنجاح" : "Appointment updated successfully" });
+      setTimeout(() => setFlashMessage(null), 3000);
+    } catch (err) {
+      setFlashMessage({ type: 'error', message: language === "ar" ? "فشل تحديث الموعد" : "Failed to update appointment" });
+      setTimeout(() => setFlashMessage(null), 3000);
+    }
+  };
 
   if (isLoading || !user) {
     return (
@@ -271,11 +352,16 @@ finally {
                       >
                         {getStatusLabel(app.status)}
                       </span>
-                      <button className="text-[11px] text-teal-700 dark:text-teal-400 hover:underline">
-                        {language === "ar"
-                          ? "عرض تفاصيل الموعد"
-                          : "View details"}
-                      </button>
+                      {app.status === "pending" && (
+                        <div className="flex gap-2">
+                          <button onClick={() => handleEdit(app)} className="text-[11px] text-blue-600 dark:text-blue-400 hover:underline">
+                            {language === "ar" ? "تعديل" : "Edit"}
+                          </button>
+                          <button onClick={() => { setAppointmentToDelete(app.id); setShowDeleteModal(true); }} disabled={deletingId === app.id} className="text-[11px] text-red-600 dark:text-red-400 hover:underline disabled:opacity-50">
+                            {deletingId === app.id ? (language === "ar" ? "جاري الإلغاء..." : "Canceling...") : (language === "ar" ? "إلغاء" : "Cancel")}
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -283,6 +369,81 @@ finally {
             )}
           </div>
         </main>
+
+        {flashMessage && (
+          <div className={`fixed top-4 right-4 z-50 px-6 py-3 rounded-lg shadow-lg ${flashMessage.type === 'success' ? 'bg-green-500' : 'bg-red-500'} text-white`}>
+            {flashMessage.message}
+          </div>
+        )}
+
+        {showDeleteModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => setShowDeleteModal(false)}>
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-sm w-full" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-lg font-semibold mb-4 text-slate-900 dark:text-white">
+                {language === "ar" ? "تأكيد الإلغاء" : "Confirm Cancellation"}
+              </h3>
+              <p className="text-sm text-slate-600 dark:text-slate-400 mb-6">
+                {language === "ar" ? "هل أنت متأكد من إلغاء هذا الموعد؟" : "Are you sure you want to cancel this appointment?"}
+              </p>
+              <div className="flex gap-2 justify-end">
+                <button onClick={() => setShowDeleteModal(false)} className="px-4 py-2 text-sm rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600">
+                  {language === "ar" ? "لا" : "No"}
+                </button>
+                <button onClick={handleDelete} disabled={!!deletingId} className="px-4 py-2 text-sm rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50">
+                  {deletingId ? (language === "ar" ? "جاري الإلغاء..." : "Canceling...") : (language === "ar" ? "نعم، إلغاء" : "Yes, Cancel")}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {editingAppointment && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50" onClick={() => setEditingAppointment(null)}>
+            <div className="bg-white dark:bg-slate-800 rounded-2xl p-6 max-w-md w-full" onClick={(e) => e.stopPropagation()}>
+              <h3 className="text-lg font-semibold mb-4 text-slate-900 dark:text-white">
+                {language === "ar" ? "تعديل الموعد" : "Edit Appointment"}
+              </h3>
+              <form onSubmit={handleUpdate} className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
+                    {language === "ar" ? "الطبيب" : "Doctor"}
+                  </label>
+                  <select name="doctor_id" defaultValue={editingAppointment.doctorId} required className="w-full px-3 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600 dark:text-white">
+                    {doctors.map(doc => (
+                      <option key={doc.doctor_id} value={doc.doctor_id}>{doc.name} - {doc.specialization}</option>
+                    ))}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
+                    {language === "ar" ? "التاريخ" : "Date"}
+                  </label>
+                  <input type="date" name="date" defaultValue={editingAppointment.date} required min={new Date().toISOString().split('T')[0]} className="w-full px-3 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
+                    {language === "ar" ? "الوقت" : "Time"}
+                  </label>
+                  <input type="time" name="time" defaultValue={editingAppointment.time} required className="w-full px-3 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1 text-slate-700 dark:text-slate-300">
+                    {language === "ar" ? "ملاحظات" : "Notes"}
+                  </label>
+                  <textarea name="notes" defaultValue={editingAppointment.notes} rows={3} className="w-full px-3 py-2 border rounded-lg dark:bg-slate-700 dark:border-slate-600 dark:text-white" />
+                </div>
+                <div className="flex gap-2 justify-end">
+                  <button type="button" onClick={() => setEditingAppointment(null)} className="px-4 py-2 text-sm rounded-lg bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 dark:hover:bg-slate-600">
+                    {language === "ar" ? "إلغاء" : "Cancel"}
+                  </button>
+                  <button type="submit" className="px-4 py-2 text-sm rounded-lg bg-teal-600 text-white hover:bg-teal-700">
+                    {language === "ar" ? "حفظ" : "Save"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
