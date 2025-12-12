@@ -54,11 +54,11 @@ export default function RevenueChart({ language, onRateLimit }: RevenueChartProp
       <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm overflow-hidden">
         <div className="px-6 py-4 border-b border-slate-200 dark:border-slate-700">
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-            {language === "ar" ? "OU,OUSOñOO_OO¦ OU,OœO3O\"U^O1USOc" : "Weekly Revenue"}
+            {language === "ar" ? "الإيرادات الأسبوعية" : "Weekly Revenue"}
           </h3>
         </div>
         <div className="p-6 text-center text-sm text-slate-500 dark:text-slate-400">
-          {language === "ar" ? "OO-U?O_ OU,OUSOñOO_OO¦ O. O3O. O1OñO1" : "No revenue data for this period."}
+          {language === "ar" ? "لا توجد بيانات إيرادات لهذه الفترة." : "No revenue data for this period."}
         </div>
       </div>
     );

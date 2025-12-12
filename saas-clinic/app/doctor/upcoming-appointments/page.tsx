@@ -51,7 +51,7 @@ export default function DoctorUpcomingAppointmentsPage() {
         throw new Error(
           (json as ApiError).message ||
             (json as ApiError).error ||
-            (isArabic ? "U?O'U, U?US OªU,O\" OU,U.U^OO1USO_" : "Failed to fetch appointments")
+            (isArabic ? "فشل في جلب المواعيد" : "Failed to fetch appointments")
         );
       }
 
@@ -63,7 +63,7 @@ export default function DoctorUpcomingAppointmentsPage() {
         err instanceof Error
           ? err.message
           : isArabic
-          ? "U?O'U, U?US OªU,O\" OU,U.U^OO1USO_"
+          ? "فشل في جلب المواعيد"
           : "Failed to fetch appointments";
       setAppointmentsError(message);
       toast.error(message);
@@ -131,27 +131,21 @@ export default function DoctorUpcomingAppointmentsPage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Breadcrumbs
           customItems={[
-            { label: isArabic ? "OU,OúO\"USO\"" : "Doctor", href: "/doctor/dashboard" },
-            {
-              label: isArabic ? "U,U^O-Oc OU,O¦O-UŸU." : "Dashboard",
-              href: "/doctor/dashboard",
-            },
-            {
-              label: isArabic ? "OU,U.U^OO1USO_ OU,U,OO_U.Oc" : "Upcoming appointments",
-              href: null,
-            },
+            { label: isArabic ? "الطبيب" : "Doctor", href: "/doctor/dashboard" },
+            { label: isArabic ? "لوحة التحكم" : "Dashboard", href: "/doctor/dashboard" },
+            { label: isArabic ? "المواعيد القادمة" : "Upcoming appointments", href: null },
           ]}
         />
         <PageHeader
-          label={isArabic ? "U.U^OO1USO_UŸ OU,U,OO_U.Oc" : "Your upcoming appointments"}
+          label={isArabic ? "مواعيدك القادمة" : "Your upcoming appointments"}
           title={
             isArabic
-              ? "OU,U.U^OO1USO_ OU,U,OO_U.Oc (OU,U.U,O\"U^U,Oc OœU^ OU,U.O-OªU^OýOc U.U+ OU,OúO\"USO\")"
+              ? "المواعيد القادمة (المعتمدة أو التي أنشأتها)"
               : "Upcoming appointments (approved or created by you)"
           }
           description={
             isArabic
-              ? "O1OñO OU,U.U^OO1USO_ OU,U,OO_U.Oc OU,O¦US O¦U. OU,U.U^OU?U,Oc O1U,USUØO OœU^ OU,O¦US U,U.O¦ O\"O-OªOýUØO O\"U+U?O3UŸ."
+              ? "اعرض المواعيد القادمة المعتمدة أو التي أنشأها الطبيب."
               : "View upcoming appointments that are approved or were created by the doctor."
           }
           backAction={() => router.push("/doctor/dashboard")}
@@ -160,11 +154,11 @@ export default function DoctorUpcomingAppointmentsPage() {
         <section className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-100 dark:border-slate-700 mt-6">
           <div className="px-4 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-700">
             <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-              {isArabic ? "OU,U.U^OO1USO_ OU,U,OO_U.Oc" : "Upcoming appointments"}
+              {isArabic ? "المواعيد القادمة" : "Upcoming appointments"}
             </h3>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
               {isArabic
-                ? "UØOøUØ OU,OæU?O-Oc O¦O1OñO OU,U.U^OO1USO_ OU,U.O3O¦U,O\"U,USOc OU,U.U^OU?U, O1U,USUØO OœU^ OU,U.O-OªU^OýOc U.U+ U,O\"U, OU,OúO\"USO\"."
+                ? "تعرض هذه الصفحة المواعيد المستقبلية المعتمدة أو التي أنشأها الطبيب."
                 : "This page shows future appointments that are approved or created by the doctor."}
             </p>
             {appointmentsError && (
@@ -181,9 +175,7 @@ export default function DoctorUpcomingAppointmentsPage() {
               </div>
             ) : upcomingAppointments.length === 0 ? (
               <p className="text-slate-500 text-sm text-center py-10">
-                {isArabic
-                  ? "U,O USU^OªO_ U.U^OO1USO_ U,OO_U.Oc O-OU,USOU<."
-                  : "No upcoming appointments."}
+                {isArabic ? "لا توجد مواعيد قادمة." : "No upcoming appointments."}
               </p>
             ) : (
               <div className="overflow-x-auto">
@@ -191,19 +183,19 @@ export default function DoctorUpcomingAppointmentsPage() {
                   <thead className="bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-300 text-sm">
                     <tr>
                       <th className="px-4 py-2 text-start">
-                        {isArabic ? "OU,U.OñUSO" : "Patient"}
+                        {isArabic ? "المريض" : "Patient"}
                       </th>
                       <th className="px-4 py-2 text-start">
-                        {isArabic ? "OU,UØOO¦U?" : "Phone"}
+                        {isArabic ? "الهاتف" : "Phone"}
                       </th>
                       <th className="px-4 py-2 text-start">
-                        {isArabic ? "OU,O¦OOñUSOr" : "Date"}
+                        {isArabic ? "التاريخ" : "Date"}
                       </th>
                       <th className="px-4 py-2 text-start">
-                        {isArabic ? "OU,U^U,O¦" : "Time"}
+                        {isArabic ? "الوقت" : "Time"}
                       </th>
                       <th className="px-4 py-2 text-start">
-                        {isArabic ? "OU,O-OU,Oc" : "Status"}
+                        {isArabic ? "الحالة" : "Status"}
                       </th>
                     </tr>
                   </thead>
