@@ -13,7 +13,7 @@ const ROUTE_PERMISSIONS = {
 // Public routes that don't require authentication
 const PUBLIC_ROUTES = ['/', '/login', '/join-us', '/api'];
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Allow public routes
@@ -72,6 +72,9 @@ export function middleware(request: NextRequest) {
 
   return NextResponse.next();
 }
+
+// Default export for compatibility
+export default proxy;
 
 // Configure which routes the middleware should run on
 export const config = {
