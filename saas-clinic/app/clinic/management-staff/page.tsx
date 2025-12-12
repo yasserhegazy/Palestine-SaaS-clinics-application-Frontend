@@ -63,12 +63,7 @@ export default function StaffManagementPage() {
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">{t.staffManagementTitle}</h1>
             <p className="text-sm text-gray-500 mt-1">{clinic?.name} - Staff Directory</p>
           </div>
-          <button
-            onClick={() => window.history.back()}
-            className="px-4 py-2 bg-gray-100 dark:bg-slate-800 text-gray-600 dark:text-slate-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-700 transition-all duration-200 text-sm font-medium flex items-center gap-2"
-          >
-            {t.btnBack}
-          </button>
+    
         </div>
 
         <div className="bg-white dark:bg-slate-800 shadow-lg rounded-2xl overflow-hidden border border-gray-100 dark:border-slate-700">

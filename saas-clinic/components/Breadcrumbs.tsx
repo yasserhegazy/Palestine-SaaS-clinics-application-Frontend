@@ -45,6 +45,7 @@ export default function Breadcrumbs({ customItems }: BreadcrumbsProps) {
     'manage-schedule': { en: 'Manage Schedule', ar: 'إدارة الجداول' },
     register: { en: 'Register Patient', ar: 'تسجيل مريض' },
     update: { en: 'Update Patient', ar: 'تحديث مريض' },
+    daily: { en: 'Daily Report', ar: 'التقرير اليومي' },
   };
 
   const generateBreadcrumbs = (): BreadcrumbItem[] => {

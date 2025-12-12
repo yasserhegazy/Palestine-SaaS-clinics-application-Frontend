@@ -17,6 +17,7 @@ interface PreviousVisitsProps {
   showSummary?: boolean;
   className?: string;
   patientId?: number | string;
+  limit?: number;
 }
 
 export default function PreviousVisits({
@@ -24,6 +25,7 @@ export default function PreviousVisits({
   showSummary = true,
   className = "",
   patientId,
+  limit,
 }: PreviousVisitsProps) {
   const { language } = useLanguage();
   const { token, user } = useAuth();
@@ -81,23 +83,27 @@ export default function PreviousVisits({
     );
   }
 
+  // Limit visits if a cap is provided
+  const limitedVisits = limit ? visits.slice(0, limit) : visits;
+  const totalCount = visits.length;
+
   return (
     <div className={className}>
       {/* Summary Cards */}
-      {showSummary && visits.length > 0 && (
+      {showSummary && limitedVisits.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm p-4 transition-colors duration-300">
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {language === "ar" ? "إجمالي الزيارات" : "Total visits"}
             </p>
-            <p className="text-2xl font-bold text-slate-900 dark:text-white">{visits.length}</p>
+            <p className="text-2xl font-bold text-slate-900 dark:text-white">{totalCount}</p>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm p-4 transition-colors duration-300">
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {language === "ar" ? "آخر تشخيص" : "Last diagnosis"}
             </p>
             <p className="text-sm font-semibold text-slate-900 dark:text-white">
-              {visits[0]?.diagnosis || "-"}
+              {limitedVisits[0]?.diagnosis || "-"}
             </p>
           </div>
           <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-sm p-4 transition-colors duration-300">
@@ -105,7 +111,7 @@ export default function PreviousVisits({
               {language === "ar" ? "آخر عيادة" : "Last clinic"}
             </p>
             <p className="text-sm font-semibold text-slate-900 dark:text-white">
-              {visits[0]?.clinic || "-"}
+              {limitedVisits[0]?.clinic || "-"}
             </p>
           </div>
         </div>
@@ -121,7 +127,7 @@ export default function PreviousVisits({
           </h2>
         </div>
 
-        {visits.length === 0 ? (
+        {limitedVisits.length === 0 ? (
           <div className="p-6">
             <p className="text-sm text-slate-500 dark:text-slate-400 text-center">
               {language === "ar"
@@ -131,7 +137,7 @@ export default function PreviousVisits({
           </div>
         ) : (
           <div className="divide-y divide-slate-100 dark:divide-slate-700">
-            {visits.map((v, idx) => (
+            {limitedVisits.map((v, idx) => (
               <div
                 key={idx}
                 className="px-4 sm:px-5 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 hover:bg-slate-50 dark:hover:bg-slate-700 transition"

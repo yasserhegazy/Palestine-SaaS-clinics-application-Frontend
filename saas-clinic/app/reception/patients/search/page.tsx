@@ -35,9 +35,7 @@ export default function SearchPatientPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-teal-50/30 to-slate-50 dark:from-slate-900 dark:via-slate-900 dark:to-slate-800 py-8 px-4 transition-colors duration-300">
       <div className="max-w-5xl mx-auto">
-        <div className="flex justify-end mb-4">
-          <ThemeToggle />
-        </div>
+    
         
         <Breadcrumbs />
 
@@ -56,12 +54,7 @@ export default function SearchPatientPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => router.back()}
-            className="text-sm text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 hover:underline"
-          >
-            {t.back || "Back"}
-          </button>
+        
         </div>
 
         <PatientSearch

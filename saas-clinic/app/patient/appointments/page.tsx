@@ -238,7 +238,7 @@ finally {
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 transition-colors duration-300">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <Breadcrumbs />
 
         <PageHeader
@@ -249,7 +249,6 @@ finally {
               ? "عرض وإدارة مواعيدك الحالية والمستقبلية."
               : "View and manage your current and upcoming appointments."
           }
-          backAction={() => router.push("/patient/dashboard")}
         />
 
         <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-4">
