@@ -4,7 +4,9 @@ import { useState, useCallback } from "react";
 import { useLanguage } from "@/context/LanguageContext";
 import { translations } from "@/lib/translations";
 import { useRouter } from "next/navigation";
-import AppointmentForm, { type AppointmentFormData } from "@/components/AppointmentsForm";
+import AppointmentForm, {
+  type AppointmentFormData,
+} from "@/components/AppointmentsForm";
 import PatientSearch, { LookupPatient } from "@/components/PatientSearch";
 import PreviousVisits from "@/components/PreviousVisits";
 import Breadcrumbs from "@/components/Breadcrumbs";
@@ -17,7 +19,9 @@ export default function CreateAppointmentPage() {
   const t = translations[language];
   const router = useRouter();
 
-  const [selectedPatient, setSelectedPatient] = useState<LookupPatient | null>(null);
+  const [selectedPatient, setSelectedPatient] = useState<LookupPatient | null>(
+    null
+  );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [paymentData, setPaymentData] = useState<PaymentFormData | null>(null);
   const [consultationFee, setConsultationFee] = useState<number>(0);
@@ -26,13 +30,20 @@ export default function CreateAppointmentPage() {
     setSelectedPatient(patient);
   };
 
-  const handlePaymentDataChange = useCallback((data: PaymentFormData | null) => {
-    setPaymentData(data);
-  }, []);
+  const handlePaymentDataChange = useCallback(
+    (data: PaymentFormData | null) => {
+      setPaymentData(data);
+    },
+    []
+  );
 
   const handleFormSubmit = async (data: AppointmentFormData) => {
     if (!selectedPatient) {
-      toast.error(language === "ar" ? "يرجى اختيار المريض أولاً" : "Please select a patient first");
+      toast.error(
+        language === "ar"
+          ? "يرجى اختيار المريض أولاً"
+          : "Please select a patient first"
+      );
       return;
     }
 
@@ -70,17 +81,19 @@ export default function CreateAppointmentPage() {
       const responseData = await response.json();
 
       if (response.ok) {
-        let successMessage = language === "ar"
-          ? "تم إنشاء الموعد بنجاح"
-          : "Appointment created successfully";
-        
+        let successMessage =
+          language === "ar"
+            ? "تم إنشاء الموعد بنجاح"
+            : "Appointment created successfully";
+
         // If payment was collected, show receipt number
         if (responseData.receipt_number) {
-          successMessage += language === "ar"
-            ? ` - رقم الإيصال: ${responseData.receipt_number}`
-            : ` - Receipt: ${responseData.receipt_number}`;
+          successMessage +=
+            language === "ar"
+              ? ` - رقم الإيصال: ${responseData.receipt_number}`
+              : ` - Receipt: ${responseData.receipt_number}`;
         }
-        
+
         toast.success(successMessage);
         router.push("/reception/dashboard");
       } else {
@@ -88,9 +101,12 @@ export default function CreateAppointmentPage() {
       }
     } catch (error: unknown) {
       console.error("Error creating appointment:", error);
-      const errorMessage = error instanceof Error ? error.message : (language === "ar"
-        ? "حدث خطأ أثناء إنشاء الموعد"
-        : "An error occurred while creating the appointment");
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : language === "ar"
+          ? "حدث خطأ أثناء إنشاء الموعد"
+          : "An error occurred while creating the appointment";
       toast.error(errorMessage);
     } finally {
       setIsSubmitting(false);
@@ -103,73 +119,75 @@ export default function CreateAppointmentPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 py-8 px-4">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-900 py-8 px-4 transition-colors duration-300">
       <div className="max-w-6xl mx-auto">
         <Breadcrumbs />
 
         {/* Header */}
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs text-slate-500 mb-1">
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-1">
               {t.patientsManagement || "Patients management"}
             </p>
-            <h1 className="text-2xl font-bold text-slate-900">
+            <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
               {t.newAppointment || "New appointment"}
             </h1>
-            <p className="text-sm text-slate-500 mt-1">
+            <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
               {language === "ar"
                 ? "ابحث عن المريض ثم أنشئ موعداً جديداً"
                 : "Search for a patient and create a new appointment"}
             </p>
           </div>
 
-          <button
-            onClick={() => router.back()}
-            className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
-          >
-            {t.back || "Back"}
-          </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
           {/* Patient Search Section */}
           <div>
             <div className="mb-4">
-              <h2 className="text-lg font-semibold text-slate-900 mb-1">
+              <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
                 {language === "ar" ? "1. اختر المريض" : "1. Select Patient"}
               </h2>
-              <p className="text-sm text-slate-500">
+              <p className="text-sm text-slate-500 dark:text-slate-400">
                 {language === "ar"
                   ? "ابحث عن المريض باستخدام الرقم الوطني أو الهاتف"
                   : "Search for the patient using national ID or phone"}
               </p>
             </div>
 
-            <PatientSearch onPatientSelect={handlePatientSelect} showSelectedCard={false} />
+            <PatientSearch
+              onPatientSelect={handlePatientSelect}
+              showSelectedCard={false}
+            />
 
             {selectedPatient && (
-              <div className="mt-4 p-4 bg-teal-50 border border-teal-200 rounded-xl">
+              <div className="mt-4 p-4 bg-teal-50 dark:bg-teal-900/30 border border-teal-200 dark:border-teal-800 rounded-xl">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-xs text-teal-700 font-medium mb-1">
+                    <p className="text-xs text-teal-700 dark:text-teal-400 font-medium mb-1">
                       {language === "ar" ? "المريض المحدد" : "Selected Patient"}
                     </p>
-                    <p className="text-base font-semibold text-slate-900">
-                      {selectedPatient.name || (language === "ar" ? "مريض بدون اسم" : "Unnamed patient")}
+                    <p className="text-base font-semibold text-slate-900 dark:text-white">
+                      {selectedPatient.name ||
+                        (language === "ar"
+                          ? "مريض بدون اسم"
+                          : "Unnamed patient")}
                     </p>
-                    <p className="text-xs text-slate-600 mt-1">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-1">
                       {language === "ar" ? "الرقم الوطني: " : "National ID: "}
-                      {selectedPatient.nationalId || (language === "ar" ? "غير متوفر" : "N/A")}
+                      {selectedPatient.nationalId ||
+                        (language === "ar" ? "غير متوفر" : "N/A")}
                     </p>
-                    <p className="text-xs text-slate-600">
+                    <p className="text-xs text-slate-600 dark:text-slate-300">
                       {language === "ar" ? "الهاتف: " : "Phone: "}
-                      {selectedPatient.phone || (language === "ar" ? "غير متوفر" : "N/A")}
+                      {selectedPatient.phone ||
+                        (language === "ar" ? "غير متوفر" : "N/A")}
                     </p>
                   </div>
                   <button
                     type="button"
                     onClick={() => setSelectedPatient(null)}
-                    className="text-xs text-teal-700 hover:text-teal-800 hover:underline"
+                    className="text-xs text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 hover:underline"
                   >
                     {language === "ar" ? "تغيير" : "Change"}
                   </button>
@@ -182,17 +200,23 @@ export default function CreateAppointmentPage() {
           {selectedPatient && (
             <div>
               <div className="mb-4">
-                <h2 className="text-lg font-semibold text-slate-900 mb-1">
-                  {language === "ar" ? "2. التاريخ الطبي" : "2. Medical History"}
+                <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
+                  {language === "ar"
+                    ? "2. التاريخ الطبي"
+                    : "2. Medical History"}
                 </h2>
-                <p className="text-sm text-slate-500">
+                <p className="text-sm text-slate-500 dark:text-slate-400">
                   {language === "ar"
                     ? "زيارات المريض السابقة والتشخيصات"
                     : "Patient's previous visits and diagnoses"}
                 </p>
               </div>
 
-              <PreviousVisits patientId={selectedPatient.patientId} showSummary />
+              <PreviousVisits
+                patientId={selectedPatient.patientId}
+                showSummary
+                limit={4}
+              />
             </div>
           )}
         </div>
@@ -204,35 +228,40 @@ export default function CreateAppointmentPage() {
               {/* Appointment Form - Takes 2/3 of space */}
               <div className="lg:col-span-2">
                 <div className="mb-4">
-                  <h2 className="text-lg font-semibold text-slate-900 mb-1">
-                    {language === "ar" ? "3. تفاصيل الموعد" : "3. Appointment Details"}
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
+                    {language === "ar"
+                      ? "3. تفاصيل الموعد"
+                      : "3. Appointment Details"}
                   </h2>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
                     {language === "ar"
                       ? "اختر الطبيب والتخصص والتاريخ والوقت وأي ملاحظات إضافية"
                       : "Select doctor, specialty, date, time, and any additional notes"}
                   </p>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
-                  <AppointmentForm onSubmit={handleFormSubmit} onClear={handleClearForm} />
+                <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-sm p-6 transition-colors duration-300">
+                  <AppointmentForm
+                    onSubmit={handleFormSubmit}
+                    onClear={handleClearForm}
+                  />
                 </div>
               </div>
 
               {/* Payment Form - Takes 1/3 of space */}
               <div>
                 <div className="mb-4">
-                  <h2 className="text-lg font-semibold text-slate-900 mb-1">
+                  <h2 className="text-lg font-semibold text-slate-900 dark:text-white mb-1">
                     {language === "ar" ? "4. الدفع" : "4. Payment"}
                   </h2>
-                  <p className="text-sm text-slate-500">
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
                     {language === "ar"
                       ? "تحصيل الرسوم من المريض"
                       : "Collect fee from patient"}
                   </p>
                 </div>
 
-                <div className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+                <div className="bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700 rounded-2xl shadow-sm p-6 transition-colors duration-300">
                   <PaymentForm
                     consultationFee={consultationFee}
                     onPaymentDataChange={handlePaymentDataChange}

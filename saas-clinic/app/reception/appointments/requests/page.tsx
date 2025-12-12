@@ -135,12 +135,7 @@ export default function AppointmentRequestsPage() {
             </p>
           </div>
 
-          <button
-            onClick={() => router.back()}
-            className="text-sm text-teal-700 hover:text-teal-800 hover:underline"
-          >
-            {t.back || (language === "ar" ? "رجوع" : "Back")}
-          </button>
+ 
         </div>
 
         <div className="flex flex-col md:flex-row gap-3 items-start md:items-center justify-between">
@@ -274,24 +269,36 @@ export default function AppointmentRequestsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
-                <InfoItem label={t.appointmentDetailsPatientName || "OO3U. OU,U.OñUSO"} value={selectedRequest.patientName} />
-                <InfoItem label={t.appointmentDetailsNationalId || "OñU,U. OU,UØU^USOc"} value={selectedRequest.nationalId ?? "-"} />
-                <InfoItem label={t.appointmentDetailsPhone || "OñU,U. OU,UØOO¦U?"} value={selectedRequest.phone} />
                 <InfoItem
-                  label={t.appointmentDetailsSource || "U.OæO_Oñ OU,OúU,O\""}
-                  value={selectedRequest.portalSource ?? "OU,O\"U^OO\"Oc OU,OU,UŸO¦OñU^U+USOc"}
-                />
-                <InfoItem label={t.appointmentDetailsSpecialty || "OU,O¦OrOæOæ"} value={selectedRequest.specialty} />
-                <InfoItem
-                  label={t.appointmentDetailsDoctor || "OU,OúO\"USO\" OU,U.OúU,U^O\""}
-                  value={selectedRequest.doctorName ?? "O3USO¦U. OOrO¦USOOñ OU,OúO\"USO\" U,OO-U,OU<"}
+                  label={t.appointmentDetailsPatientName || (language === "ar" ? "??? ??????" : "Patient Name")}
+                  value={selectedRequest.patientName}
                 />
                 <InfoItem
-                  label={t.appointmentDetailsPreferredSlot || "OU,U.U^O1O_ OU,U.U?OU,"}
+                  label={t.appointmentDetailsNationalId || (language === "ar" ? "????? ??????" : "National ID")}
+                  value={selectedRequest.nationalId ?? "-"}
+                />
+                <InfoItem
+                  label={t.appointmentDetailsPhone || (language === "ar" ? "??? ??????" : "Phone")}
+                  value={selectedRequest.phone}
+                />
+                <InfoItem
+                  label={t.appointmentDetailsSource || (language === "ar" ? "???? ?????" : "Request Source")}
+                  value={selectedRequest.portalSource ?? (language === "ar" ? "??? ????" : "Not specified")}
+                />
+                <InfoItem
+                  label={t.appointmentDetailsSpecialty || (language === "ar" ? "??????" : "Specialty")}
+                  value={selectedRequest.specialty}
+                />
+                <InfoItem
+                  label={t.appointmentDetailsDoctor || (language === "ar" ? "?????? ???????" : "Requested Doctor")}
+                  value={selectedRequest.doctorName ?? (language === "ar" ? "?? ??? ?????? ???? ???" : "No doctor selected yet")}
+                />
+                <InfoItem
+                  label={t.appointmentDetailsPreferredSlot || (language === "ar" ? "????? ??????" : "Preferred Slot")}
                   value={`${selectedRequest.preferredDate} - ${selectedRequest.preferredTime}`}
                 />
                 <InfoItem
-                  label={t.appointmentDetailsCurrentStatus || (language === "ar" ? "الحالة الحالية" : "Current Status")}
+                  label={t.appointmentDetailsCurrentStatus || (language === "ar" ? "?????? ???????" : "Current Status")}
                   value={<StatusBadge status={selectedRequest.status} />}
                 />
               </div>

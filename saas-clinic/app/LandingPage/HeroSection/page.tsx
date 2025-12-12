@@ -14,10 +14,11 @@ export default function HeroSection() {
   return (
     <section className={`hero-section ${isDark ? "night-mode" : ""}`}>
       <div className="hero-overlay"></div>
-      
-      <div className="hero-content">
-        <h1 className="hero-title">
-          {t.welcomeTo} <span className="text-primary-light">{t.palestineClinics}</span>
+
+      <div className="hero-content ">
+        <h1 className="hero-title text-white">
+          {t.welcomeTo}{" "}
+          <span className="text-primary-light">{t.palestineClinics}</span>
         </h1>
         <p className="hero-subtitle">{t.heroSubtitle}</p>
 

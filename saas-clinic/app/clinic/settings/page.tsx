@@ -208,12 +208,7 @@ export default function ClinicSettingsPage() {
                 : "Manage your clinic information and preferences"}
             </p>
           </div>
-          <button
-            onClick={() => window.history.back()}
-            className="px-4 py-2 bg-gray-100 dark:bg-slate-700 text-gray-600 dark:text-slate-300 rounded-lg hover:bg-gray-200 dark:hover:bg-slate-600 transition-all duration-200 text-sm font-medium flex items-center gap-2"
-          >
-            {t.back || "Back"}
-          </button>
+   
         </div>
 
         {/* Loading State */}
