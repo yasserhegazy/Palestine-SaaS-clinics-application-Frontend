@@ -196,7 +196,7 @@ export default function PlatformDashboard() {
 
             {/* View Reports */}
             <button
-              onClick={() => router.push('/platform/reports')}
+              onClick={() => router.push('/platform/reports-and-analytics')}
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-blue-200 dark:hover:border-blue-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-blue-700 dark:text-blue-400">
