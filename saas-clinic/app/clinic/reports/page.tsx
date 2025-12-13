@@ -106,26 +106,34 @@ export default function ClinicReportsPage() {
                     title={language === "ar" ? "إجمالي الإيرادات" : "Total Revenue"}
                     value={formatCurrency(reportData.financial?.total_revenue)}
                     icon={DollarSign}
-                    gradient="from-green-500 to-green-600"
+                    iconBg="bg-teal-100 dark:bg-teal-900/40"
+                    iconColor="text-teal-600 dark:text-teal-400"
+                    textColor="text-teal-700 dark:text-teal-300"
                   />
                   <StatCard
                     title={language === "ar" ? "مدفوعات معلقة" : "Pending Payments"}
                     value={formatCurrency(reportData.financial?.total_pending)}
                     icon={Clock}
-                    gradient="from-amber-500 to-amber-600"
+                    iconBg="bg-amber-100 dark:bg-amber-900/40"
+                    iconColor="text-amber-600 dark:text-amber-400"
+                    textColor="text-amber-700 dark:text-amber-300"
                   />
                   <StatCard
                     title={language === "ar" ? "المعاملات المدفوعة" : "Paid Transactions"}
                     value={reportData.financial?.paid_payments || 0}
                     subtitle={language === "ar" ? `من أصل ${reportData.financial?.total_payments || 0}` : `out of ${reportData.financial?.total_payments || 0}`}
                     icon={BarChart3}
-                    gradient="from-blue-500 to-blue-600"
+                    iconBg="bg-teal-100 dark:bg-teal-900/40"
+                    iconColor="text-teal-600 dark:text-teal-400"
+                    textColor="text-teal-700 dark:text-teal-300"
                   />
                   <StatCard
                     title={language === "ar" ? "الإيرادات الشهرية" : "Monthly Revenue"}
                     value={formatCurrency(reportData.financial?.monthly_revenue)}
                     icon={Calendar}
-                    gradient="from-purple-500 to-purple-600"
+                    iconBg="bg-teal-100 dark:bg-teal-900/40"
+                    iconColor="text-teal-600 dark:text-teal-400"
+                    textColor="text-teal-700 dark:text-teal-300"
                   />
                 </div>
               </div>
