@@ -66,9 +66,10 @@ export default function DailyReportsPage() {
           : `/clinic/payments/daily-report?date=${date}`;
         
         const response = await apiClient.get(endpoint);
-        setSummary(response.data.summary);
-        setByReceiver(response.data.by_receiver);
-        setPayments(response.data.payments);
+        const payload = (response.data as any)?.data ?? response.data;
+        setSummary(payload?.summary ?? null);
+        setByReceiver(payload?.by_receiver ?? []);
+        setPayments(payload?.payments ?? []);
       } catch (err) {
         console.error('Error fetching report:', err);
       } finally {
