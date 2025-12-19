@@ -40,6 +40,7 @@ export default function UpdatePatientPage() {
   };
 
   const handlePatientSelect = (patient: LookupPatient) => {
+    setLoading(true);
     // Extract the actual patient_id from raw data
     const actualPatientId =
       patient.raw?.patient_id || patient.patientId || patient.raw?.id;
@@ -55,41 +56,65 @@ export default function UpdatePatientPage() {
     setMessage(null);
     setError(null);
 
-    const userData = patient.raw?.user || patient.raw;
+    // Fetch latest patient details to populate the form
+    const fetchPatientDetails = async () => {
+      try {
+        const res = await fetch(`/api/patients/${actualPatientId}`);
+        const data = await res.json();
 
-    // Extract date of birth from various possible field names
-    const rawDateOfBirth =
-      userData?.date_of_birth ||
-      userData?.dateOfBirth ||
-      patient.raw?.date_of_birth ||
-      patient.raw?.dateOfBirth ||
-      patient.raw?.user?.date_of_birth ||
-      patient.raw?.user?.dateOfBirth ||
-      "";
+        const patientData = (data as any)?.patient ?? data;
+        const userData = patientData?.user ?? patient.raw?.user ?? patient.raw;
 
-    // Convert ISO date to YYYY-MM-DD format for date input
-    let dateOfBirth = "";
-    if (rawDateOfBirth) {
-      dateOfBirth = rawDateOfBirth.split("T")[0];
-    }
+        const rawDateOfBirth =
+          patientData?.date_of_birth ||
+          patientData?.dateOfBirth ||
+          userData?.date_of_birth ||
+          userData?.dateOfBirth ||
+          "";
 
-    // Extract address from various possible locations
-    const address =
-      userData?.address ||
-      patient.raw?.address ||
-      patient.raw?.user?.address ||
-      "";
+        const dateOfBirth = rawDateOfBirth
+          ? String(rawDateOfBirth).split("T")[0]
+          : "";
 
-    setForm({
-      name: patient.name || userData?.name || "",
-      nationalId: patient.nationalId || patient.raw?.national_id || "",
-      phone: patient.phone || userData?.phone || "",
-      dateOfBirth: dateOfBirth,
-      gender: userData?.gender || "Male",
-      address: address,
-      bloodType: patient.raw?.blood_type || patient.raw?.bloodType || "",
-      allergies: patient.raw?.allergies || "",
-    });
+        const address =
+          patientData?.address ||
+          userData?.address ||
+          patient.raw?.address ||
+          patient.raw?.user?.address ||
+          "";
+
+        setForm({
+          name: patientData?.name || userData?.name || patient.name || "",
+          nationalId:
+            patientData?.national_id ||
+            patientData?.nationalId ||
+            patient.nationalId ||
+            "",
+          phone: patientData?.phone || userData?.phone || patient.phone || "",
+          dateOfBirth,
+          gender: patientData?.gender || userData?.gender || "Male",
+          address,
+          bloodType:
+            patientData?.blood_type ||
+            patientData?.bloodType ||
+            patient.raw?.blood_type ||
+            patient.raw?.bloodType ||
+            "",
+          allergies: patientData?.allergies || patient.raw?.allergies || "",
+        });
+      } catch (err) {
+        console.error("Failed to fetch patient details", err);
+        setError(
+          language === "ar"
+            ? "O-O_O® OrOúOœ OœO®U+OO­ OU,U.OñUSO."
+            : "Failed to fetch patient details."
+        );
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPatientDetails();
   };
 
   const handleChange = (

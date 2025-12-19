@@ -157,7 +157,13 @@ export default function PatientSearch({
           }
 
           const data = await res.json();
-          const records = Array.isArray(data?.patients) ? data.patients : [];
+          const records = Array.isArray(data?.patients)
+            ? data.patients
+            : Array.isArray(data?.data)
+            ? data.data
+            : Array.isArray(data)
+            ? data
+            : [];
           const mapped = records.slice(0, 5).map(adaptLookupPatient);
 
           setSuggestions(mapped);
