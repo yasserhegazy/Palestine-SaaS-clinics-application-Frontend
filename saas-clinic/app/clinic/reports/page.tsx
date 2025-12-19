@@ -45,7 +45,8 @@ export default function ClinicReportsPage() {
             end_date: dateRange.end
           }
         });
-        setReportData(response.data);
+        const payload = (response.data as any)?.data ?? response.data;
+        setReportData(payload);
       } catch (err) {
         if (axios.isAxiosError(err) && err.response?.status === 429) {
           setRateLimitMessage(

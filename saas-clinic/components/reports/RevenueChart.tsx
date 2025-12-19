@@ -44,7 +44,12 @@ export default function RevenueChart({ language, onRateLimit }: RevenueChartProp
           params: { period: "week" },
         });
 
-        const rawAnalytics = response.data?.daily_revenue ?? response.data?.analytics ?? [];
+        const payload = (response.data as any)?.data ?? response.data;
+        const rawAnalytics =
+          payload?.daily_revenue ??
+          payload?.revenue_trend ??
+          payload?.analytics ??
+          [];
         const normalizedAnalytics = Array.isArray(rawAnalytics)
           ? rawAnalytics.map((entry: any) => ({
               date: entry.date,

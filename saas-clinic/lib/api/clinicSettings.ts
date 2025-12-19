@@ -42,7 +42,8 @@ export async function getClinicSettings(): Promise<ClinicSettings> {
   }
 
   const data = await response.json();
-  return data.clinic;
+  // Laravel returns { success, message, data: {...settings} }
+  return (data as any)?.data ?? (data as any)?.clinic ?? data;
 }
 
 /**
@@ -94,12 +95,8 @@ export async function updateClinicSettings(
   const data = await response.json();
   console.log('Update response:', data);
   
-  // Handle both success response structures
-  if (data.success && data.clinic) {
-    return data.clinic;
-  }
-  
-  return data.clinic || data;
+  const payloadResponse = (data as any)?.data ?? (data as any)?.clinic ?? data;
+  return payloadResponse;
 }
 
 /**
@@ -121,8 +118,9 @@ export async function getClinicLogo(): Promise<{ logo_path: string | null; logo_
   }
 
   const data = await response.json();
+  const payload = (data as any)?.data ?? data;
   return {
-    logo_path: data.logo_path,
-    logo_url: data.logo_url,
+    logo_path: payload.logo_path ?? null,
+    logo_url: payload.logo_url ?? null,
   };
 }
