@@ -46,6 +46,7 @@ export default function NotificationBell({
     () => items.filter((item) => item.status === "unread").length,
     [items]
   );
+  const showBadge = unreadCount > 0;
 
   const labels = {
     title: isArabic ? "الإشعارات" : "Notifications",
@@ -93,7 +94,7 @@ export default function NotificationBell({
     };
   }, [isOpen]);
 
-  const badgeColor = unreadCount > 0 ? "bg-rose-500" : "bg-slate-300";
+  const badgeColor = showBadge ? "bg-teal-500" : "bg-slate-300";
 
   return (
     <div className="relative">
@@ -106,11 +107,13 @@ export default function NotificationBell({
         aria-expanded={isOpen}
       >
         <Bell className="w-5 h-5 text-slate-700 dark:text-slate-200" />
-        <span
-          className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs font-semibold text-white flex items-center justify-center shadow ${badgeColor}`}
-        >
-          {unreadCount > 9 ? "9+" : unreadCount}
-        </span>
+        {showBadge && (
+          <span
+            className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs font-semibold text-white flex items-center justify-center shadow ${badgeColor}`}
+          >
+            {unreadCount > 9 ? "9+" : unreadCount}
+          </span>
+        )}
       </button>
 
       {isOpen && (
