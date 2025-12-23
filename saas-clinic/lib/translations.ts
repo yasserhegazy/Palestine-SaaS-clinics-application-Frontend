@@ -113,6 +113,17 @@ export const translations = {
       "We automatically look up the first five patients whose ID or phone starts with what you type.",
     sessionExpired: "Your session expired. Please login again.",
     notAuthorized: "You are not authorized to access this section.",
+    notificationAppointmentConfirmedTitle: "Appointment confirmed",
+    notificationAppointmentConfirmedBody:
+      "Your appointment with Dr. Ahmed tomorrow at 10:00 AM is confirmed.",
+    notificationReminderTitle: "Reminder",
+    notificationReminderBody:
+      "Please bring your latest lab results before check-in.",
+    notificationPendingRequestsTitle: "Pending requests",
+    notificationPendingRequestsBody:
+      "You have 3 appointment requests waiting for review.",
+    notificationViewAction: "View",
+    notificationOpenAction: "Open",
 
     // Platform Dashboard
     platformDashboard: "Platform Dashboard",

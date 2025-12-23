@@ -8,6 +8,9 @@ import { useRouter } from "next/navigation";
 import { getClinicLogo } from "@/lib/api/clinicSettings";
 import type { User, UserRole } from "@/types/auth";
 import { useLanguage } from "@/context/LanguageContext";
+import { translations } from "@/lib/translations";
+import NotificationBell from "./common/NotificationBell";
+import type { NotificationItem } from "@/types/notifications";
 
 type RoleKey = Lowercase<UserRole>;
 
@@ -28,6 +31,51 @@ interface DashboardHeaderProps {
   clinic?: { clinic_id?: number; logo?: string } | null;
 }
 
+const buildDemoNotifications = (language: string): NotificationItem[] => {
+  const localized = (translations as Record<string, Record<string, string>>)[language];
+  const fallback = translations.en;
+  const strings = localized ?? fallback;
+
+  return [
+    {
+      id: "1",
+      title:
+        strings.notificationAppointmentConfirmedTitle ??
+        fallback.notificationAppointmentConfirmedTitle,
+      body:
+        strings.notificationAppointmentConfirmedBody ??
+        fallback.notificationAppointmentConfirmedBody,
+      createdAt: new Date(Date.now() - 1000 * 60 * 30).toISOString(),
+      status: "unread",
+      category: "appointment",
+      actionLabel:
+        strings.notificationViewAction ?? fallback.notificationViewAction,
+    },
+    {
+      id: "2",
+      title: strings.notificationReminderTitle ?? fallback.notificationReminderTitle,
+      body: strings.notificationReminderBody ?? fallback.notificationReminderBody,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 5).toISOString(),
+      status: "unread",
+      category: "reminder",
+    },
+    {
+      id: "3",
+      title:
+        strings.notificationPendingRequestsTitle ??
+        fallback.notificationPendingRequestsTitle,
+      body:
+        strings.notificationPendingRequestsBody ??
+        fallback.notificationPendingRequestsBody,
+      createdAt: new Date(Date.now() - 1000 * 60 * 60 * 26).toISOString(),
+      status: "read",
+      category: "message",
+      actionLabel:
+        strings.notificationOpenAction ?? fallback.notificationOpenAction,
+    },
+  ];
+};
+
 export default function DashboardHeader({
   user,
   logout,
@@ -42,6 +90,20 @@ export default function DashboardHeader({
 
   const [logoUrl, setLogoUrl] = useState<string | null>(null);
   const [isLoadingLogo, setIsLoadingLogo] = useState(false);
+  const [notifications, setNotifications] = useState<NotificationItem[]>(() =>
+    buildDemoNotifications(language)
+  );
+
+  // Refresh demo notifications when language changes while keeping read status.
+  useEffect(() => {
+    setNotifications((prev) => {
+      const base = buildDemoNotifications(language);
+      return base.map((item) => {
+        const existing = prev.find((p) => p.id === item.id);
+        return existing ? { ...item, status: existing.status } : item;
+      });
+    });
+  }, [language]);
 
   // Get clinic ID for localStorage key
   const getClinicId = () => {
@@ -113,6 +175,21 @@ export default function DashboardHeader({
     roleTitles[roleKey] ??
     (isArabic ? `لوحة تحكم ${translatedRole}` : `Dashboard ${translatedRole}`);
 
+  const handleMarkAllRead = () => {
+    setNotifications((prev) =>
+      prev.map((item) => ({ ...item, status: "read" }))
+    );
+  };
+
+  const handleNotificationClick = (item: NotificationItem) => {
+    setNotifications((prev) =>
+      prev.map((notif) =>
+        notif.id === item.id ? { ...notif, status: "read" } : notif
+      )
+    );
+    // Placeholder for navigation or modal trigger when wiring real data.
+  };
+
   return (
     <header className="bg-white dark:bg-slate-800 shadow-sm border-b border-slate-200 dark:border-slate-700 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
@@ -127,6 +204,11 @@ export default function DashboardHeader({
         <div className="flex items-center gap-4">
           <ThemeToggle />
           <LanguageSwitcher />
+          <NotificationBell
+            items={notifications}
+            onMarkAllRead={handleMarkAllRead}
+            onItemClick={handleNotificationClick}
+          />
 
           <div className="text-right">
             <p className="text-sm font-medium text-slate-900 dark:text-white">{user.name}</p>
