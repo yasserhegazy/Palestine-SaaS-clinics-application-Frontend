@@ -34,8 +34,11 @@ export default function Breadcrumbs({ customItems }: BreadcrumbsProps) {
     reports: { en: 'Reports', ar: 'التقارير' },
     settings: { en: 'Settings', ar: 'الإعدادات' },
     appointments: { en: 'Appointments', ar: 'المواعيد' },
+    "appointments-requests": { en: 'Appointments Requests', ar: 'طلبات المواعيد' },
     'today-appointments': { en: "Today's Appointments", ar: 'مواعيد اليوم' },
     requests: { en: 'Requests', ar: 'الطلبات' },
+    today: { en: 'Today', ar: 'اليوم' },
+    upcoming: { en: 'Upcoming', ar: 'القادمة' },
     patients: { en: 'Patients', ar: 'المرضى' },
     search: { en: 'Search', ar: 'بحث' },
     create: { en: 'Create appointment', ar: 'إنشاء موعد' },
@@ -112,8 +115,8 @@ export default function Breadcrumbs({ customItems }: BreadcrumbsProps) {
         ? translation[language]
         : segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
 
-      // Make "patients" and "appointments" static (no href) in reception
-      const href = (segment === 'patients' || (role === 'reception' && segment === 'appointments')) 
+      // Make "patients" and "appointments" static (no href) in reception and doctor
+      const href = (segment === 'patients' || segment === 'appointments') 
         ? null 
         : currentPath;
 
