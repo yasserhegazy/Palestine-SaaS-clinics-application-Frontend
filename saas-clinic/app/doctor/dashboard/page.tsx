@@ -133,7 +133,7 @@ export default function DoctorDashboard() {
           }
           primaryAction={
             <button
-              onClick={() => router.push("/doctor/today-appointments/")}
+              onClick={() => router.push("/doctor/appointments/today")}
               className="mt-3 inline-flex items-center px-4 py-2.5 rounded-xl bg-white dark:bg-slate-800 text-teal-700 dark:text-teal-400 text-xs font-semibold shadow-sm hover:bg-teal-50 dark:hover:bg-slate-700 transition-colors"
             >
               {isArabic ? "عرض جدول اليوم" : "View today's schedule"}
@@ -178,7 +178,7 @@ export default function DoctorDashboard() {
                   ? "عرض جميع المواعيد القادمة"
                   : "View all upcoming appointments"
               }
-              href="/doctor/upcoming-appointments"
+              href="/doctor/appointments/upcoming"
               color="teal"
             />
 
@@ -190,7 +190,7 @@ export default function DoctorDashboard() {
                   ? "مراجعة وإدارة الطلبات"
                   : "Review and manage requests"
               }
-              href="/doctor/appointments"
+              href="/doctor/appointments/requests"
               color="blue"
             />
 
@@ -202,7 +202,7 @@ export default function DoctorDashboard() {
                   ? "عرض مواعيد اليوم والسجلات"
                   : "View today's appointments and records"
               }
-              href="/doctor/today-appointments"
+              href="/doctor/appointments/today"
               color="purple"
             />
 
