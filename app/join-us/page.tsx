@@ -21,7 +21,7 @@ const registrationSchema = z.object({
     phone: z.string().regex(/^05[0-9]{8}$/, 'Phone must be in format: 05XXXXXXXX'),
     email: z.string().email('Invalid email address').max(100),
     subscription_plan: z.enum(['Basic', 'Standard', 'Premium'], {
-      errorMap: () => ({ message: 'Please select a subscription plan' }),
+      message: 'Please select a subscription plan',
     }),
   }),
   manager: z.object({

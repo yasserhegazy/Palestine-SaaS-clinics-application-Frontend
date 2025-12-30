@@ -26,7 +26,7 @@ const doctorSchema = baseStaffSchema.extend({
   clinic_room: z.string().min(1, 'Clinic room is required').max(50),
   start_time: z.string().min(1, 'Start time is required'),
   end_time: z.string().min(1, 'End time is required'),
-  slot_duration: z.coerce.number().min(5, 'Minimum 5 minutes').max(120, 'Maximum 120 minutes'),
+  slot_duration: z.number().min(5, 'Minimum 5 minutes').max(120, 'Maximum 120 minutes'),
 });
 
 // Secretary schema
@@ -57,20 +57,23 @@ export default function AddStaffPage() {
     resolver: zodResolver(staffSchema),
     defaultValues: {
       role: 'Secretary',
-      start_time: '09:00',
-      end_time: '17:00',
-      slot_duration: 15,
-    },
+    } as StaffFormData,
   });
 
   const handleRoleChange = (role: 'Doctor' | 'Secretary') => {
     setSelectedRole(role);
-    reset({
-      role,
-      start_time: '09:00',
-      end_time: '17:00',
-      slot_duration: 15,
-    });
+    if (role === 'Doctor') {
+      reset({
+        role: 'Doctor',
+        start_time: '09:00',
+        end_time: '17:00',
+        slot_duration: 15,
+      } as StaffFormData);
+    } else {
+      reset({
+        role: 'Secretary',
+      } as StaffFormData);
+    }
   };
 
   const onSubmit = async (data: StaffFormData) => {
@@ -243,11 +246,11 @@ export default function AddStaffPage() {
                         type="text"
                         {...register('specialization')}
                         className={`block w-full px-4 py-3 border ${
-                          errors.specialization ? 'border-red-300' : 'border-gray-300'
+                          'specialization' in errors && errors.specialization ? 'border-red-300' : 'border-gray-300'
                         } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
                         placeholder="Cardiology"
                       />
-                      {errors.specialization && (
+                      {'specialization' in errors && errors.specialization && (
                         <p className="mt-1 text-sm text-red-600">{errors.specialization.message}</p>
                       )}
                     </div>
@@ -262,11 +265,11 @@ export default function AddStaffPage() {
                         type="text"
                         {...register('clinic_room')}
                         className={`block w-full px-4 py-3 border ${
-                          errors.clinic_room ? 'border-red-300' : 'border-gray-300'
+                          'clinic_room' in errors && errors.clinic_room ? 'border-red-300' : 'border-gray-300'
                         } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
                         placeholder="Room 101"
                       />
-                      {errors.clinic_room && (
+                      {'clinic_room' in errors && errors.clinic_room && (
                         <p className="mt-1 text-sm text-red-600">{errors.clinic_room.message}</p>
                       )}
                     </div>
@@ -281,11 +284,11 @@ export default function AddStaffPage() {
                         type="text"
                         {...register('available_days')}
                         className={`block w-full px-4 py-3 border ${
-                          errors.available_days ? 'border-red-300' : 'border-gray-300'
+                          'available_days' in errors && errors.available_days ? 'border-red-300' : 'border-gray-300'
                         } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
                         placeholder="Monday, Wednesday, Friday"
                       />
-                      {errors.available_days && (
+                      {'available_days' in errors && errors.available_days && (
                         <p className="mt-1 text-sm text-red-600">{errors.available_days.message}</p>
                       )}
                       <p className="mt-1 text-xs text-gray-500">
@@ -296,17 +299,17 @@ export default function AddStaffPage() {
                     {/* Start Time */}
                     <div>
                       <label htmlFor="start_time" className="block text-sm font-medium text-gray-700 mb-2">
-                        {t.startTime || 'Start time'} <span className="text-red-500">*</span>
+                        {(t as any).startTime || 'Start time'} <span className="text-red-500">*</span>
                       </label>
                       <input
                         id="start_time"
                         type="time"
                         {...register('start_time')}
                         className={`block w-full px-4 py-3 border ${
-                          errors.start_time ? 'border-red-300' : 'border-gray-300'
+                          'start_time' in errors && errors.start_time ? 'border-red-300' : 'border-gray-300'
                         } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
                       />
-                      {errors.start_time && (
+                      {'start_time' in errors && errors.start_time && (
                         <p className="mt-1 text-sm text-red-600">{errors.start_time.message}</p>
                       )}
                     </div>
@@ -314,17 +317,17 @@ export default function AddStaffPage() {
                     {/* End Time */}
                     <div>
                       <label htmlFor="end_time" className="block text-sm font-medium text-gray-700 mb-2">
-                        {t.endTime || 'End time'} <span className="text-red-500">*</span>
+                        {(t as any).endTime || 'End time'} <span className="text-red-500">*</span>
                       </label>
                       <input
                         id="end_time"
                         type="time"
                         {...register('end_time')}
                         className={`block w-full px-4 py-3 border ${
-                          errors.end_time ? 'border-red-300' : 'border-gray-300'
+                          'end_time' in errors && errors.end_time ? 'border-red-300' : 'border-gray-300'
                         } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
                       />
-                      {errors.end_time && (
+                      {'end_time' in errors && errors.end_time && (
                         <p className="mt-1 text-sm text-red-600">{errors.end_time.message}</p>
                       )}
                     </div>
@@ -332,7 +335,7 @@ export default function AddStaffPage() {
                     {/* Slot Duration */}
                     <div>
                       <label htmlFor="slot_duration" className="block text-sm font-medium text-gray-700 mb-2">
-                        {t.slotDuration || 'Slot duration (mins)'} <span className="text-red-500">*</span>
+                        {(t as any).slotDuration || 'Slot duration (mins)'} <span className="text-red-500">*</span>
                       </label>
                       <input
                         id="slot_duration"
@@ -341,11 +344,11 @@ export default function AddStaffPage() {
                         max={120}
                         {...register('slot_duration', { valueAsNumber: true })}
                         className={`block w-full px-4 py-3 border ${
-                          errors.slot_duration ? 'border-red-300' : 'border-gray-300'
+                          'slot_duration' in errors && errors.slot_duration ? 'border-red-300' : 'border-gray-300'
                         } rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors text-gray-900`}
                         placeholder="15"
                       />
-                      {errors.slot_duration && (
+                      {'slot_duration' in errors && errors.slot_duration && (
                         <p className="mt-1 text-sm text-red-600">{errors.slot_duration.message}</p>
                       )}
                     </div>

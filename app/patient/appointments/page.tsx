@@ -78,8 +78,8 @@ export default function MyAppointmentsPage() {
 
         const mappedAppointments: Appointment[] = Array.isArray(payload)
           ? (payload as BackendAppointment[]).map((apt) => {
-              const dateVal = apt.date ?? apt.appointment_date ?? "";
-              const timeVal = apt.time ?? "";
+              const dateVal = apt.appointment_date ?? "";
+              const timeVal = (apt as any).time ?? "";
 
               const date = dateVal
                 ? new Date(dateVal).toISOString().split("T")[0]

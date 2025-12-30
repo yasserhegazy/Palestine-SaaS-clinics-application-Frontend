@@ -10,9 +10,10 @@ import { NextResponse } from 'next/server';
 
 export async function PUT(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = parseInt(params.id);
+  const { id: idString } = await params;
+  const id = parseInt(idString);
   const body = await request.json();
 
   // In a real app, update the database here.
@@ -26,9 +27,10 @@ export async function PUT(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = parseInt(params.id);
+  const { id: idString } = await params;
+  const id = parseInt(idString);
 
   // In a real app, delete from database here.
   

@@ -150,7 +150,7 @@ export default function LoginPage() {
               {/* Email or Phone Field */}
               <div>
                 <label htmlFor="login" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                  {t.emailOrPhone || (language === 'en' ? 'Email or Phone' : 'البريد الإلكتروني أو رقم الهاتف')}
+                  {(t as any).emailOrPhone || (language === 'en' ? 'Email or Phone' : 'البريد الإلكتروني أو رقم الهاتف')}
                 </label>
                 <div className="relative">
                   <div className={`absolute inset-y-0 ${isRTL ? 'right-0 pr-3' : 'left-0 pl-3'} flex items-center pointer-events-none`}>
@@ -266,7 +266,7 @@ export default function LoginPage() {
               </a>
             </p>
             <p className="text-xs text-gray-600 dark:text-gray-500">
-              {t.copyright}
+              {(t as any).copyright}
             </p>
           </div>
         </div>

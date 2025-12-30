@@ -19,15 +19,6 @@ interface ApiPatient {
   phone: string;
 }
 
-interface ApiAppointment {
-  appointment_id: number;
-  appointment_date: string; // "2025-12-05T00:00:00.000000Z"
-  appointment_time: string | null; // "15:48:00"
-  status: string;
-  notes: string | null;
-  patient: ApiPatient;
-}
-
 interface TodayAppointmentsResponse {
   appointments: ApiAppointment[];
   total: number;

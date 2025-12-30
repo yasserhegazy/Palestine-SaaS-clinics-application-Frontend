@@ -191,19 +191,19 @@ export default function ReceptionDashboard() {
       case "confirmed":
         return (
           <span className="inline-flex items-center rounded-full bg-emerald-50 dark:bg-emerald-900/40 px-2.5 py-0.5 text-xs font-medium text-emerald-700 dark:text-emerald-400">
-            {t.statusConfirmed || "مؤكد"}
+            {(t as any).statusConfirmed || "مؤكد"}
           </span>
         );
       case "waiting":
         return (
           <span className="inline-flex items-center rounded-full bg-amber-50 dark:bg-amber-900/40 px-2.5 py-0.5 text-xs font-medium text-amber-700 dark:text-amber-400">
-            {t.statusWaiting || "بانتظار الحضور"}
+            {(t as any).statusWaiting || "بانتظار الحضور"}
           </span>
         );
       case "checked-in":
         return (
           <span className="inline-flex items-center rounded-full bg-sky-50 dark:bg-sky-900/40 px-2.5 py-0.5 text-xs font-medium text-sky-700 dark:text-sky-400">
-            {t.statusCheckedIn || "تم الاستقبال"}
+            {(t as any).statusCheckedIn || "تم الاستقبال"}
           </span>
         );
       default:
@@ -233,17 +233,17 @@ export default function ReceptionDashboard() {
           secondaryAction={
             <>
               <p className="text-xs text-teal-100 mb-1">
-                {t.quickSummaryTitle || "ملخص سريع"}
+                {(t as any).quickSummaryTitle || "ملخص سريع"}
               </p>
               <p className="font-semibold">
                 {waitingList.length}{" "}
-                {t.quickSummaryPatientsWaiting ||
+                {(t as any).quickSummaryPatientsWaiting ||
                   (language === "ar"
                     ? "مرضى بانتظار الاستقبال الآن"
                     : "patients waiting at reception now")}
               </p>
               <p className="text-[11px] text-teal-100 mt-1">
-                {t.quickSummaryReminder ||
+                {(t as any).quickSummaryReminder ||
                   (language === "ar"
                     ? "تذكير: تأكدي من مراجعة طلبات المواعيد الجديدة وتأكيد المعتمَد منها"
                     : "Reminder: review new appointment requests and confirm approved ones.")}
@@ -279,10 +279,10 @@ export default function ReceptionDashboard() {
             <div className="px-4 sm:px-5 py-3 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                  {t.todaysAppointmentsTitle || "مواعيد اليوم"}
+                  {(t as any).todaysAppointmentsTitle || "مواعيد اليوم"}
                 </h3>
                 <p className="text-[11px] text-gray-500 dark:text-slate-400">
-                  {t.todaysAppointmentsSubtitle ||
+                  {(t as any).todaysAppointmentsSubtitle ||
                     (language === "ar"
                       ? "أقرب المواعيد خلال الساعات القادمة"
                       : "Nearest appointments in the next hours")}
@@ -292,7 +292,7 @@ export default function ReceptionDashboard() {
                 onClick={() => router.push("/reception/appointments/requests")}
                 className="text-xs text-teal-700 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-300 hover:underline"
               >
-                {t.manageAllAppointments || "إدارة جميع المواعيد"}
+                {(t as any).manageAllAppointments || "إدارة جميع المواعيد"}
               </button>
             </div>
 
@@ -340,10 +340,10 @@ export default function ReceptionDashboard() {
             <div className="px-4 sm:px-5 py-3 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
               <div>
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
-                  {t.waitingRoomTitle || "غرفة الانتظار الآن"}
+                  {(t as any).waitingRoomTitle || "غرفة الانتظار الآن"}
                 </h3>
                 <p className="text-[11px] text-gray-500 dark:text-slate-400">
-                  {t.waitingRoomSubtitle || "ترتيب المرضى حسب رقم الدور"}
+                  {(t as any).waitingRoomSubtitle || "ترتيب المرضى حسب رقم الدور"}
                 </p>
               </div>
               <span className="inline-flex items-center rounded-full bg-gray-50 dark:bg-slate-700 px-2.5 py-0.5 text-[11px] text-gray-600 dark:text-slate-300 border border-gray-100 dark:border-slate-600">
@@ -393,7 +393,7 @@ export default function ReceptionDashboard() {
           <div className="px-4 sm:px-5 py-3 border-b border-gray-100 dark:border-slate-700 flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                {t.quickActionsReception ||
+                {(t as any).quickActionsReception ||
                   t.quickActions ||
                   "الإجراءات السريعة للسكرتير"}
               </h3>
@@ -407,13 +407,13 @@ export default function ReceptionDashboard() {
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-teal-50 dark:hover:bg-teal-900/30 hover:border-teal-200 dark:hover:border-teal-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-teal-700 dark:text-teal-400">
-                {t.qaNewPatientLabel || "مريض جديد"}
+                {(t as any).qaNewPatientLabel || "مريض جديد"}
               </span>
               <span className="text-sm font-medium text-gray-900 dark:text-white">
-                {t.qaNewPatientTitle || "تسجيل مريض جديد وإنشاء حساب تلقائي"}
+                {(t as any).qaNewPatientTitle || "تسجيل مريض جديد وإنشاء حساب تلقائي"}
               </span>
               <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                {t.qaNewPatientDesc ||
+                {(t as any).qaNewPatientDesc ||
                   "إدخال الاسم، رقم الهوية، رقم الهاتف – مع إرسال كلمة المرور عبر SMS"}
               </span>
             </button>
@@ -424,13 +424,13 @@ export default function ReceptionDashboard() {
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-cyan-50 dark:hover:bg-cyan-900/30 hover:border-cyan-200 dark:hover:border-cyan-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-cyan-700 dark:text-cyan-400">
-                {t.qaSearchPatientLabel || "البحث عن مريض"}
+                {(t as any).qaSearchPatientLabel || "البحث عن مريض"}
               </span>
               <span className="text-sm font-medium text-gray-900 dark:text-white">
-                {t.qaSearchPatientTitle || "الوصول لملف مريض سابق"}
+                {(t as any).qaSearchPatientTitle || "الوصول لملف مريض سابق"}
               </span>
               <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                {t.qaSearchPatientDesc ||
+                {(t as any).qaSearchPatientDesc ||
                   "البحث باستخدام رقم الهوية أو رقم الهاتف لفتح الملف الطبي"}
               </span>
             </button>
@@ -441,13 +441,13 @@ export default function ReceptionDashboard() {
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:border-blue-200 dark:hover:border-blue-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-blue-700 dark:text-blue-400">
-                {t.qaUpdatePatientLabel || (language === "ar" ? "تحديث بيانات مريض" : "Update Patient")}
+                {(t as any).qaUpdatePatientLabel || (language === "ar" ? "تحديث بيانات مريض" : "Update Patient")}
               </span>
               <span className="text-sm font-medium text-gray-900 dark:text-white">
-                {t.qaUpdatePatientTitle || (language === "ar" ? "تعديل معلومات مريض موجود" : "Edit existing patient information")}
+                {(t as any).qaUpdatePatientTitle || (language === "ar" ? "تعديل معلومات مريض موجود" : "Edit existing patient information")}
               </span>
               <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                {t.qaUpdatePatientDesc || (language === "ar" ? "تحديث الاسم، رقم الهاتف، العنوان وغيرها من المعلومات" : "Update name, phone, address and other details")}
+                {(t as any).qaUpdatePatientDesc || (language === "ar" ? "تحديث الاسم، رقم الهاتف، العنوان وغيرها من المعلومات" : "Update name, phone, address and other details")}
               </span>
             </button>
 
@@ -456,13 +456,13 @@ export default function ReceptionDashboard() {
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-purple-100 dark:hover:bg-purple-900/30 hover:border-purple-300 dark:hover:border-purple-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-purple-700 dark:text-purple-400">
-                {t.qaNewAppointmentLabel || (language === "ar" ? "حجز موعد جديد" : "New Appointment")}
+                {(t as any).qaNewAppointmentLabel || (language === "ar" ? "حجز موعد جديد" : "New Appointment")}
               </span>
               <span className="text-sm font-medium text-gray-900 dark:text-white">
-                {t.qaNewAppointmentTitle || (language === "ar" ? "إنشاء موعد جديد للمريض" : "Create a new appointment")}
+                {(t as any).qaNewAppointmentTitle || (language === "ar" ? "إنشاء موعد جديد للمريض" : "Create a new appointment")}
               </span>
               <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                {t.qaNewAppointmentDesc || (language === "ar" ? "تحديد وقت، طبيب، ونوع الاستشارة بسهولة وسرعة" : "Select time, doctor, and type of consultation quickly")}
+                {(t as any).qaNewAppointmentDesc || (language === "ar" ? "تحديد وقت، طبيب، ونوع الاستشارة بسهولة وسرعة" : "Select time, doctor, and type of consultation quickly")}
               </span>
             </button>
 
@@ -472,13 +472,13 @@ export default function ReceptionDashboard() {
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-amber-50 dark:hover:bg-amber-900/30 hover:border-amber-200 dark:hover:border-amber-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-amber-700 dark:text-amber-400">
-                {t.qaDailyReportLabel || "التقرير المالي اليومي"}
+                {(t as any).qaDailyReportLabel || "التقرير المالي اليومي"}
               </span>
               <span className="text-sm font-medium text-gray-900 dark:text-white">
-                {t.qaDailyReportTitle || "إحصاء المبالغ المالية الداخلة اليوم"}
+                {(t as any).qaDailyReportTitle || "إحصاء المبالغ المالية الداخلة اليوم"}
               </span>
               <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                {t.qaDailyReportDesc ||
+                {(t as any).qaDailyReportDesc ||
                   "إجمالي المبالغ المستلمة، عدد الفواتير المدفوعة وغير المدفوعة، وإجمالي النقدي والإلكتروني"}
               </span>
             </button>
@@ -489,14 +489,14 @@ export default function ReceptionDashboard() {
               className="flex flex-col items-start gap-1 rounded-2xl border border-gray-100 dark:border-slate-600 bg-gray-50/80 dark:bg-slate-700/50 hover:bg-emerald-50 dark:hover:bg-emerald-900/30 hover:border-emerald-200 dark:hover:border-emerald-700 transition px-4 py-3 text-left"
             >
               <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-                {t.qaRequestsLabel || "طلبات المواعيد"}
+                {(t as any).qaRequestsLabel || "طلبات المواعيد"}
               </span>
               <span className="text-sm font-medium text-gray-900 dark:text-white">
-                {t.qaRequestsTitle ||
+                {(t as any).qaRequestsTitle ||
                   "مراجعة الطلبات القادمة من البوابة الإلكترونية"}
               </span>
               <span className="text-[11px] text-gray-500 dark:text-slate-400">
-                {t.qaRequestsDesc ||
+                {(t as any).qaRequestsDesc ||
                   "تدقيق التفاصيل وإرسال الطلب للطبيب المناسب للموافقة"}
               </span>
             </button>
@@ -506,3 +506,4 @@ export default function ReceptionDashboard() {
     </div>
   );
 }
+

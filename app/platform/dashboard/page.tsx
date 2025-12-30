@@ -251,7 +251,7 @@ export default function PlatformDashboard() {
                   <th className="px-4 sm:px-5 py-3 text-left text-[11px] font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">{t.location || 'Location'}</th>
                   <th className="px-4 sm:px-5 py-3 text-left text-[11px] font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">{t.status || 'Status'}</th>
                   <th className="px-4 sm:px-5 py-3 text-left text-[11px] font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">{t.users || 'Users'}</th>
-                  <th className="px-4 sm:px-5 py-3 text-left text-[11px] font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">{t.joinedDate || 'Joined Date'}</th>
+                  <th className="px-4 sm:px-5 py-3 text-left text-[11px] font-medium text-gray-500 dark:text-slate-300 uppercase tracking-wider">{(t as any).joinedDate || 'Joined Date'}</th>
                 </tr>
               </thead>
               <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">

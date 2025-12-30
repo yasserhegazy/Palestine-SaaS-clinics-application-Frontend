@@ -47,8 +47,6 @@ export function mapAppointmentFromApi(a: ApiAppointment): Appointment {
     dateTime,
     status: normalizedStatus,
     notes: a.notes,
-    createdAt: a.created_at,
-    updatedAt: a.updated_at,
     patientName:
       a.patient?.user?.name ??
       a.patient?.name ??
@@ -56,7 +54,6 @@ export function mapAppointmentFromApi(a: ApiAppointment): Appointment {
       "Unknown",
     patientPhone:
       a.patient?.user?.phone ??
-      a.patient?.phone ??
       (a as any)?.patient_phone,
     clinicName: a.clinic?.name,
   };

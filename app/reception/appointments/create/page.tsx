@@ -58,7 +58,7 @@ export default function CreateAppointmentPage() {
         notes: string;
         payment?: PaymentFormData;
       } = {
-        patientId: selectedPatient.patientId,
+        patientId: parseInt(selectedPatient.patientId),
         doctorId: data.doctorId,
         date: data.appointmentDate,
         time: data.appointmentTime,

@@ -155,7 +155,6 @@ export const translations = {
     doctorsSecretaries: "Doctors & secretaries",
     manageSchedule: "Manage Schedule",
     doctorAvailability: "Doctor availability",
-    reports: "Reports",
     clinicAnalytics: "Clinic analytics",
 
     // Reception Dashboard
@@ -172,8 +171,6 @@ export const translations = {
     secretaryPortal: "Secretary Portal",
     yourHealthRecords: "Your Health Records",
     upcomingAppointments: "Upcoming Appointments",
-    medicalRecords: "Medical Records",
-    prescriptions: "Prescriptions",
     nextAppointment: "Next Appointment",
     noUpcomingAppointments: "No upcoming appointments",
     bookAppointment: "Book Appointment",
@@ -561,7 +558,6 @@ export const translations = {
     doctorsSecretaries: "أطباء وسكرتاريات",
     manageSchedule: "إدارة الجداول",
     doctorAvailability: "توفر الأطباء",
-    reports: "التقارير",
     clinicAnalytics: "تحليلات العيادة",
 
     // Reception Dashboard
@@ -579,8 +575,6 @@ export const translations = {
     secretaryPortal: "بوابة السكرتير",
     yourHealthRecords: "سجلاتك الصحية",
     upcomingAppointments: "المواعيد القادمة",
-    medicalRecords: "السجلات الطبية",
-    prescriptions: "الوصفات الطبية",
     nextAppointment: "الموعد القادم",
     noUpcomingAppointments: "لا توجد مواعيد قادمة",
     bookAppointment: "حجز موعد",

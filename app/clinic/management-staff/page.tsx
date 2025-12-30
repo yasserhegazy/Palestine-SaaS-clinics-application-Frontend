@@ -71,7 +71,7 @@ export default function StaffManagementPage() {
           {/* Table Header / Controls */}
           <div className="p-6 border-b border-gray-100 dark:border-slate-700 flex flex-col md:flex-row justify-between items-center gap-4 bg-white dark:bg-slate-800">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-bold text-gray-800 dark:text-white">{t.staffDetailsTitle || "Staff Details"}</h2>
+              <h2 className="text-xl font-bold text-gray-800 dark:text-white">{(t as any).staffDetailsTitle || "Staff Details"}</h2>
               <span className="px-3 py-1 bg-teal-50 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 text-xs font-semibold rounded-full border border-teal-100 dark:border-teal-800">
                 {filteredCount} Members
               </span>
@@ -85,7 +85,7 @@ export default function StaffManagementPage() {
                 </div>
                 <input
                   type="text"
-                  placeholder={t.searchPlaceholder || "Search..."}
+                  placeholder={(t as any).searchPlaceholder || "Search..."}
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                   className="pl-10 pr-4 py-2.5 w-full sm:w-64 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all outline-none bg-gray-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-600 dark:text-white dark:placeholder-gray-400"
@@ -102,9 +102,9 @@ export default function StaffManagementPage() {
                   onChange={(e) => setFilterRole(e.target.value as any)}
                   className="pl-10 pr-8 py-2.5 w-full sm:w-40 border border-gray-200 dark:border-slate-600 rounded-xl text-sm focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 transition-all outline-none bg-gray-50 dark:bg-slate-700 focus:bg-white dark:focus:bg-slate-600 dark:text-white appearance-none cursor-pointer"
                 >
-                  <option value="All">{t.filterAll || "All Roles"}</option>
-                  <option value="Doctor">{t.filterDoctor || "Doctors"}</option>
-                  <option value="Secretary">{t.filterSecretary || "Secretaries"}</option>
+                  <option value="All">{(t as any).filterAll || "All Roles"}</option>
+                  <option value="Doctor">{(t as any).filterDoctor || "Doctors"}</option>
+                  <option value="Secretary">{(t as any).filterSecretary || "Secretaries"}</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
                   <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path></svg>
@@ -119,15 +119,14 @@ export default function StaffManagementPage() {
              <thead>
   <tr className="bg-gray-50/50 dark:bg-slate-700/50">
     <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-12">#</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colName || "Name"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colEmail || "Email"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colPhone || "Phone"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colRole || "Role"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colSpecialization || "Specialization"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colAvailableDays
- || "Working Hours"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colStatus || "Status"}</th>
-    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{t.colActions || "Actions"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colName || "Name"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colEmail || "Email"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colPhone || "Phone"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colRole || "Role"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colSpecialization || "Specialization"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colAvailableDays || "Working Hours"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colStatus || "Status"}</th>
+    <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">{(t as any).colActions || "Actions"}</th>
   </tr>
 </thead>
 
@@ -143,7 +142,7 @@ export default function StaffManagementPage() {
                     <td colSpan={9} className="px-4 py-12 text-center text-gray-500 dark:text-gray-400">
                       <div className="flex flex-col items-center justify-center gap-2">
                         <MagnifyingGlassIcon className="h-8 w-8 text-gray-300" />
-                        <p>{t.noRecordsMessage || "No staff members found matching your criteria."}</p>
+                        <p>{(t as any).noRecordsMessage || "No staff members found matching your criteria."}</p>
                       </div>
                     </td>
                   </tr>
@@ -178,19 +177,15 @@ export default function StaffManagementPage() {
                         {staff.role === 'Doctor' ? staff.available_days || '-' : '-----'}
                       </td>
                       <td className="px-4 py-3 whitespace-nowrap">
-  <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ${staff.role === 'Doctor'
-    ? (staff.isActive ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700')
-    : (staff.status === 'Active' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700')
+  <span className={`inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium ${
+    staff.status === 'Active' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
     }`}>
-    <span className={`h-1.5 w-1.5 rounded-full ${staff.role === 'Doctor'
-      ? (staff.isActive ? 'bg-green-500' : 'bg-red-500')
-      : (staff.status === 'Active' ? 'bg-green-500' : 'bg-red-500')
+    <span className={`h-1.5 w-1.5 rounded-full ${
+      staff.status === 'Active' ? 'bg-green-500' : 'bg-red-500'
     }`}></span>
-    {staff.role === 'Doctor'
-      ? (staff.isActive ? t.statusActive || 'Active' : t.statusInactive || 'Inactive')
-      : staff.status === 'Active'
-        ? t.statusActive || 'Active'
-        : t.statusInactive || 'Inactive'
+    {staff.status === 'Active'
+      ? (t as any).statusActive || 'Active'
+      : (t as any).statusInactive || 'Inactive'
     }
   </span>
 </td>
@@ -255,7 +250,7 @@ export default function StaffManagementPage() {
         <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-xl w-full max-w-md overflow-hidden animate-in fade-in zoom-in duration-200">
             <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50/50">
-              <h3 className="text-lg font-bold text-gray-900">{t.editStaffTitle || "Edit Staff Member"}</h3>
+              <h3 className="text-lg font-bold text-gray-900">{(t as any).editStaffTitle || "Edit Staff Member"}</h3>
               <button
                 onClick={() => setIsEditModalOpen(false)}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
@@ -266,7 +261,7 @@ export default function StaffManagementPage() {
 
             <form onSubmit={onUpdateSubmit} className="p-6 space-y-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t.colName || "Name"}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{(t as any).colName || "Name"}</label>
                 <input
                   type="text"
                   required
@@ -277,7 +272,7 @@ export default function StaffManagementPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t.colEmail || "Email"}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{(t as any).colEmail || "Email"}</label>
                 <input
                   type="email"
                   required
@@ -288,7 +283,7 @@ export default function StaffManagementPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{t.colPhone || "Phone"}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{(t as any).colPhone || "Phone"}</label>
                 <input
                   type="tel"
                   required
@@ -301,7 +296,7 @@ export default function StaffManagementPage() {
               {editingStaff.role === 'Doctor' && (
                 <>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{t.colSpecialization || "Specialization"}</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{(t as any).colSpecialization || "Specialization"}</label>
                     <input
                       type="text"
                       value={editingStaff.specialization || ''}
@@ -310,7 +305,7 @@ export default function StaffManagementPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">{t.colWorkingHours || "Available Days"}</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">{(t as any).colWorkingHours || "Available Days"}</label>
                     <input
                       type="text"
                       value={editingStaff.available_days || ''}
@@ -338,13 +333,13 @@ export default function StaffManagementPage() {
                   onClick={() => setIsEditModalOpen(false)}
                   className="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-all"
                 >
-                  {t.btnCancel || "Cancel"}
+                  {(t as any).btnCancel || "Cancel"}
                 </button>
                 <button
                   type="submit"
                   className="px-5 py-2.5 rounded-xl bg-teal-600 text-white font-medium hover:bg-teal-700 shadow-lg shadow-teal-600/20 transition-all"
                 >
-                  {t.btnSave || "Save Changes"}
+                  {(t as any).btnSave || "Save Changes"}
                 </button>
               </div>
             </form>
@@ -362,9 +357,9 @@ export default function StaffManagementPage() {
                 <div className="w-12 h-12 rounded-full bg-red-100 mx-auto flex items-center justify-center mb-4">
                   <TrashIcon className="h-6 w-6 text-red-600" />
                 </div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{t.deleteStaffTitle || "Delete Staff Member"}</h3>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{(t as any).deleteStaffTitle || "Delete Staff Member"}</h3>
                 <p className="text-gray-500 text-sm mb-6">
-                  {t.deleteConfirmationMessage || `Are you sure you want to delete ${staffToDelete.name}? This action cannot be undone.`}
+                  {(t as any).deleteConfirmationMessage || `Are you sure you want to delete ${staffToDelete.name}? This action cannot be undone.`}
                 </p>
 
                 <div className="flex gap-3 justify-center">
@@ -372,13 +367,13 @@ export default function StaffManagementPage() {
                     onClick={() => setIsDeleteModalOpen(false)}
                     className="px-5 py-2.5 rounded-xl border border-gray-200 text-gray-600 font-medium hover:bg-gray-50 transition-colors w-full"
                   >
-                    {t.btnCancel || "Cancel"}
+                    {(t as any).btnCancel || "Cancel"}
                   </button>
                   <button
                     onClick={confirmDelete}
                     className="px-5 py-2.5 rounded-xl bg-red-600 text-white font-medium hover:bg-red-700 shadow-lg shadow-red-600/20 transition-all w-full"
                   >
-                    {t.btnDelete || "Delete"}
+                    {(t as any).btnDelete || "Delete"}
                   </button>
                 </div>
               </div>
@@ -389,3 +384,4 @@ export default function StaffManagementPage() {
     </div >
   );
 }
+
