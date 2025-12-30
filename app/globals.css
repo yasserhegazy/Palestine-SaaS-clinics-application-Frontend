@@ -1,0 +1,333 @@
+/* =======================
+   🌿 إعداد Tailwind v4
+   ======================= */
+@import "tailwindcss";
+
+/* تفعيل الوضع الليلي - Tailwind v4 */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 🎨 الثيم العام */
+@theme {
+  --font-sans: "Tajawal", "Noto Sans Arabic", system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+
+  /* ألوان المشروع الأساسية */
+  --color-primary: #0d9488; /* التيل الأساسي (teal-600) */
+  --color-primary-dark: #0f766e; /* التيل الداكن (teal-700) */
+  --color-primary-light: #5eead4; /* التيل الفاتح (teal-300) */
+  --color-gray-light: #f5f5f5; /* الرمادي الفاتح */
+  --color-gray-dark: #424242; /* الرمادي الغامق */
+
+  /* خلفية ونصوص */
+  --color-bg: #ffffff;
+  --color-fg: #0f172a;
+
+  /* الزوايا */
+  --radius-xl: 1rem;
+}
+
+/* =======================
+   🌗 متغيرات الوضع الفاتح (الافتراضي)
+   ======================= */
+:root {
+  /* الخلفيات */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #f1f5f9;
+  --bg-card: #ffffff;
+  --bg-hover: #f1f5f9;
+
+  /* النصوص */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-tertiary: #64748b;
+  --text-muted: #94a3b8;
+
+  /* الحدود */
+  --border-color: #e2e8f0;
+  --border-hover: #cbd5e1;
+
+  /* الظلال */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1),
+    0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* ألوان المشروع */
+  --color-primary: #0d9488;
+  --color-primary-dark: #0f766e;
+  --color-primary-light: #5eead4;
+  --color-bg: #ffffff;
+  --color-fg: #0f172a;
+  --color-gray-light: #f1f5f9;
+  --color-gray-dark: #334155;
+}
+
+/* =======================
+   🌙 متغيرات الوضع الليلي
+   ======================= */
+.dark {
+  /* الخلفيات */
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-card: #1e293b;
+  --bg-hover: #334155;
+
+  /* النصوص */
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-tertiary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* الحدود */
+  --border-color: #334155;
+  --border-hover: #475569;
+
+  /* الظلال */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4),
+    0 4px 6px -4px rgb(0 0 0 / 0.3);
+
+  /* ألوان المشروع */
+  --color-primary: #2dd4bf;
+  --color-primary-dark: #5eead4;
+  --color-primary-light: #99f6e4;
+  --color-bg: #0f172a;
+  --color-fg: #f8fafc;
+  --color-gray-light: #1e293b;
+  --color-gray-dark: #cbd5e1;
+}
+
+/* =======================
+   ⚙️ قواعد عامة
+   ======================= */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px; /* Offset for fixed header */
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* =======================
+   🎨 تجاوزات الألوان للوضع الليلي
+   ======================= */
+
+/* الخلفيات */
+.dark .bg-white {
+  background-color: var(--bg-card) !important;
+}
+.dark .bg-slate-50 {
+  background-color: var(--bg-primary) !important;
+}
+.dark .bg-slate-100 {
+  background-color: var(--bg-secondary) !important;
+}
+.dark .bg-slate-200 {
+  background-color: var(--bg-tertiary) !important;
+}
+.dark .bg-gray-50 {
+  background-color: var(--bg-primary) !important;
+}
+.dark .bg-gray-100 {
+  background-color: var(--bg-secondary) !important;
+}
+.dark .bg-gray-200 {
+  background-color: var(--bg-tertiary) !important;
+}
+
+/* النصوص */
+.dark .text-slate-900 {
+  color: var(--text-primary) !important;
+}
+.dark .text-slate-800 {
+  color: var(--text-primary) !important;
+}
+.dark .text-slate-700 {
+  color: var(--text-secondary) !important;
+}
+.dark .text-slate-600 {
+  color: var(--text-secondary) !important;
+}
+.dark .text-slate-500 {
+  color: var(--text-tertiary) !important;
+}
+.dark .text-gray-900 {
+  color: var(--text-primary) !important;
+}
+.dark .text-gray-800 {
+  color: var(--text-primary) !important;
+}
+.dark .text-gray-700 {
+  color: var(--text-secondary) !important;
+}
+.dark .text-gray-600 {
+  color: var(--text-secondary) !important;
+}
+.dark .text-gray-500 {
+  color: var(--text-tertiary) !important;
+}
+.dark .text-black {
+  color: var(--text-primary) !important;
+}
+
+/* الحدود */
+.dark .border-slate-200 {
+  border-color: var(--border-color) !important;
+}
+.dark .border-slate-300 {
+  border-color: var(--border-color) !important;
+}
+.dark .border-gray-200 {
+  border-color: var(--border-color) !important;
+}
+.dark .border-gray-300 {
+  border-color: var(--border-color) !important;
+}
+.dark .divide-slate-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border-color) !important;
+}
+.dark .divide-gray-200 > :not([hidden]) ~ :not([hidden]) {
+  border-color: var(--border-color) !important;
+}
+
+/* الحالات التفاعلية */
+.dark .hover\:bg-slate-50:hover {
+  background-color: var(--bg-hover) !important;
+}
+.dark .hover\:bg-slate-100:hover {
+  background-color: var(--bg-hover) !important;
+}
+.dark .hover\:bg-gray-50:hover {
+  background-color: var(--bg-hover) !important;
+}
+.dark .hover\:bg-gray-100:hover {
+  background-color: var(--bg-hover) !important;
+}
+
+/* عناصر الإدخال */
+.dark input,
+.dark textarea,
+.dark select {
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+.dark input:focus,
+.dark textarea:focus,
+.dark select:focus {
+  border-color: var(--color-primary) !important;
+  outline-color: var(--color-primary) !important;
+}
+
+/* البطاقات والجداول */
+.dark .shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+.dark .shadow-md {
+  box-shadow: var(--shadow-md) !important;
+}
+.dark .shadow-lg {
+  box-shadow: var(--shadow-lg) !important;
+}
+.dark .shadow {
+  box-shadow: var(--shadow-md) !important;
+}
+
+/* الجداول */
+.dark table {
+  background-color: var(--bg-card) !important;
+}
+.dark th {
+  background-color: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+}
+.dark td {
+  border-color: var(--border-color) !important;
+}
+.dark tr:hover {
+  background-color: var(--bg-hover) !important;
+}
+
+/* الأزرار الثانوية */
+.dark .bg-slate-100 {
+  background-color: var(--bg-secondary) !important;
+}
+.dark .hover\:bg-slate-200:hover {
+  background-color: var(--bg-tertiary) !important;
+}
+
+/* Ring colors */
+.dark .ring-slate-200 {
+  --tw-ring-color: var(--border-color) !important;
+}
+.dark .ring-gray-200 {
+  --tw-ring-color: var(--border-color) !important;
+}
+
+/* =======================
+   🧩 كلاسـات مساعدة
+   ======================= */
+
+/* زر أساسي */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-xl px-4 py-2
+    bg-[var(--color-primary)] text-white hover:opacity-90 transition;
+}
+
+/* بطاقة عامة */
+.card {
+  @apply rounded-xl shadow-md p-6 backdrop-blur-md;
+  background-color: var(--bg-card);
+  box-shadow: var(--shadow-md);
+}
+
+/* Toast Animation */
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out;
+}
+
+/* =======================
+   📍 Smooth Scrolling for Sections
+   ======================= */
+section[id] {
+  scroll-margin-top: 80px;
+}
+
+/* =======================
+   🔄 انتقالات سلسة
+   ======================= */
+* {
+  transition-property: background-color, border-color, color;
+  transition-duration: 0.15s;
+  transition-timing-function: ease-in-out;
+}
